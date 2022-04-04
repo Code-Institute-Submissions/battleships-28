@@ -26,23 +26,6 @@
     --accent-font: "blackrose", ariel, "sans-serif";
     --secondary-accent-font: treasurehunt, ariel, "sans-serif";
     --primary-font: poppins, helvetica, "sans-serif"
-    /* Font sizes */
-    --f16: 1rem
-    --f15: 1.5rem
-    --f14: 2rem
-    --f13: 2.5rem
-    --f12: 3rem
-    --f11: 3.5rem
-    --f10: 4rem
-    --f9: 4.5rem
-    --f8: 5rem
-    --f7: 5.75rem
-    --f6: 6.5rem
-    --f5: 7.25rem
-    --f4: 8rem
-    --f3: 8.75rem
-    --f2: 9.5rem
-    --f1: 10.25rem
 }
 
 /* Default styles */
@@ -62,6 +45,8 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     font-family: var(--primary-font);
+    color: var(--primary-color);
+    background-color: seashell;
 }
 
 #main-menu {
@@ -69,7 +54,7 @@ body {
     justify-self: center;
     margin: 8rem 0.75rem 0 0.75rem;
     display: grid;
-    grid-template-columns: 1fr 2.5rem 1fr;
+    grid-template-columns: 1fr 2rem 1fr;
     grid-template-areas:
         "welcome-to welcome-to welcome-to"
         "battleship battleship battleship"
@@ -93,7 +78,7 @@ body {
 }
 
 .button {
-    padding: 1rem;
+    padding: 2rem 1rem;
     font-family: var(--secondary-accent-font);
     background-color: var(--primary-color);
     color: var(--complimentary-color-shade2);
