@@ -1,0 +1,16 @@
+/* Connect with downloaded fonts */
+@font-face {
+    src: url(../fonts/blackrose.ttf) format("truetype");
+    font-family: "blackrose";
+    font-weight: 400;
+}
+
+@font-face {
+    src: url(../fonts/treasurehunt.ttf) format("truetype");
+    font-family: "treasurehunt";
+    font-weight: 400;
+}
+
+h1 {
+    font-family: treasurehunt;
+}
