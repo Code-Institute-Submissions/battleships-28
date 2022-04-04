@@ -12,8 +12,8 @@
 }
 
 /* Root variables */
-/* Color scheme */
 :root {
+    /* Color scheme */
     --user-color: #6E726C;
     --user-color-boards: #3014D9;
     --primary-color: #20201C;
@@ -26,15 +26,86 @@
     --accent-font: "blackrose", ariel, "sans-serif";
     --secondary-accent-font: treasurehunt, ariel, "sans-serif";
     --primary-font: poppins, helvetica, "sans-serif"
+    /* Font sizes */
+    --f16: 1rem
+    --f15: 1.5rem
+    --f14: 2rem
+    --f13: 2.5rem
+    --f12: 3rem
+    --f11: 3.5rem
+    --f10: 4rem
+    --f9: 4.5rem
+    --f8: 5rem
+    --f7: 5.75rem
+    --f6: 6.5rem
+    --f5: 7.25rem
+    --f4: 8rem
+    --f3: 8.75rem
+    --f2: 9.5rem
+    --f1: 10.25rem
 }
 
 /* Default styles */
 html {
-    font-size: 62.5%; /* used to set each rem unit to 10 pixels, easier to work with font sizes */
+    font-size: 62.5%;
+    /* used to set each rem unit to 10 pixels, easier to work with font sizes */
 }
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+/* Main menu */
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    font-family: var(--primary-font);
+}
+
+#main-menu {
+    grid-column: 1/2;
+    justify-self: center;
+    margin: 8rem 0.75rem 0 0.75rem;
+    display: grid;
+    grid-template-columns: 1fr 2.5rem 1fr;
+    grid-template-areas:
+        "welcome-to welcome-to welcome-to"
+        "battleship battleship battleship"
+        "start-new-game ... instructions";
+}
+
+#main-menu p {
+    font-family: var(--secondary-accent-font);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    grid-area: welcome-to;
+}
+
+#main-menu h1 {
+    font-family: var(--accent-font);
+    font-size: 4rem;
+    text-align: center;
+    grid-area: battleship;
+    margin-bottom: 3rem;
+}
+
+.button {
+    padding: 1rem;
+    font-family: var(--secondary-accent-font);
+    background-color: var(--primary-color);
+    color: var(--complimentary-color-shade2);
+    font-size: 1.5rem;
+    text-align: center;
+    border: 0.2rem solid var(--complimentary-color-shade2);
+}
+
+#game-setup-button {
+    grid-area: start-new-game;
+}
+
+#instructions-button {
+    grid-area: instructions;
 }
