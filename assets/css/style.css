@@ -11,6 +11,30 @@
     font-weight: 400;
 }
 
-h1 {
-    font-family: treasurehunt;
+/* Root variables */
+/* Color scheme */
+:root {
+    --user-color: #6E726C;
+    --user-color-boards: #3014D9;
+    --primary-color: #20201C;
+    --complimentary-color-shade1: #edb834;
+    --complimentary-color-shade2: #d8a521;
+    --complimentary-color-shade3: #bb8500;
+    --complimentary-color-shade4: #c49111;
+    --text-color: #e6f0f5;
+    /* Fonts */
+    --accent-font: "blackrose", ariel, "sans-serif";
+    --secondary-accent-font: treasurehunt, ariel, "sans-serif";
+    --primary-font: poppins, helvetica, "sans-serif"
+}
+
+/* Default styles */
+html {
+    font-size: 62.5%; /* used to set each rem unit to 10 pixels, easier to work with font sizes */
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
