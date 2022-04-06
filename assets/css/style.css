@@ -104,7 +104,7 @@ body {
 
 /* Instructions modal */
 #instructions{
-    position: absolute;
+    position: relative;
     top: 25%;
     left: 0;
     right: 0;
@@ -112,13 +112,15 @@ body {
     width: 32rem;
     height: 65rem;
     font-size: 1.5rem;
-    display: flex;
-    flex-direction: column;
+}
+#instructions::backdrop{
+    background: rgba(0,0,0,0.3)
 }
 #instructions-close-button{
     font-size: 3rem;
-    align-self: flex-end;
-    margin: 1rem 1rem 0 0;
+    position: relative;
+    left: 28rem;
+    top: 0.5rem;
     color: #850101;
     transition: 250ms;
 }
