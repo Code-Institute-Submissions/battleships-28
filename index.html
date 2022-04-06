@@ -24,6 +24,39 @@
         </h1>
         <button class="button" id="game-setup-button">Start new game</button>
         <button class="button" id="instructions-button">Instructions</button>
+        <div id = "game-options-screen">
+            <form>
+                <div class = "question-container" id = "name-container">
+                    <label for = "name">
+                        Enter your name, captain
+                    </label>
+                    <input type = "text" id = "name" placeholder="jack-sparrow" required>
+                </div>
+                <div class = "question-container" id = "game-difficulty">
+                    <p>
+                        Pick your difficulty
+                    </p>
+                    <div id = "game-difficulty-buttons-container">
+                        <button class="button" id="easy">Easy</button>
+                        <button class="button" id="medium">Medium</button>
+                        <button class="button" id="hard">Hard</button>
+                    </div>
+                </div>
+                <div class = "question-container" id = "ships-color-container">
+                    <label for="ships-color">
+                        What color are your ships?
+                    </label>
+                    <input type = "color" id = "ships-color">
+                </div>
+                <div class = "question-container" id = "boards-color-container">
+                    <label for="boards-color">
+                        What color are your game boards?
+                    </label>
+                    <input type = "color" id = "boards-color">
+                </div>
+                <button class="button" id="begin-game-button">Begin game</button>
+            </form>
+        </div>
     </div>
     <!-- Font Awesome Script -->
     <script src="https://kit.fontawesome.com/809fd5dfb5.js" crossorigin="anonymous"></script>
