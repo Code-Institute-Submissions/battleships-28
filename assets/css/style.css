@@ -47,6 +47,7 @@ body {
     font-family: var(--primary-font);
     color: var(--primary-color);
     background-color: seashell;
+    font-size: 2.5rem;
 }
 
 #main-menu {
@@ -58,7 +59,8 @@ body {
     grid-template-areas:
         "welcome-to welcome-to welcome-to"
         "battleship battleship battleship"
-        "start-new-game ... instructions";
+        "start-new-game ... instructions"
+        "game-options game-options game-options";
 }
 
 #main-menu p {
@@ -93,4 +95,66 @@ body {
 
 #instructions-button {
     grid-area: instructions;
+}
+
+/* Game options screen */
+#game-options-screen{
+    grid-area: game-options;
+    justify-self: center;
+    margin: 4rem 0.75rem 0 0.75rem;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+#game-options-screen form{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-self: center;
+    grid-template-areas: 
+    "name name name"
+    "game-difficulty game-difficulty game-difficulty"
+    "ships-color ships-color ships-color"
+    "boards-color boards-color boards-color"
+    "begin-game begin-game begin-game";
+}
+
+#game-options-screen input{
+    padding: 1rem;
+    font-size: 2rem;
+}
+.question-container{
+    margin-bottom: 2rem;
+    justify-self: start;
+}
+
+.question-container label{
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#name-container {
+    grid-area: name;
+}
+#game-difficulty{
+    grid-area: game-difficulty;
+}
+#game-difficulty-buttons-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#ships-color-container{
+    grid-area: ships-color;
+    padding: 0rem;
+    border: none;
+}
+
+#boards-color-container{
+    grid-area: boards-color;
+    padding: 0rem;
+    border: none;
+}
+
+#begin-game-button{
+    grid-area: begin-game;
 }
