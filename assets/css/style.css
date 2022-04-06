@@ -40,6 +40,11 @@ html {
     box-sizing: border-box;
 }
 
+/* Utility classes */
+.hide{
+    transform: scale(0);
+}
+
 /* Main menu */
 body {
     display: grid;
