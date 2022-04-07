@@ -234,8 +234,7 @@ h1,h2 {
 
 #game-board{
     display: grid;
-    grid-template-columns: repeat(11, 25px);
-    grid-template-rows: repeat(11, 25px);
+    grid-template-columns: repeat(11, minmax(3rem, 9rem));
     justify-self: center;
     border: 1px solid red;
 }
