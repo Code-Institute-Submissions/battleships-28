@@ -1,5 +1,50 @@
 // Game object
 let game = {
+    gameBoardNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
+    gameSetup: (e) => {
+        // Prevent default action of beginGameButton
+        e.preventDefault();
+        //Grab elements within DOM and declare variables for placement within grid.
+        let mainMenu = document.querySelector("#main-menu");
+        let gameScreen = document.querySelector("#game-screen");
+        let gameBoard = document.querySelector("#game-board")
+        let numRowStart = 1;
+        let numColStart = 2;
+        let letRowStart = 2;
+        let letColStart = 1;
+        let coordinateRowStart = 2;
+        let coordinateColStart;
+        // Hide main menu and show gameScreen
+        mainMenu.classList.add("hide");
+        gameScreen.classList.remove("hide");
+        // For loops to create labels and coordinates
+        for(let i = 0; i < game.gameBoardLets.length; i++) {
+            //Create number label
+            let numberLabel = document.createElement("h3")
+            numberLabel.textContent = game.gameBoardNums[i];
+            numberLabel.style.gridArea = `${numRowStart}/${numColStart}`
+            //Create letter label
+            let letterLabel = document.createElement("h3")
+            letterLabel.textContent = game.gameBoardLets[i];
+            letterLabel.style.gridArea = `${letRowStart}/${letColStart}`
+            //Attach labels to grid and increment necessary rows/columns
+            gameBoard.append(numberLabel,letterLabel);
+            numColStart++;
+            letRowStart++;
+            //Nested for loop - Create coordinates for game
+            coordinateColStart = 2;
+            for(let j = 0; j< game.gameBoardNums.length; j++){
+                let coordinate = document.createElement("div")
+                coordinate.classList.add("coordinate")
+                coordinate.textContent = game.gameBoardLets[i].concat(game.gameBoardNums[j]);
+                coordinate.style.gridArea = `${coordinateRowStart}/${coordinateColStart}`;
+                coordinateColStart++;
+                gameBoard.append(coordinate);
+            }
+            coordinateRowStart++
+        };
+},
     toggleGameOptions: () => {
         let gameOptionsScreen = document.querySelector("#game-options-screen");
         if(gameOptionsScreen.className){
@@ -8,6 +53,8 @@ let game = {
         else{
             gameOptionsScreen.classList.add("hide");
         }
+        let beginGameButton = document.querySelector("#begin-game-button");
+        beginGameButton.addEventListener("click", e => game.gameSetup(e))
     },
     toggleGameInstructions: () => {
         let gameInstructions = document.querySelector("#instructions");
