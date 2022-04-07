@@ -239,6 +239,20 @@ h1,h2 {
     border: 1px solid red;
 }
 
+.number-label, .letter-label{
+display: flex;
+font-size: 2rem;
+}
+.number-label{
+    align-items: flex-end;
+    justify-content: center;
+}
+.letter-label{
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 1rem;
+}
+
 .coordinate{
     border: 1px solid black;
     font-size: 0;
