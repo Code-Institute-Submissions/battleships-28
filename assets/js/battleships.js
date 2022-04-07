@@ -16,7 +16,7 @@ let game = {
         let coordinateRowStart = 2;
         let coordinateColStart;
         // Hide main menu and show gameScreen
-        mainMenu.classList.add("hide");
+        mainMenu.remove();
         gameScreen.classList.remove("hide");
         // For loops to create labels and coordinates
         for(let i = 0; i < game.gameBoardLets.length; i++) {
