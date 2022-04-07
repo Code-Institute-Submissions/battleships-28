@@ -27,10 +27,12 @@ let game = {
         for(let i = 0; i < game.gameBoardLets.length; i++) {
             //Create number labels
             let numberLabel = document.createElement("h3")
+            numberLabel.classList.add("number-label");
             numberLabel.textContent = game.gameBoardNums[i];
             numberLabel.style.gridArea = `${numRowStart}/${numColStart}`
             //Create letter labels
             let letterLabel = document.createElement("h3")
+            letterLabel.classList.add("letter-label");
             letterLabel.textContent = game.gameBoardLets[i];
             letterLabel.style.gridArea = `${letRowStart}/${letColStart}`
             //Attach labels to grid and increment necessary rows/columns
