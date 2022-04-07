@@ -197,3 +197,39 @@ body {
 #begin-game-button{
     grid-area: begin-game;
 }
+
+/* Game screen */
+#game-screen{
+    grid-column: span 1/2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "action-bar"
+    "game-board"
+    "fleet";
+}
+#action-bar{
+    grid-area: action-bar;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid red;
+}
+
+#game-board{
+    display: grid;
+    grid-template-columns: repeat(11, 25px);
+    grid-template-rows: repeat(11, 25px);
+    justify-self: center;
+    border: 1px solid red;
+}
+
+.coordinate{
+    border: 1px solid black;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#fleet{
+    grid-area: fleet;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1px solid red;
+}
