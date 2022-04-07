@@ -36,10 +36,12 @@ let game = {
             coordinateColStart = 2;
             for(let j = 0; j< game.gameBoardNums.length; j++){
                 let coordinate = document.createElement("div")
+                let coordinateText = document.createElement("h4");
                 coordinate.classList.add("coordinate")
-                coordinate.textContent = game.gameBoardLets[i].concat(game.gameBoardNums[j]);
+                coordinateText.textContent = game.gameBoardLets[i].concat(game.gameBoardNums[j]);
                 coordinate.style.gridArea = `${coordinateRowStart}/${coordinateColStart}`;
                 coordinateColStart++;
+                coordinate.append(coordinateText);
                 gameBoard.append(coordinate);
             }
             coordinateRowStart++

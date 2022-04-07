@@ -224,8 +224,16 @@ body {
 
 .coordinate{
     border: 1px solid black;
+    font-size: 0;
+    transition: 300ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coordinate:hover h4{
     font-size: 1rem;
-    text-align: center;
+    margin: auto 0;
 }
 
 #fleet{
