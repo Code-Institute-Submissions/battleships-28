@@ -268,7 +268,22 @@ font-size: 2rem;
 }
 
 #fleet{
+    display: grid;
     grid-area: fleet;
-    grid-template-columns: repeat(5, 1fr);
-    border: 1px solid red;
+    grid-template-columns: minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem);
+    border: 1px solid green;
+    justify-self: center;
+}
+#fleet h3{
+font-family: var(--secondary-accent-font);
+font-size: 0.85rem;
+text-align: center;
+margin-top: -1rem;
+}
+.ship{
+    max-width: 100%;
+    height: 100%;
+}
+.ship:hover{
+cursor: grab;
 }
