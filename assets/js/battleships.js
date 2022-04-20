@@ -94,22 +94,6 @@ let game = {
             }
         }
     },
-    dragStartHandler: () => {
-        game.ships.forEach(ship => {
-            ship.addEventListener("dragstart", () => {
-                console.log("dragStart", ship.classList);
-                ship.classList.add("dragging");
-            })
-        });
-    },
-    dragEndHandler: () => {
-        game.ships.forEach(ship => {
-            ship.addEventListener("dragend", () => {
-                console.log("dragend", ship.classList, ship.id);
-                ship.classList.remove("dragging");
-            })
-        });
-    },
     dragShips: () => {
         //Add drag event listeners to each ship
         game.ships.forEach(ship => {
@@ -172,32 +156,6 @@ let game = {
             
         })
         
-    },
-
-    dragLeaveHandler: () => {
-        console.log("I am dragLeave handler before forEach loop");
-        Array.from(game.coordinates).forEach(coordinate => {
-            coordinate.addEventListener("dragleave", () => {
-                console.log("dragLeave", coordinate.id);
-            })
-        });
-    },
-    dragOverHandler: (e) => {
-        console.log("I am dragOver handler before forEach loop");
-        Array.from(game.coordinates).forEach(coordinate => {
-            coordinate.addEventListener("dragover", e => {
-                e.preventDefault();
-                // console.log("dragover", coordinate.id, coordinate.style.gridArea);
-            })
-        });
-    },
-    dragDropHandler: () => {
-        console.log("I am dragDROP handler before forEach loop");
-        Array.from(game.coordinates).forEach(coordinate => {
-            coordinate.addEventListener("drop", () => {
-                console.log("dragDROP", coordinate.id, coordinate.style.gridArea);
-            })
-        });
     },
     gameboardAutoResize: () => {
         //Automatically convert all grid spaces to squares rather than rectangles by default
