@@ -96,19 +96,28 @@ let game = {
     },
     dragShips: () => {
         //Add drag event listeners to each ship
+        // WHEN DRAG STARTS
         game.ships.forEach(ship => {
             ship.addEventListener("dragstart", () => {
                 ship.classList.add("dragging");
                 const draggedShip = document.querySelector(".dragging")
-                //When dragged, clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
+                console.log(game.fleet[draggedShip.id].hitBox)
+                //Get occupied coordinates of ship (If there) and remove disable class from them.
+                game.fleet[draggedShip.id].hitBox.forEach(coordinate => {
+                    let occupiedSpace = document.getElementById(coordinate);
+                    occupiedSpace.classList.remove("disable");
+                })
+                //clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
                 game.fleet[draggedShip.id].hitBox = [];
             });
+            // WHEN DRAG FINISHES
             ship.addEventListener("dragend", () => {
                 ship.classList.remove("dragging");
             })
         });
         //Add dragEnter, dragLeave, DragOver and dragDropevent listeners to coordinates to interact with ship.
         Array.from(game.coordinates).forEach(coordinate => {
+            // WHEN SHIP IS DRAGGED INTO COORDINATE
             coordinate.addEventListener("dragenter", (e) => {
                 //Declare variables for interacting with ship in coordinate. Targets dragged ship.
                 const draggedShip = document.querySelector(".dragging")
@@ -129,14 +138,17 @@ let game = {
                     space.style.backgroundColor = "blue";
                 })
             })
+            // WHILE SHIP IS DRAGGED OVER COORDINATE
             coordinate.addEventListener("dragover", e => {
                 //Used to allow dragDrop event to happen. 
                 e.preventDefault();
             })
+            // WHEN SHIP IS DRAGGED OUT OF COORDINATE
             coordinate.addEventListener("dragleave", () => {
                 const draggedShip = document.querySelector(".dragging");
                 console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
             })
+            // WHEN SHIP IS DROPPED IN TO COORDINATE
             coordinate.addEventListener("drop", () => {
                 const draggedShip = document.querySelector(".dragging")
                 //Attach ship to coordinate
@@ -144,14 +156,15 @@ let game = {
                 //get array of coordinates that ship occupies, and add contents of array to ship's hitbox.
                 let shipOccupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
                 game.fleet[draggedShip.id].hitBox.push(...shipOccupiedCoordinates)
-                
+                // Align ship with gridArea of the coordinate it is attached to.
+                draggedShip.style.gridArea = `${1}/${1}/${2}/${2}`
                 //Reset coordinate color to original when ship is dropped. Replace with user color choice later.
                 shipOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
+                    space.classList.add("disable")
                 })
-                // Align ship with gridArea of the coordinate it is attached to.
-                draggedShip.style.gridArea = `${1}/${1}/${2}/${2}`
+
             })
             
         })
