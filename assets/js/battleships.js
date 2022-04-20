@@ -1,3 +1,4 @@
+/* jshint esversion: 8 */
 // Game object
 let game = {
     mainMenu: document.querySelector("#main-menu"),
@@ -114,82 +115,59 @@ let game = {
         game.ships.forEach(ship => {
             ship.addEventListener("dragstart", () => {
                 ship.classList.add("dragging");
-                //When dragged, clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
                 const draggedShip = document.querySelector(".dragging")
-                game.fleet[draggedShip.id].hitBox = []
-                console.log("i'm fired")
-                // console.log(game.coordinates[3].style.eve)
+                //When dragged, clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
+                game.fleet[draggedShip.id].hitBox = [];
             });
             ship.addEventListener("dragend", () => {
                 ship.classList.remove("dragging");
-
             })
         });
-        //Add event listeners to coordinates to place and hold the ship when dragged over said coordinate
+        //Add dragEnter, dragLeave, DragOver and dragDropevent listeners to coordinates to interact with ship.
         Array.from(game.coordinates).forEach(coordinate => {
-            for(ship in game.fleet){
-                if(game.fleet[ship].hitBox.includes(coordinate.id)){
-                    console.log("These have showed to been in hitbox of ship",coordinate.id)
-                }
-            }     
             coordinate.addEventListener("dragenter", (e) => {
-                console.log("dragEnter", coordinate.id, coordinate.style.gridArea);
+                //Declare variables for interacting with ship in coordinate. Targets dragged ship.
                 const draggedShip = document.querySelector(".dragging")
                 const shipSize = game.fleet[draggedShip.id].size
                 const shipSpan = parseInt(coordinate.style.gridColumnStart) + shipSize;
-                //When entering coordinate, coordinate grows to length/height of the ships total spaces.
+                //When entering coordinate, coordinate grows to length/height of the ships total size.
                 coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${shipSpan}`
-                //Ship then grows to length of newly sized coordinate coordinate.
+                //Ship then grows to length of newly sized coordinate.
                 draggedShip.style.width = `${coordinate.offsetWidth * shipSize}px`
                 draggedShip.style.height = `${coordinate.offsetHeight}px`
                 //Hover effect upon entering coordinates
-                //First, remove other colors from coordinates (Used to prevent a bug)
+                //First, remove other colors from coordinates (Used to prevent a bug). Later, can replace this with user color. //May be able to do this more efficiently with dragLeave/drop.
                 Array.from(game.coordinates).forEach(coordinate => coordinate.style.backgroundColor = "white");
-                //Get occupied coordinates and change color of them.
+                //Get occupied coordinates and change color of them. Later, can replace this with user color.
                 let occupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
-                occupiedCoordinates.forEach(id => {
-                    let space = document.getElementById(id)
+                occupiedCoordinates.forEach(coordinate => {
+                    let space = document.getElementById(coordinate)
                     space.style.backgroundColor = "blue";
                 })
             })
             coordinate.addEventListener("dragover", e => {
+                //Used to allow dragDrop event to happen. 
                 e.preventDefault();
-
             })
             coordinate.addEventListener("dragleave", () => {
-                console.log("dragLeave", coordinate.id, coordinate.style.gridArea);
                 const draggedShip = document.querySelector(".dragging");
-                // let occupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
-                // occupiedCoordinates.forEach(id => {
-                //     let space = document.getElementById(id)
-                //     space.classList.remove("occupied-coordinates");
-                // })
-
+                console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
             })
             coordinate.addEventListener("drop", () => {
-                // console.log("dragDrop", coordinate);
-                //attach original image of ship to coordinate, the image which was originally on the fleet.
                 const draggedShip = document.querySelector(".dragging")
+                //Attach ship to coordinate
                 coordinate.appendChild(draggedShip);
-                //get array of coordinates that ship occupies, and add contents of array to ship's hitbox
+                //get array of coordinates that ship occupies, and add contents of array to ship's hitbox.
                 let shipOccupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
                 game.fleet[draggedShip.id].hitBox.push(...shipOccupiedCoordinates)
                 
+                //Reset coordinate color to original when ship is dropped. Replace with user color choice later.
                 shipOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
                 })
-                // console.log(game.fleet[draggedShip.id].hitBox)
-                // get coordinates that ship occupies and add to ship's hitbox
-                // coordinate.removeChild()
-                draggedShip.style.gridColumnStart = 1;
-                draggedShip.style.gridColumnEnd = 2;
-                draggedShip.style.gridRowStart = 1;
-                draggedShip.style.gridRowEnd = 2;
-                // game.dragShips();
-                // Array.from(game.coordinates).forEach(coordinate => coordinate.replaceWith(coordinate.cloneNode(true)))
-                
-                // coordinate.append(draggedShip)
+                // Align ship with gridArea of the coordinate it is attached to.
+                draggedShip.style.gridArea = `${1}/${1}/${2}/${2}`
             })
             
         })
@@ -273,35 +251,6 @@ let game = {
         game.gameboardAutoResize();
         window.addEventListener("resize", game.gameboardAutoResize);
         game.dragShips();
-        // game.ships.forEach(ship => {
-        //     ship.addEventListener("mousedown", () => {
-        //         console.log("mousedown is firing")
-        //         //here needs to be true
-        //         game.dragEnterObj.dragEnterFunction(true);
-        //     });
-        // })
-        // game.ships.forEach(ship => {
-        //     ship.addEventListener("mouseup", () => {
-        //         console.log("mouseup is firing")
-        //         game.dragEnterObj.dragEnterFunction(false);
-        //     });
-        // })
-
-        // game.dragStartHandler();
-        // game.dragEndHandler();
-        // game.dragEnterHandler(true);
-        // game.dragLeaveHandler();
-        // game.dragOverHandler();
-        // game.dragDropHandler()
-        // Array.from(game.coordinates).forEach(coordinate => {
-            // coordinate.addEventListener("dragenter", );
-            // coordinate.addEventListener("dragover", game.dragOverHandler(e));
-            // coordinate.addEventListener("dragleave", game.dragLeaveHandler);
-            // coordinate.addEventListener("drop", game.dragDropHandler);
-        // })
-        
-        
-
 },
     toggleGameOptions: () => {
         let gameOptionsScreen = document.querySelector("#game-options-screen");
