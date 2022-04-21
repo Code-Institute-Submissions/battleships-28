@@ -193,6 +193,7 @@ let game = {
                 // currentlyOccupiedCoordinates.forEach(id => {
                 //     let space = document.getElementById(id)
                 //     space.style.backgroundColor = "white";
+                coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${parseInt(coordinate.style.gridColumnStart) + 1}`
                 // })
                 // console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
                 
