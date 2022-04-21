@@ -32,6 +32,24 @@ let game = {
         }
         return shipCoordinates;
     },
+    getAllOccupiedCoordinates: () => {
+        let allOccupiedCoordinates = [];
+        for(ship in game.fleet){
+            allOccupiedCoordinates.push(...game.fleet[ship].hitBox);
+        }
+        console.log(allOccupiedCoordinates)
+        return allOccupiedCoordinates;
+    },
+    CheckIfOccupied:(allOccupiedCoordinates,requestedCoordinates) => {
+        let access = true
+        requestedCoordinates.forEach(coordinate => {
+            if(allOccupiedCoordinates.includes(coordinate)){
+                access = false}
+                return access
+        })
+
+        return access
+    },
     fleet: {
         carrier: {
             name: "Carrier",
@@ -102,11 +120,6 @@ let game = {
                 ship.classList.add("dragging");
                 const draggedShip = document.querySelector(".dragging")
                 console.log(game.fleet[draggedShip.id].hitBox)
-                //Get occupied coordinates of ship (If there) and remove disable class from them.
-                game.fleet[draggedShip.id].hitBox.forEach(coordinate => {
-                    let occupiedSpace = document.getElementById(coordinate);
-                    occupiedSpace.classList.remove("disable");
-                })
                 //clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
                 game.fleet[draggedShip.id].hitBox = [];
             });
@@ -119,8 +132,18 @@ let game = {
         Array.from(game.coordinates).forEach(coordinate => {
             // WHEN SHIP IS DRAGGED INTO COORDINATE
             coordinate.addEventListener("dragenter", (e) => {
-                //Declare variables for interacting with ship in coordinate. Targets dragged ship.
+                //If coordinate contains image/ship, then return
+                if(!!coordinate.querySelector("img")){
+                    return
+                }
+                //Declare variables for interacting with ship in coordinate.
                 const draggedShip = document.querySelector(".dragging")
+                const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
+                const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
+                //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
+                if(!game.CheckIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
+                    return
+                }
                 const shipSize = game.fleet[draggedShip.id].size
                 const shipSpan = parseInt(coordinate.style.gridColumnStart) + shipSize;
                 //When entering coordinate, coordinate grows to length/height of the ships total size.
@@ -136,7 +159,7 @@ let game = {
                 occupiedCoordinates.forEach(coordinate => {
                     let space = document.getElementById(coordinate)
                     space.style.backgroundColor = "blue";
-                })
+                })                       
             })
             // WHILE SHIP IS DRAGGED OVER COORDINATE
             coordinate.addEventListener("dragover", e => {
@@ -145,12 +168,35 @@ let game = {
             })
             // WHEN SHIP IS DRAGGED OUT OF COORDINATE
             coordinate.addEventListener("dragleave", () => {
+                //If coordinate contains image/ship, then return
+                if(!!coordinate.querySelector("img")){
+                    return
+                }
+                //Declare variables for interacting with ship in coordinate.
                 const draggedShip = document.querySelector(".dragging");
+                const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
+                const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
+                //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
+                if(!game.CheckIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
+                    return
+                }
                 console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
+                
             })
             // WHEN SHIP IS DROPPED IN TO COORDINATE
             coordinate.addEventListener("drop", () => {
+                //If coordinate contains image/ship, then return
+                if(!!coordinate.querySelector("img")){
+                    return
+                }
+                console.log("drop has fired")
                 const draggedShip = document.querySelector(".dragging")
+                //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
+                const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
+                const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
+                if(!game.CheckIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
+                    return
+                }
                 //Attach ship to coordinate
                 coordinate.appendChild(draggedShip);
                 //get array of coordinates that ship occupies, and add contents of array to ship's hitbox.
@@ -162,9 +208,8 @@ let game = {
                 shipOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
-                    space.classList.add("disable")
                 })
-
+            
             })
             
         })
