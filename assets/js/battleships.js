@@ -180,6 +180,11 @@ let game = {
                 if(!game.CheckIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
                     return
                 }
+                //Reset coordinate color to original when ship leave Coordinate. Replace with user color choice later.
+                currentlyOccupiedCoordinates.forEach(id => {
+                    let space = document.getElementById(id)
+                    space.style.backgroundColor = "white";
+                })
                 console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
                 
             })
@@ -200,12 +205,12 @@ let game = {
                 //Attach ship to coordinate
                 coordinate.appendChild(draggedShip);
                 //get array of coordinates that ship occupies, and add contents of array to ship's hitbox.
-                let shipOccupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
-                game.fleet[draggedShip.id].hitBox.push(...shipOccupiedCoordinates)
+                // let shipOccupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
+                game.fleet[draggedShip.id].hitBox.push(...currentlyOccupiedCoordinates)
                 // Align ship with gridArea of the coordinate it is attached to.
                 draggedShip.style.gridArea = `${1}/${1}/${2}/${2}`
                 //Reset coordinate color to original when ship is dropped. Replace with user color choice later.
-                shipOccupiedCoordinates.forEach(id => {
+                currentlyOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
                 })
