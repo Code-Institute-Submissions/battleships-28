@@ -11,24 +11,28 @@ let game = {
     draggedShip: document.querySelector(".dragging"),
     getShipCoordinates: (coordinate, ship) => {
         // Return all the coordinates taken up by the ship.
+        //Declare variables
         const shipSize = game.fleet[ship.id].size
         let currentCoordinates = coordinate.id;
         let shipCoordinates = [currentCoordinates];
+        let testRegexLetters = /[A-J]/g
+        let testRegexNumbers = /[0-9]+/g
+        //Loop equalling to number of shipSize
         for(let i = 0; i < shipSize-1; i++){
-            //Javascript automatically converts back to strings here! Because we add string and number together!
-            let currentNumberCoordinate = parseInt(currentCoordinates[1]);
-            let nextNumberCoordinate = currentNumberCoordinate + 1;
-            let nextCoordinates = currentCoordinates[0] + nextNumberCoordinate;
-            shipCoordinates.push(nextCoordinates);
-            currentCoordinates = nextCoordinates;
-            // let letCharCode = currentCoordinates[0].charCodeAt(0)
-            // let numCharCode = currentCoordinates[1].charCodeAt(0)
-            // letCharCode++;
-            // numCharCode++;
-            // let nextCoordinateLet = String.fromCharCode(letCharCode);
-            // let nextCoordinateNum = String.fromCharCode(numCharCode);
-            // currentCoordinates[1] = nextCoordinateNum;
-            // currentCoordinates.join()
+            //Get number and letter/Letter charactercode
+            let number = currentCoordinates.match(testRegexNumbers)
+            let letter = currentCoordinates.match(testRegexLetters)
+            let letCharCode = letter[0].charCodeAt(0)
+            //Increment number
+            number[0]++
+            // letCharCode++
+            //Create new set of coordinates and set currentCoordinates to the newly made coordinate. Next loop, currentCoordinates will be different.
+            let nextNumber = number;
+            let nextLetter = String.fromCharCode(letCharCode);
+            currentCoordinates = nextLetter.concat(nextNumber);
+            //Push currentCoordinates to shipCoordinates array.
+            shipCoordinates.push(currentCoordinates);
+
         }
         return shipCoordinates;
     },
@@ -37,17 +41,22 @@ let game = {
         for(ship in game.fleet){
             allOccupiedCoordinates.push(...game.fleet[ship].hitBox);
         }
-        console.log(allOccupiedCoordinates)
         return allOccupiedCoordinates;
     },
     CheckIfOccupied:(allOccupiedCoordinates,requestedCoordinates) => {
-        let access = true
+        let access = true;
+        const numRegex = /[0-9]+/g;
         requestedCoordinates.forEach(coordinate => {
+            //If ship's requested coordinates is occupied by another ship, dragEvent listeners won't fire.
             if(allOccupiedCoordinates.includes(coordinate)){
-                access = false}
-                return access
+                access = false;
+            }
+            //If ship's requested coordinates is outside grid, dragEvent listeners won't fire.
+            else if(parseInt(coordinate.match(numRegex)) > 10){
+                access = false;
+            }
         })
-
+        //If everything is ok, access remains true, and dragEvent listeners fire
         return access
     },
     fleet: {
@@ -119,7 +128,6 @@ let game = {
             ship.addEventListener("dragstart", () => {
                 ship.classList.add("dragging");
                 const draggedShip = document.querySelector(".dragging")
-                console.log(game.fleet[draggedShip.id].hitBox)
                 //clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
                 game.fleet[draggedShip.id].hitBox = [];
             });
@@ -155,11 +163,11 @@ let game = {
                 //First, remove other colors from coordinates (Used to prevent a bug). Later, can replace this with user color. //May be able to do this more efficiently with dragLeave/drop.
                 Array.from(game.coordinates).forEach(coordinate => coordinate.style.backgroundColor = "white");
                 //Get occupied coordinates and change color of them. Later, can replace this with user color.
-                let occupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
-                occupiedCoordinates.forEach(coordinate => {
+                currentlyOccupiedCoordinates.forEach(coordinate => {
                     let space = document.getElementById(coordinate)
                     space.style.backgroundColor = "blue";
-                })                       
+                })
+                // console.log("dragEnter",coordinate.id, currentlyOccupiedCoordinates);                       
             })
             // WHILE SHIP IS DRAGGED OVER COORDINATE
             coordinate.addEventListener("dragover", e => {
@@ -180,12 +188,13 @@ let game = {
                 if(!game.CheckIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
                     return
                 }
+                // CURRENTLY CAUSING BUG
                 //Reset coordinate color to original when ship leave Coordinate. Replace with user color choice later.
-                currentlyOccupiedCoordinates.forEach(id => {
-                    let space = document.getElementById(id)
-                    space.style.backgroundColor = "white";
-                })
-                console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
+                // currentlyOccupiedCoordinates.forEach(id => {
+                //     let space = document.getElementById(id)
+                //     space.style.backgroundColor = "white";
+                // })
+                // console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
                 
             })
             // WHEN SHIP IS DROPPED IN TO COORDINATE
