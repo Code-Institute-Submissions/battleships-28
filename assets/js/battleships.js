@@ -4,6 +4,7 @@ let game = {
     mainMenu: document.querySelector("#main-menu"),
     gameBoard: document.querySelector("#game-board"),
     gameScreen: document.querySelector("#game-screen"),
+    fleetElem: () => document.querySelector("#fleet"),
     gameBoardNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
     ships: document.querySelectorAll(".ship"),
@@ -121,6 +122,26 @@ let game = {
             }
         }
     },
+    getRotatedArray: () => Object.keys(game.fleet).map(key => game.fleet[key].rotated),
+    fleetAutoResize:() => {
+        const rotatedShipExists = () => {
+            //game.getRotatedArray() returns array of each ships rotated value - .some checks if there is at leaast one which is true.
+            return game.getRotatedArray().some(value => {
+                return value === true
+        })
+    }
+        if(rotatedShipExists()){
+            //Gets first ship that is rotated and sets height of fleet element to height of ships container
+            let rotatedShip = document.getElementById(Object.keys(game.fleet)[game.getRotatedArray().indexOf(true)]);
+            game.fleetElem().style.height = `${rotatedShip.parentElement.offsetWidth}px`;
+            console.log(rotatedShip)
+        }
+        else{
+            //Set fleet height to auto if there are no ships rotated.
+            console.log(rotatedShipExists())
+            game.fleetElem().style.height = `auto`;
+        }
+    },
     dragShips: () => {
         //Add drag event listeners to each ship
         // WHEN DRAG STARTS
@@ -134,6 +155,23 @@ let game = {
             // WHEN DRAG FINISHES
             ship.addEventListener("dragend", () => {
                 ship.classList.remove("dragging");
+            })
+            //WHEN RIGHT CLICKING ON SHIP
+            ship.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                const ship = e.target;
+                //Change rotated value on ship to opposite of what it was (true or false)
+                game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
+                //If ship has been changed to rotated, add rotated class
+                if(game.fleet[ship.id].rotated){
+                    ship.parentElement.classList.add("rotated")
+                }
+                //Else take away rotated class
+                else{
+                    ship.parentElement.classList.remove("rotated")
+                }
+                //Resize fleet if ship is rotated.
+                game.fleetAutoResize();
             })
         });
         //Add dragEnter, dragLeave, DragOver and dragDropevent listeners to coordinates to interact with ship.
@@ -281,6 +319,7 @@ let game = {
         };
         game.gameboardAutoResize();
         window.addEventListener("resize", game.gameboardAutoResize);
+        window.addEventListener("resize", game.fleetAutoResize);
         game.dragShips();
 },
     toggleGameOptions: () => {
