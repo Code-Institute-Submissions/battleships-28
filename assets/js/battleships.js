@@ -148,9 +148,6 @@ let game = {
         game.ships.forEach(ship => {
             ship.addEventListener("dragstart", () => {
                 ship.classList.add("dragging");
-                const draggedShip = document.querySelector(".dragging")
-                //clear reset ships coordinate hitbox (until it's dropped again to pick up new coordinates)
-                game.fleet[draggedShip.id].hitBox = [];
             });
             // WHEN DRAG FINISHES
             ship.addEventListener("dragend", () => {
@@ -244,6 +241,8 @@ let game = {
                 }
                 console.log("drop has fired")
                 const draggedShip = document.querySelector(".dragging")
+                //reset ships coordinate hitbox(This is incase it is switched from a coordinate and already has coordinates).
+                game.fleet[draggedShip.id].hitBox = [];
                 //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
                 const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
                 const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
