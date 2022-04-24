@@ -16,7 +16,7 @@ let game = {
         const shipSize = game.fleet[ship.id].size
         let currentCoordinates = coordinate.id;
         let shipCoordinates = [currentCoordinates];
-        let testRegexLetters = /[A-J]/g
+        let testRegexLetters = /[A-Z]/g
         let testRegexNumbers = /[0-9]+/g
         //Loop equalling to number of shipSize
         for(let i = 0; i < shipSize-1; i++){
@@ -25,7 +25,12 @@ let game = {
             let letter = currentCoordinates.match(testRegexLetters)
             let letCharCode = letter[0].charCodeAt(0)
             //Increment number
-            number[0]++
+            if(game.fleet[ship.id].rotated === false){
+                number[0]++
+            }
+            else{
+                letCharCode++;
+            }
             // letCharCode++
             //Create new set of coordinates and set currentCoordinates to the newly made coordinate. Next loop, currentCoordinates will be different.
             let nextNumber = number;
@@ -33,7 +38,6 @@ let game = {
             currentCoordinates = nextLetter.concat(nextNumber);
             //Push currentCoordinates to shipCoordinates array.
             shipCoordinates.push(currentCoordinates);
-
         }
         return shipCoordinates;
     },
@@ -47,13 +51,14 @@ let game = {
     CheckIfOccupied:(allOccupiedCoordinates,requestedCoordinates) => {
         let access = true;
         const numRegex = /[0-9]+/g;
+        let letRegex = /[A-Z]/g;
         requestedCoordinates.forEach(coordinate => {
             //If ship's requested coordinates is occupied by another ship, dragEvent listeners won't fire.
             if(allOccupiedCoordinates.includes(coordinate)){
                 access = false;
             }
             //If ship's requested coordinates is outside grid, dragEvent listeners won't fire.
-            else if(parseInt(coordinate.match(numRegex)) > 10){
+            else if(parseInt(coordinate.match(numRegex)) > 10 || coordinate.match(letRegex)[0].charCodeAt(0) > 74){
                 access = false;
             }
         })
@@ -134,11 +139,9 @@ let game = {
             //Gets first ship that is rotated and sets height of fleet element to height of ships container
             let rotatedShip = document.getElementById(Object.keys(game.fleet)[game.getRotatedArray().indexOf(true)]);
             game.fleetElem().style.height = `${rotatedShip.parentElement.offsetWidth}px`;
-            console.log(rotatedShip)
         }
         else{
             //Set fleet height to auto if there are no ships rotated.
-            console.log(rotatedShipExists())
             game.fleetElem().style.height = `auto`;
         }
     },
@@ -161,11 +164,11 @@ let game = {
                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
                 //If ship has been changed to rotated, add rotated class
                 if(game.fleet[ship.id].rotated){
-                    ship.parentElement.classList.add("rotated")
+                    ship.classList.add("rotated")
                 }
                 //Else take away rotated class
                 else{
-                    ship.parentElement.classList.remove("rotated")
+                    ship.classList.remove("rotated")
                 }
                 //Resize fleet if ship is rotated.
                 game.fleetAutoResize();
@@ -188,21 +191,33 @@ let game = {
                     return
                 }
                 const shipSize = game.fleet[draggedShip.id].size
+                //if Ship is NOT rotated
+                if(game.fleet[draggedShip.id].rotated === false){
                 const shipSpan = parseInt(coordinate.style.gridColumnStart) + shipSize;
                 //When entering coordinate, coordinate grows to length/height of the ships total size.
                 coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${shipSpan}`
                 //Ship then grows to length of newly sized coordinate.
+                console.log("dragEnter and rotate = false",coordinate.offsetWidth,coordinate.offsetHeight, shipSize);
+                draggedShip.style.maxWidth = `${100}%`
                 draggedShip.style.width = `${coordinate.offsetWidth * shipSize}px`
                 draggedShip.style.height = `${coordinate.offsetHeight}px`
+            }   
+                // Else if ship IS rotated
+                else{
+                    const shipSpan = parseInt(coordinate.style.gridRowStart) + shipSize;
+                    coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${shipSpan}/${coordinate.style.gridColumnEnd}`
+                    draggedShip.style.width = `${coordinate.offsetHeight}px`
+                    draggedShip.style.height = `${coordinate.offsetWidth}px`
+                    coordinate.style.width = draggedShip.style.height
+                }
                 //Hover effect upon entering coordinates
                 //First, remove other colors from coordinates (Used to prevent a bug). Later, can replace this with user color. //May be able to do this more efficiently with dragLeave/drop.
-                Array.from(game.coordinates).forEach(coordinate => coordinate.style.backgroundColor = "white");
                 //Get occupied coordinates and change color of them. Later, can replace this with user color.
+                Array.from(game.coordinates).forEach(coordinate => coordinate.style.backgroundColor = "white");
                 currentlyOccupiedCoordinates.forEach(coordinate => {
                     let space = document.getElementById(coordinate)
                     space.style.backgroundColor = "blue";
-                })
-                // console.log("dragEnter",coordinate.id, currentlyOccupiedCoordinates);                       
+                })                   
             })
             // WHILE SHIP IS DRAGGED OVER COORDINATE
             coordinate.addEventListener("dragover", e => {
@@ -228,7 +243,12 @@ let game = {
                 // currentlyOccupiedCoordinates.forEach(id => {
                 //     let space = document.getElementById(id)
                 //     space.style.backgroundColor = "white";
-                coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${parseInt(coordinate.style.gridColumnStart) + 1}`
+                if(game.fleet[draggedShip.id].rotated === false){
+                    coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${parseInt(coordinate.style.gridColumnStart) + 1}`
+                }
+                else{
+                    coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${parseInt(coordinate.style.gridRowStart) + 1}/${coordinate.style.gridColumnEnd}`
+                }
                 // })
                 // console.log("dragLeave", coordinate.id, coordinate.style.gridArea, game.fleet[draggedShip.id].hitBox);
                 
@@ -239,7 +259,6 @@ let game = {
                 if(!!coordinate.querySelector("img")){
                     return
                 }
-                console.log("drop has fired")
                 const draggedShip = document.querySelector(".dragging")
                 //reset ships coordinate hitbox(This is incase it is switched from a coordinate and already has coordinates).
                 game.fleet[draggedShip.id].hitBox = [];
@@ -251,8 +270,7 @@ let game = {
                 }
                 //Attach ship to coordinate
                 coordinate.appendChild(draggedShip);
-                //get array of coordinates that ship occupies, and add contents of array to ship's hitbox.
-                // let shipOccupiedCoordinates = game.getShipCoordinates(coordinate,draggedShip);
+                //add coordinates that ship occupies to the ships hitbox.
                 game.fleet[draggedShip.id].hitBox.push(...currentlyOccupiedCoordinates)
                 // Align ship with gridArea of the coordinate it is attached to.
                 draggedShip.style.gridArea = `${1}/${1}/${2}/${2}`
@@ -260,8 +278,11 @@ let game = {
                 currentlyOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
+                    space.style.border = "2px solid red";
                 })
-            
+                if(game.fleet[draggedShip.id].rotated === true){
+                    draggedShip.style.maxWidth = "none";
+                }
             })
             
         })
