@@ -374,9 +374,25 @@ let game = {
         
     },
     gameboardAutoResize: () => {
+        //FIRES WHEN WINDOW IS RESIZED AND WHEN GAMEBOARD FIRST APPEARS.
+        //Target first empty coordinate on board
+        let firstEmptyCooordinate = Array.from(document.querySelectorAll(".coordinate")).find(coordinate => !coordinate.querySelector("img"));
+        console.log(firstEmptyCooordinate)
+        let colLength = firstEmptyCooordinate.offsetWidth
         //Automatically convert all grid spaces to squares rather than rectangles by default
-        let colLength = document.querySelector(".coordinate").offsetWidth
         game.gameBoard.style.gridAutoRows = `${colLength}px`
+        // Change sizes of ships/rows which ships are placed on the grid.
+        //ships holds an array of all ships which are placed on the gameboard.
+        const ships = Array.from(game.gameBoard.querySelectorAll(".ship"));
+        ships.forEach(ship => {
+            if(game.fleet[ship.id].rotated){
+                ship.style.width = `${colLength * game.fleet[ship.id].size}px`
+                ship.style.height = `${colLength}px`
+            }
+            else{
+                ship.parentElement.style.gridTemplateRows = `${colLength}px`
+            }
+        })
     },
     gameSetup: (e) => {
         // Prevent default action of beginGameButton
