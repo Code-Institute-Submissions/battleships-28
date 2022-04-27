@@ -47,6 +47,9 @@ html {
 .rotated{
     transform: rotate(90deg);
 }
+.disable{
+    pointer-events: none;
+}
 /* Main menu */
 body {
     display: grid;
