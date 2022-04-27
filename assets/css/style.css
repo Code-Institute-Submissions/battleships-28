@@ -60,7 +60,10 @@ body {
 h1,h2 {
     font-family: var(--accent-font);
 }
-
+p{
+    font-family: poppins;
+    font-size: ;
+}
 #main-menu {
     grid-column: 1/2;
     justify-self: center;
@@ -236,31 +239,38 @@ h1,h2 {
     display: grid;
     grid-template-columns: minmax(7.37rem, 26.5rem) minmax(20rem, 40rem) minmax(7.37rem, 26.5rem);
     grid-template-areas: "user-section text-area opponent-section";
-    border: 1px solid blue;
+    border: 2px solid var(--complimentary-color-shade3);
     justify-content: center;
     justify-self: center;
+    background-color: peachpuff;
 }
 #user-section{
     font-size: 1rem;
     grid-area: user-section;
+    margin-left: 1rem;
 }
 #text-area{
-    border-left: 2px solid purple;
-    border-right: 2px solid purple;
+    border-left: 2px solid var(--complimentary-color-shade3);
+    border-right: 2px solid var(--complimentary-color-shade3);
     grid-area: text-area;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
 }
 #opponent-section{
     font-size: 1rem;
     grid-area: opponent-section;
+    margin-left: 1rem;
 }
-
+#user-section > *, #opponent-section > *, #text-area > *{
+    margin: 0.5rem 0;
+}
 #game-board{
     display: grid;
     grid-template-columns: auto repeat(10, minmax(3rem, 9rem));
     grid-template-rows: auto;
     justify-self: center;
-    border: 1px solid red;
+    border-right: 1px solid red;
 }
 
 .number-label, .letter-label{
