@@ -43,3 +43,6 @@ The Game options menu of the game is the screen which triggers once the user cli
    - Fleet - The fleet includes each ship which the user has access to. Each ship can be placed on the grid by simply dragging the ship on to the grid and dropping the start of the ship into a coordinate.
     #### **Images**  
     <!-- Insert image here -->
+  ### Game begin screen
+  The Game begin screen is actually a modal which will pop up when the user has placed their last ship. It will ask the user to confirm if they would like to begin the game. The user can click yes, which will officially start the game, or no, which will move the last placed ship back to the fleet and allow the user to reposition their ships if wanted.
+   <!-- Insert image here -->
