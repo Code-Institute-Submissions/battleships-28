@@ -10,6 +10,7 @@ let game = {
     ships: document.querySelectorAll(".ship"),
     coordinates: document.getElementsByClassName("coordinate"),
     draggedShip: document.querySelector(".dragging"),
+    gameStartModal: document.querySelector("#game-start-modal"),
     rotateOnGrid: (hitBox, shipSize, rotate) => {
         const testRegexLetters = /[A-Z]/g
         const testRegexNumbers = /[0-9]+/g
@@ -368,10 +369,37 @@ let game = {
                 if(game.fleet[draggedShip.id].rotated === true){
                     draggedShip.style.maxWidth = "none";
                 }
+                //Check if fleet is now empty after dropping ship
+                if(!game.fleetElem().querySelector(".ship")){
+                    //Show modal if empty
+                    game.gameStartModal.showModal();
+                    //Assign logic to Yes and No buttons.
+                    const gameStartYes =  document.querySelector("#game-start-yes");
+                    const gameStartNo = document.querySelector("#game-start-no");
+                    gameStartYes.addEventListener("click", game.opponentSetup)
+                    gameStartNo.addEventListener("click", () => {
+                        game.gameStartModal.close();
+                        //Reset ship's hitbox and image size, then attach ship back to it's respective container
+                        game.fleet[draggedShip.id].hitBox = [];
+                        draggedShip.style.height = "auto";
+                        draggedShip.style.width = "auto";
+                        draggedShip.style.maxWidth = `${100}%`;
+                        document.querySelector(`#${draggedShip.id}-container`).appendChild(draggedShip);
+                        currentlyOccupiedCoordinates.forEach(id => {
+                            let space = document.getElementById(id)
+                            space.style.border = "none";
+                        })
+                        game.fleetAutoResize();
+                    })
+                }
             })
-            
         })
         
+    },
+    opponentSetup: () => {
+        console.log("Yes button is working");
+        game.gameStartModal.close();
+
     },
     gameboardAutoResize: () => {
         //FIRES WHEN WINDOW IS RESIZED AND WHEN GAMEBOARD FIRST APPEARS.
