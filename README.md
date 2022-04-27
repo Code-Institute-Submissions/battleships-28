@@ -36,3 +36,10 @@ The Game options menu of the game is the screen which triggers once the user cli
  - Color control - The user will also be able to choose the color of their hitboards and ships. This allows the user to create their own color theme when playing the game. 
   #### **Images**  
     <!-- Insert image here -->
+  ### Game Screen
+  The Game screen is the main screen which the user plays the battleships game, and naturally has the most features. The gameScreen itself is built using grid and has been designed to be fully responsive down to a 350px screen. Subfeatures included on the Game screen include:
+   - Action bar - the Action bar holds all relevant information that the user will want to see during the game, including the number of ships that they and their opponent have left, and the user's score.
+   - Game board - The Game board is the actual grid where the user will place their ships. Each coordinate responds in various ways when a ship enters, leaves, or is dropped on to it. This includes highlighting various coordinates or scaling a ship to fit itself according to the number of spaces it has.
+   - Fleet - The fleet includes each ship which the user has access to. Each ship can be placed on the grid by simply dragging the ship on to the grid and dropping the start of the ship into a coordinate.
+    #### **Images**  
+    <!-- Insert image here -->
