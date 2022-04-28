@@ -402,10 +402,65 @@ let game = {
     },
     opponent: {
         opponentSetup: () => {
-            console.log("Yes button is working");
             game.gameStartModal.close();
-        },
+            game.fleetElem().remove();
+            game.userCoordinateInput().classList.remove("hide");
+            game.opponent.populateFleet();
     },
+    fleet: {},
+    turn: () => {
+
+    },
+    populateFleet: () => {
+        //Create opponent's fleet
+        game.opponent.fleet = game.fleet;
+        // function to reset opponent's ship's hitbox
+        const resetHitboxes = ship => {
+            game.opponent.fleet[ship].hitBox = [];
+        }
+        // function to randomly generate a opponent's ship's rotated property
+        const setRotatedValue = ship => {
+            let rotatedValue;
+            game.generateRandomNumber(0,1) < 0.5 ? rotatedValue = false : rotatedValue = true;
+            game.opponent.fleet[ship].rotated = rotatedValue
+        }
+        // function to generate random first coordinate of opponent's ship
+        const getCoordinates = ship => {
+            let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
+            let number = game.gameBoardNums[game.generateRandomNumber(0,9)];
+            const coordinate = document.querySelector(`#${letter.concat(number)}`);
+            //get Opponent's requested coordinates based off first coordinate
+            const requestedCoordinates = game.getShipCoordinates(game.opponent.fleet, coordinate, ship)
+            //Get currently occupied coordinates of the opponent's ships on grid
+            const opponentOccupiedCoordinates = game.getAllOccupiedCoordinates(game.opponent.fleet)
+            //check if these requested coordinates are available on opponent's grid
+            const checkIfOccupied = game.checkIfOccupied(opponentOccupiedCoordinates,requestedCoordinates, game.opponent.fleet[ship.id].rotated)
+            //If they are occupied, call getCoordinates again and generate different coordinate - attempt to place boat somewhere else on grid.
+            if(!checkIfOccupied){
+                getCoordinates(ship)
+            }
+            //Else if they are not occupied, push the requested coordinates to opponent's ship's hitbox.
+            else{
+                game.opponent.fleet[ship.id].hitBox.push(...requestedCoordinates);
+            }
+            
+        }
+        //Iterate through each ship on opponent's fleet
+        for(shipObject in game.opponent.fleet){
+            //ship is equal to the id of each ship, needed for getCoordinates function.
+            const ship = document.querySelector(`#${game.opponent.fleet[shipObject].name.toLowerCase()}`)
+            //Reset each hitbox and randomly generate rotated value for each ship on opponent's fleet. (As opponent ship is a clone of user ship, these need to be reset/randomly generated and overwritten)
+            resetHitboxes(shipObject)
+            setRotatedValue(shipObject)
+
+            //Set Timeout really important here. Prevents bug of copying user total coordinates as opponents total coordinates. Asynchronous issue.
+            //Get coordinates for each ship and do all necessary checks to see if already occupied.
+            setTimeout(() => {
+                getCoordinates(ship);
+            },750)
+        }
+    },
+        },
     gameboardAutoResize: () => {
         //FIRES WHEN WINDOW IS RESIZED AND WHEN GAMEBOARD FIRST APPEARS.
         //Target first empty coordinate on board
