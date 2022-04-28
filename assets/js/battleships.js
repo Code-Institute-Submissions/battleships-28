@@ -44,10 +44,10 @@ let game = {
 
 
     },
-    getShipCoordinates: (coordinate, ship) => {
+    getShipCoordinates: (fleet,coordinate,ship) => {
         // Return all the coordinates taken up by the ship.
         //Declare variables
-        const shipSize = game.fleet[ship.id].size
+        const shipSize = fleet[ship.id].size
         let currentCoordinates = coordinate.id;
         let shipCoordinates = [currentCoordinates];
         let testRegexLetters = /[A-Z]/g
@@ -59,7 +59,7 @@ let game = {
             let letter = currentCoordinates.match(testRegexLetters)
             let letCharCode = letter[0].charCodeAt(0)
             //Increment number
-            if(game.fleet[ship.id].rotated === false){
+            if(fleet[ship.id].rotated === false){
                 number[0]++
             }
             else{
@@ -75,10 +75,10 @@ let game = {
         }
         return shipCoordinates;
     },
-    getAllOccupiedCoordinates: () => {
+    getAllOccupiedCoordinates: (fleet) => {
         let allOccupiedCoordinates = [];
-        for(ship in game.fleet){
-            allOccupiedCoordinates.push(...game.fleet[ship].hitBox);
+        for(ship in fleet){
+            allOccupiedCoordinates.push(...fleet[ship].hitBox);
         }
         return allOccupiedCoordinates;
     },
@@ -219,7 +219,7 @@ let game = {
                             //Make array of requested coordinates
                             const requestedHitbox = game.rotateOnGrid(game.fleet[ship.id].hitBox, game.fleet[ship.id].size, true);
                             //Check if it's possible to rotate ship to requested coordinates. If not, reverse rotated value on ship and return.
-                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(),requestedHitbox, true)){
+                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox, true)){
                                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
                                 return
                             }
@@ -241,7 +241,7 @@ let game = {
                             //Make array of requested coordinates
                             const requestedHitbox = game.rotateOnGrid(game.fleet[ship.id].hitBox, game.fleet[ship.id].size, false);
                             //Check if it's possible to rotate ship to requested coordinates. If not, reverse rotated value on ship and return.
-                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(),requestedHitbox, true)){
+                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox, true)){
                                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
                                 return
                             }
@@ -274,8 +274,8 @@ let game = {
                 }
                 //Declare variables for interacting with ship in coordinate.
                 const draggedShip = document.querySelector(".dragging")
-                const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
-                const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
+                const allOccupiedCoordinates = game.getAllOccupiedCoordinates(game.fleet);
+                const currentlyOccupiedCoordinates = game.getShipCoordinates(game.fleet,coordinate, draggedShip);
                 //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
                 if(!game.checkIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
                     return
@@ -320,8 +320,8 @@ let game = {
                 }
                 //Declare variables for interacting with ship in coordinate.
                 const draggedShip = document.querySelector(".dragging");
-                const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
-                const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
+                const allOccupiedCoordinates = game.getAllOccupiedCoordinates(game.fleet);
+                const currentlyOccupiedCoordinates = game.getShipCoordinates(game.fleet,coordinate, draggedShip);
                 //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
                 if(!game.checkIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
                     return
@@ -349,8 +349,8 @@ let game = {
                 //reset ships coordinate hitbox(This is incase it is switched from a coordinate and already has coordinates).
                 game.fleet[draggedShip.id].hitBox = [];
                 //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
-                const allOccupiedCoordinates = game.getAllOccupiedCoordinates();
-                const currentlyOccupiedCoordinates = game.getShipCoordinates(coordinate, draggedShip);
+                const allOccupiedCoordinates = game.getAllOccupiedCoordinates(game.fleet);
+                const currentlyOccupiedCoordinates = game.getShipCoordinates(game.fleet,coordinate, draggedShip);
                 if(!game.checkIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
                     return
                 }
@@ -376,7 +376,7 @@ let game = {
                     //Assign logic to Yes and No buttons.
                     const gameStartYes =  document.querySelector("#game-start-yes");
                     const gameStartNo = document.querySelector("#game-start-no");
-                    gameStartYes.addEventListener("click", game.opponentSetup)
+                    gameStartYes.addEventListener("click", game.opponent.opponentSetup)
                     gameStartNo.addEventListener("click", () => {
                         game.gameStartModal.close();
                         //Reset ship's hitbox and image size, then attach ship back to it's respective container
@@ -396,10 +396,11 @@ let game = {
         })
         
     },
-    opponentSetup: () => {
-        console.log("Yes button is working");
-        game.gameStartModal.close();
-
+    opponent: {
+        opponentSetup: () => {
+            console.log("Yes button is working");
+            game.gameStartModal.close();
+        },
     },
     gameboardAutoResize: () => {
         //FIRES WHEN WINDOW IS RESIZED AND WHEN GAMEBOARD FIRST APPEARS.
