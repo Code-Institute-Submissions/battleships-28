@@ -15,6 +15,7 @@ let game = {
     generateRandomNumber: (min,max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
+    rotationOnGridHappening: false,
     rotateOnGrid: (hitBox, shipSize, rotate) => {
         const testRegexLetters = /[A-Z]/g
         const testRegexNumbers = /[0-9]+/g
@@ -86,14 +87,20 @@ let game = {
         }
         return allOccupiedCoordinates;
     },
-    checkIfOccupied:(allOccupiedCoordinates,requestedCoordinates, rotation = false) => {
+    checkIfOccupied:(allOccupiedCoordinates,requestedCoordinates) => {
         //Checks if ships requested coordinates are occupied by another ship or outside grid.
         let access = true;
         const numRegex = /[0-9]+/g;
         let letRegex = /[A-Z]/g;
         let skippedCoordinate;
-        //If the ship is rotated on the grid, we need to exclude the first coordinate in ship's hitbox(As ship will always be on this) So we use shift()
-        if(rotation === true){
+        //If the ship is rotated on the grid by the user, we need to exclude the first coordinate in ship's hitbox
+        //This is because the ship will always be on this and therefore won't move, as it will interfere with itself. So we use shift()
+        //game.rotationOnGridHappening does not signify the value of ships rotate value. It signifies IF a ship is being rotated by user on the board.
+        //This was made to fix bug which occured when populating opponent's ship's hitboxes.
+        //Sometimes it will duplicate first coordinate in hitbox, because opponent is not rotating a ship while it's on the grid.
+        //This can only be done by the user.
+        //The opponent is placing a ship WHICH IS ALREADY ROTATED on the grid.
+        if(game.rotationOnGridHappening === true){
          skippedCoordinate = requestedCoordinates.shift();
         }
         requestedCoordinates.forEach(coordinate => {
@@ -107,7 +114,7 @@ let game = {
             }
         })
         //If a ship was changed on the grid and we excluded the first coordinate in array, we add it back to its hitbox here.
-        if(rotation === true){
+        if(game.rotationOnGridHappening === true){
             requestedCoordinates.unshift(skippedCoordinate)
         }
         //If everything is ok, access remains true, and dragEvent listeners fire
@@ -218,13 +225,15 @@ let game = {
                 if(game.fleet[ship.id].hitBox.length > 0){
                     //Target coordinate which ship is attached to.
                     const coordinate = document.getElementById(game.fleet[ship.id].hitBox[0]);
+                    game.rotationOnGridHappening = !game.rotationOnGridHappening;
                     //if ship rotated value is switched to true on right click
                         if(game.fleet[ship.id].rotated){
                             //Make array of requested coordinates
                             const requestedHitbox = game.rotateOnGrid(game.fleet[ship.id].hitBox, game.fleet[ship.id].size, true);
                             //Check if it's possible to rotate ship to requested coordinates. If not, reverse rotated value on ship and return.
-                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox, true)){
+                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox)){
                                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
+                                game.rotationOnGridHappening = !game.rotationOnGridHappening;
                                 return
                             }
                             //Add rotated class.
@@ -240,13 +249,15 @@ let game = {
                             ship.style.width = `${coordinate.offsetHeight}px`
                             ship.style.height = `${coordinate.offsetWidth}px`
                         }
-                        ////if ship rotated value is switched to trufalse on right click
+                        ////if ship rotated value is switched to false on right click
                         else{
+
                             //Make array of requested coordinates
                             const requestedHitbox = game.rotateOnGrid(game.fleet[ship.id].hitBox, game.fleet[ship.id].size, false);
                             //Check if it's possible to rotate ship to requested coordinates. If not, reverse rotated value on ship and return.
-                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox, true)){
+                            if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox)){
                                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
+                                game.rotationOnGridHappening = !game.rotationOnGridHappening;
                                 return
                             }
                             //Remove rotated class
@@ -262,7 +273,7 @@ let game = {
                             ship.style.width = `${coordinate.offsetWidth * game.fleet[ship.id].size}px`
                             ship.style.height = `${coordinate.offsetHeight}px`
                         }
-
+                        game.rotationOnGridHappening = !game.rotationOnGridHappening;
                 }
                 //Resize fleet if ship is rotated.
                 game.fleetAutoResize();
