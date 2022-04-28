@@ -11,6 +11,10 @@ let game = {
     coordinates: document.getElementsByClassName("coordinate"),
     draggedShip: document.querySelector(".dragging"),
     gameStartModal: document.querySelector("#game-start-modal"),
+    userCoordinateInput: () => document.querySelector("#user-coordinate-input"),
+    generateRandomNumber: (min,max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
     rotateOnGrid: (hitBox, shipSize, rotate) => {
         const testRegexLetters = /[A-Z]/g
         const testRegexNumbers = /[0-9]+/g
