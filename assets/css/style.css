@@ -242,6 +242,7 @@ p{
     display: grid;
     grid-template-columns: minmax(7.37rem, 26.5rem) minmax(20rem, 40rem) minmax(7.37rem, 26.5rem);
     grid-template-areas: "user-section text-area opponent-section";
+    grid-template-rows: 10rem;
     border: 2px solid var(--complimentary-color-shade3);
     justify-content: center;
     justify-self: center;
@@ -259,6 +260,8 @@ p{
     font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 #opponent-section{
     font-size: 1rem;
