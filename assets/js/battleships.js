@@ -10,25 +10,25 @@ class Fleet{
         }
         this.battleship = {
             name: "Battleship",
-            size: 5,
+            size: 4,
             rotated: false,
             hitBox: [],
         }
         this.cruiser = {
             name: "Cruiser",
-            size: 5,
+            size: 3,
             rotated: false,
             hitBox: [],
         }
         this.submarine = {
             name: "Submarine",
-            size: 5,
+            size: 3,
             rotated: false,
             hitBox: [],
         }
         this.destroyer = {
             name: "Destroyer",
-            size: 5,
+            size: 2,
             rotated: false,
             hitBox: [],
         }
@@ -43,6 +43,7 @@ let game = {
     gameBoardNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
     ships: document.querySelectorAll(".ship"),
+    textArea: document.querySelector("#text-area"),
     coordinates: document.getElementsByClassName("coordinate"),
     draggedShip: document.querySelector(".dragging"),
     gameStartModal: document.querySelector("#game-start-modal"),
@@ -449,15 +450,142 @@ let game = {
         })
         
     },
+    turn: (attackedFleet, attackedCoordinate) => {
+        //Turn logic for user/opponent based on game.usersTurn property
+        console.log(attackedCoordinate);
+        let shipSank = false;
+        let hit = false;
+        const textBoxCreator = (ship) => {
+            const makeTextBox = quantity => {
+                let textBoxes = [];
+                    let textBox = document.createElement("div");
+                    textBox.classList.add("text-box");
+                    let textBoxPara = document.createElement("p");
+                    textBox.appendChild(textBoxPara);
+                    textBoxes.push(textBox);
+                    return textBoxes
+                    // game.textArea.appendChild(textBox);
+            }
+            if(game.usersTurn){
+                if(hit && shipSank){
+                    let textBoxes = makeTextBox(2);
+                    textBoxes[0].firstChild.textContent = `Hit! Your have sunk your opponent's ${attackedFleet[ship].name}`
+                    textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                }
+                else if(hit){
+                    let textBoxes = makeTextBox(1);
+                    console.log(textBoxes);
+                    textBoxes[0].firstChild.textContent = `Hit! You have damaged your opponent's ${attackedFleet[ship].name}`
+                    textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                }
+                else{
+                    let textBoxes = makeTextBox(1);
+                    textBoxes[0].firstChild.textContent = "You missed..."
+                    textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                }
+            }
+            else if(!game.usersTurn){
+                if(hit && shipSank){
+                    let textBoxes = makeTextBox(2);
+                    textBoxes[0].firstChild.textContent = `Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
+                    textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                }
+                else if(hit){
+                    let textBoxes = makeTextBox(1);
+                    textBoxes[0].firstChild.textContent = `Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
+                    textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                }
+                else{
+                    let textBoxes = makeTextBox(1);
+                    textBoxes[0].firstChild.textContent = "Your opponent has missed..."
+                    textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                }
+            }
+        }
+            //Checks if any ships have been hit.
+            for(ship in attackedFleet){
+                if(attackedFleet[ship].hitBox.includes(attackedCoordinate)){
+                        hit = true;
+                        const index = attackedFleet[ship].hitBox.indexOf(attackedCoordinate);
+                        attackedFleet[ship].hitBox.splice(index,1);
+                        if(attackedFleet[ship].hitBox.length <= 0){
+                            shipSank = true
+                        }
+                    textBoxCreator(ship);
+                    game.usersTurn = !game.usersTurn;
+                    if(!game.usersTurn){
+                        const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
+                        game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                        game.opponent.attackChoices.splice(randomNum,1)
+                        return
+                    }
+                    else if(game.usersTurn){
+                        return
+                    }
+                }
+            }
+            //This will fire on a miss. If it doesn't fire, that means it has already gone into the above if statements and hit something.
+            textBoxCreator();
+            game.usersTurn = !game.usersTurn;
+            if(!game.usersTurn){
+                const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
+                game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                game.opponent.attackChoices.splice(randomNum,1)
+            }
+            
+
+            //     else{
+            //         if(Object.keys(attackedFleet).indexOf(ship) === 4){
+            //         textBoxCreator();
+            //         if(game.usersTurn === false){
+            //             game.usersTurn = !game.usersTurn;
+            //             game.turn(game.fleet, "opponentCoordinate - Example H3")
+            //         }
+            //     }
+            // }
+                // if(attackedFleet[ship].hitBox.includes(attackedCoordinate)){
+                //     hit = true;
+                //     const index = attackedFleet[ship].hitBox.indexOf(attackedCoordinate)
+                //     attackedFleet[ship].hitBox.splice(index,1);
+                //     if(game.usersTurn){
+                //         game.usersTurn = !game.usersTurn;
+                //         game.turn(game.fleet, "opponentCoordinate - Example H3")
+                //     }
+                //     else if(!game.usersTurn){
+                //         textBoxPara.textContent = `Hit! your opponent has damaged your ${game.opponent.fleet[ship].name}!`
+                //         document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
+                //         attackedFleet[ship].hitBox.length <= 0 ? shipSank = true : shipSank = false;
+                //         textBoxCreator(shipSank)
+                //         return;
+                //     }
+                // }
+
+                //For loop ends. If it was a hit function would have returned by now.
+                // textBoxPara.textContent = `${game.usersTurn ? "You missed..." : "your opponent missed..."}`
+
+        // game.usersTurn = !game.usersTurn
+
+    },
     opponent: {
         opponentSetup: () => {
             game.gameStartModal.close();
             game.fleetElem().remove();
             game.userCoordinateInput().classList.remove("hide");
             game.opponent.populateFleet();
-        },
-        fleet: {},
-        turn: () => {
+            game.opponent.populateAttackChoices();
+            console.log(game.opponent.attackChoices)
+    },
+    generateRandomCoordinate: () => {
+        let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
+        let number = game.gameBoardNums[game.generateRandomNumber(0,9)];
+        return `${letter.concat(number)}`;
+    },
+    attackChoices: [],
+    populateAttackChoices: () => {
+        const allCoordinates = document.querySelectorAll(".coordinate")
+        allCoordinates.forEach(coordinate => {
+            game.opponent.attackChoices.push(coordinate.id)
+        })
     },
     populateFleet: () => {
         //Create opponent's fleet
@@ -474,9 +602,8 @@ let game = {
     }
         // function to generate random first coordinate of opponent's ship
         const getCoordinates = ship => {
-            let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
-            let number = game.gameBoardNums[game.generateRandomNumber(0,9)];
-            const coordinate = document.querySelector(`#${letter.concat(number)}`);
+            const coordinate = document.querySelector(`#${game.opponent.generateRandomCoordinate()}`)
+
             //get Opponent's requested coordinates based off first coordinate
             const requestedCoordinates = game.getShipCoordinates(game.opponent.fleet, coordinate, ship)
             //Get currently occupied coordinates of the opponent's ships on grid
@@ -505,15 +632,19 @@ let game = {
             //Get coordinates for each ship and do all necessary checks to see if already occupied.
             setTimeout(() => {
                 getCoordinates(ship);
-            },750)
+            },500)
         }
+        // Once fleet has finished populating, add event to allow user turn
+        game.userCoordinateInputButton().addEventListener("click",(e) =>{
+            e.preventDefault();
+            game.turn(game.opponent.fleet, game.userAttackedCoordinate().value);
+        })
     },
         },
     gameboardAutoResize: () => {
         //FIRES WHEN WINDOW IS RESIZED AND WHEN GAMEBOARD FIRST APPEARS.
         //Target first empty coordinate on board
         let firstEmptyCooordinate = Array.from(document.querySelectorAll(".coordinate")).find(coordinate => !coordinate.querySelector("img"));
-        console.log(firstEmptyCooordinate)
         let colLength = firstEmptyCooordinate.offsetWidth
         //Automatically convert all grid spaces to squares rather than rectangles by default
         game.gameBoard.style.gridAutoRows = `${colLength}px`
