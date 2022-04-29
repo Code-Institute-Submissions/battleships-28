@@ -1,4 +1,39 @@
 /* jshint esversion: 8 */
+//Fleet class
+class Fleet{
+    constructor(){
+        this.carrier = {
+            name: "Carrier",
+            size: 5,
+            rotated: false,
+            hitBox: [],
+        }
+        this.battleship = {
+            name: "Battleship",
+            size: 5,
+            rotated: false,
+            hitBox: [],
+        }
+        this.cruiser = {
+            name: "Cruiser",
+            size: 5,
+            rotated: false,
+            hitBox: [],
+        }
+        this.submarine = {
+            name: "Submarine",
+            size: 5,
+            rotated: false,
+            hitBox: [],
+        }
+        this.destroyer = {
+            name: "Destroyer",
+            size: 5,
+            rotated: false,
+            hitBox: [],
+        }
+    }
+}
 // Game object
 let game = {
     mainMenu: document.querySelector("#main-menu"),
@@ -11,7 +46,10 @@ let game = {
     coordinates: document.getElementsByClassName("coordinate"),
     draggedShip: document.querySelector(".dragging"),
     gameStartModal: document.querySelector("#game-start-modal"),
+    usersTurn: true,
     userCoordinateInput: () => document.querySelector("#user-coordinate-input"),
+    userCoordinateInputButton: () => document.querySelector("#confirm-coordinates"),
+    userAttackedCoordinate: () => document.querySelector("#attacked-coordinate"),
     generateRandomNumber: (min,max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
@@ -101,7 +139,7 @@ let game = {
         //This can only be done by the user.
         //The opponent is placing a ship WHICH IS ALREADY ROTATED on the grid.
         if(game.rotationOnGridHappening === true){
-         skippedCoordinate = requestedCoordinates.shift();
+            skippedCoordinate = requestedCoordinates.shift();
         }
         requestedCoordinates.forEach(coordinate => {
             //If ship's requested coordinates is occupied by another ship, dragEvent listeners won't fire.
@@ -417,24 +455,23 @@ let game = {
             game.fleetElem().remove();
             game.userCoordinateInput().classList.remove("hide");
             game.opponent.populateFleet();
-    },
-    fleet: {},
-    turn: () => {
-
+        },
+        fleet: {},
+        turn: () => {
     },
     populateFleet: () => {
         //Create opponent's fleet
-        game.opponent.fleet = game.fleet;
+        game.opponent.fleet = new Fleet()
         // function to reset opponent's ship's hitbox
         const resetHitboxes = ship => {
             game.opponent.fleet[ship].hitBox = [];
         }
         // function to randomly generate a opponent's ship's rotated property
-        const setRotatedValue = ship => {
-            let rotatedValue;
-            game.generateRandomNumber(0,1) < 0.5 ? rotatedValue = false : rotatedValue = true;
-            game.opponent.fleet[ship].rotated = rotatedValue
-        }
+    const setRotatedValue = ship => {
+        let rotatedValue;
+        game.generateRandomNumber(0,1) < 0.5 ? rotatedValue = false : rotatedValue = true;
+        game.opponent.fleet[ship].rotated = rotatedValue
+    }
         // function to generate random first coordinate of opponent's ship
         const getCoordinates = ship => {
             let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
@@ -454,7 +491,7 @@ let game = {
             else{
                 game.opponent.fleet[ship.id].hitBox.push(...requestedCoordinates);
             }
-            
+
         }
         //Iterate through each ship on opponent's fleet
         for(shipObject in game.opponent.fleet){
