@@ -489,11 +489,14 @@ let game = {
                     let textBoxes = makeTextBox(2);
                     textBoxes[0].firstChild.textContent = `Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                    document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
+                    document.querySelector(`#${ship}`).remove();
                 }
                 else if(hit){
                     let textBoxes = makeTextBox(1);
                     textBoxes[0].firstChild.textContent = `Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                    document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
                 }
                 else{
                     let textBoxes = makeTextBox(1);
@@ -532,38 +535,6 @@ let game = {
                 game.turn(game.fleet, game.opponent.attackChoices[randomNum])
                 game.opponent.attackChoices.splice(randomNum,1)
             }
-            
-
-            //     else{
-            //         if(Object.keys(attackedFleet).indexOf(ship) === 4){
-            //         textBoxCreator();
-            //         if(game.usersTurn === false){
-            //             game.usersTurn = !game.usersTurn;
-            //             game.turn(game.fleet, "opponentCoordinate - Example H3")
-            //         }
-            //     }
-            // }
-                // if(attackedFleet[ship].hitBox.includes(attackedCoordinate)){
-                //     hit = true;
-                //     const index = attackedFleet[ship].hitBox.indexOf(attackedCoordinate)
-                //     attackedFleet[ship].hitBox.splice(index,1);
-                //     if(game.usersTurn){
-                //         game.usersTurn = !game.usersTurn;
-                //         game.turn(game.fleet, "opponentCoordinate - Example H3")
-                //     }
-                //     else if(!game.usersTurn){
-                //         textBoxPara.textContent = `Hit! your opponent has damaged your ${game.opponent.fleet[ship].name}!`
-                //         document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
-                //         attackedFleet[ship].hitBox.length <= 0 ? shipSank = true : shipSank = false;
-                //         textBoxCreator(shipSank)
-                //         return;
-                //     }
-                // }
-
-                //For loop ends. If it was a hit function would have returned by now.
-                // textBoxPara.textContent = `${game.usersTurn ? "You missed..." : "your opponent missed..."}`
-
-        // game.usersTurn = !game.usersTurn
 
     },
     opponent: {
