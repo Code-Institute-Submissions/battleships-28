@@ -42,6 +42,8 @@ let game = {
     fleetElem: () => document.querySelector("#fleet"),
     gameBoardNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
+    numRegex: /[0-9]+/g,
+    letRegex: /[A-Z]/g,
     ships: document.querySelectorAll(".ship"),
     textArea: document.querySelector("#text-area"),
     coordinates: document.getElementsByClassName("coordinate"),
@@ -59,8 +61,6 @@ let game = {
     },
     rotationOnGridHappening: false,
     rotateOnGrid: (hitBox, shipSize, rotate) => {
-        const testRegexLetters = /[A-Z]/g
-        const testRegexNumbers = /[0-9]+/g
         let shipSizeRange = [];
         let  newHitBox = [];
         //Get range of numbers of shipsize (Excluding final number). E.g, ship size is 3, populate array of numbers [0,1,2]
@@ -69,8 +69,8 @@ let game = {
         }
         //Increment numbers/letters based on if rotate parameter is true or false in function execution.
         for(let i = 0; i < hitBox.length; i++){
-            let number = hitBox[i].match(testRegexNumbers);
-            let letter = hitBox[i].match(testRegexLetters);
+            let number = hitBox[i].match(game.numRegex);
+            let letter = hitBox[i].match(game.letRegex);
             let letCharCode = letter[0].charCodeAt(0);
             let newNumber;
             let newLetter
@@ -97,13 +97,11 @@ let game = {
         const shipSize = fleet[ship.id].size
         let currentCoordinates = coordinate.id;
         let shipCoordinates = [currentCoordinates];
-        let testRegexLetters = /[A-Z]/g
-        let testRegexNumbers = /[0-9]+/g
         //Loop equalling to number of shipSize
         for(let i = 0; i < shipSize-1; i++){
             //Get number and letter/Letter charactercode
-            let number = currentCoordinates.match(testRegexNumbers)
-            let letter = currentCoordinates.match(testRegexLetters)
+            let number = currentCoordinates.match(game.numRegex)
+            let letter = currentCoordinates.match(game.letRegex)
             let letCharCode = letter[0].charCodeAt(0)
             //Increment number
             if(fleet[ship.id].rotated === false){
@@ -132,8 +130,6 @@ let game = {
     checkIfOccupied:(allOccupiedCoordinates,requestedCoordinates) => {
         //Checks if ships requested coordinates are occupied by another ship or outside grid.
         let access = true;
-        const numRegex = /[0-9]+/g;
-        let letRegex = /[A-Z]/g;
         let skippedCoordinate;
         //If the ship is rotated on the grid by the user, we need to exclude the first coordinate in ship's hitbox
         //This is because the ship will always be on this and therefore won't move, as it will interfere with itself. So we use shift()
@@ -151,7 +147,7 @@ let game = {
                 access = false;
             }
             //If ship's requested coordinates is outside grid, dragEvent listeners won't fire.
-            else if(parseInt(coordinate.match(numRegex)) > 10 || coordinate.match(letRegex)[0].charCodeAt(0) > 74){
+            else if(parseInt(coordinate.match(game.numRegex)) > 10 || coordinate.match(game.letRegex)[0].charCodeAt(0) > 74){
                 access = false;
             }
         })
