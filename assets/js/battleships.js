@@ -49,6 +49,8 @@ let game = {
     gameVerdict: document.querySelector("#game-verdict"),
     gameVerdictHeader: document.querySelector("#game-verdict-header"),
     winOrLose: document.querySelector("#win-or-lose"),
+    playAgain: document.querySelector("#play-again"),
+    returnMainMenu: document.querySelector("#return-to-start"),
     ships: document.querySelectorAll(".ship"),
     textArea: document.querySelector("#text-area"),
     coordinates: document.getElementsByClassName("coordinate"),
@@ -487,7 +489,7 @@ let game = {
         let shipSank = false;
         let hit = false;
         const turnLogic = (ship) => {
-            const makeTextBox = quantity => {
+            const makeTextBox = () => {
                 let textBoxes = [];
                     let textBox = document.createElement("div");
                     textBox.classList.add("text-box");
@@ -551,7 +553,7 @@ let game = {
                     return;
                 }
                 if(hit && shipSank){
-                    let textBoxes = makeTextBox(2);
+                    let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `Hit! Your have sunk your opponent's ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
@@ -560,15 +562,14 @@ let game = {
                     setShipsRemaining()
                 }
                 else if(hit){
-                    let textBoxes = makeTextBox(1);
-                    console.log(textBoxes);
+                    let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `Hit! You have damaged your opponent's ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
                     setScore(25);
                 }
                 else{
-                    let textBoxes = makeTextBox(1);
+                    let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = "You missed..."
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
@@ -577,7 +578,7 @@ let game = {
             }
             else if(!game.usersTurn){
                 if(hit && shipSank){
-                    let textBoxes = makeTextBox(2);
+                    let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
@@ -588,7 +589,7 @@ let game = {
                     setShipsRemaining();
                 }
                 else if(hit){
-                    let textBoxes = makeTextBox(1);
+                    let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
@@ -596,7 +597,7 @@ let game = {
                     setScore(30);
                 }
                 else{
-                    let textBoxes = makeTextBox(1);
+                    let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = "Your opponent has missed..."
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                 }
@@ -636,6 +637,101 @@ let game = {
             }
 
     },
+    gameHasReset: false,
+    resetGame: (e) => {
+        //Add flag if resetting game.
+        game.gameHasReset = true;
+        //As game is over, make game.gameNowActive false
+        game.gameNowActive = false;
+        //Close win/lose modal
+        game.gameVerdict.close();
+        //Remove event listeners as these will be added again during gameSetup()
+        window.removeEventListener("resize", game.gameboardAutoResize);
+        window.removeEventListener("resize", game.fleetAutoResize);
+        // Remove gameScreen
+        game.gameScreen.innerHTML = " ";
+        // Add blank gameScreen
+        game.gameScreen.innerHTML = `<div class = "header-container">
+        <i class="fa-solid fa-anchor"></i>
+        <h2 id = "game-header">
+            Battleships
+        </h2>
+        <i class="fa-solid fa-anchor"></i>
+    </div>
+    <div id = "action-bar">
+        <div id = "user-section">
+            <h2>User</h2>
+            <h3>ships left:<span id = "user-ships-remaining">5</span></h3>
+            <h3>score: <span id = "score">1000</span></h3>
+            <label>
+                <input type = "checkbox">
+            </label>
+        </div>
+        <div id = "text-area">
+            <div class = "text-box">
+                <p>Get ready! The game has started!</p>
+            </div>
+        </div>
+        <div id = "opponent-section">
+            <h2 id = "opponent-name">Opponent</h2>
+            <h3>ships left:<span id = "opponent-ships-remaining">5</span></h3>
+        </div>
+    </div>
+    <div id = "game-board">
+    </div>
+    <div id = "fleet">
+        <div class = "ship-container" id = "carrier-container">
+            <img src = "assets/images/carrier.png" alt = "An image of your carrier ship" class = "ship" id = "carrier" draggable="true">
+            <h3>
+                Carrier
+            </h3>
+        </div>
+        <div class = "ship-container" id = "battleship-container">
+            <img src = "assets/images/battleship.webp" alt = "An image of your battleship ship" class = "ship" id = "battleship" draggable="true">
+            <h3>
+                Battleship
+            </h3>
+        </div>
+        <div class = "ship-container" id = "cruiser-container">
+            <img src = "assets/images/cruiser.png" alt = "An image of your cruiser ship" class = "ship" id = "cruiser" draggable="true">
+            <h3>
+                Cruiser
+            </h3>
+        </div>
+        <div class = "ship-container" id = "submarine-container">
+            <img src = "assets/images/submarine.png" alt = "An image of your submarine ship" class = "ship" id = "submarine" draggable="true">
+            <h3>
+                Submarine
+            </h3>
+        </div>
+        <div class = "ship-container" id = "destroyer-container">
+            <img src = "assets/images/destroyer.png" alt = "An image of your destroyer ship" class = "ship" id = "destroyer" draggable="true">
+            <h3>
+                Destroyer
+            </h3>
+        </div>
+    </div>
+    <form class = "hide" id = "user-coordinate-input">
+        <label> Enter Coordinates to attack!</label>
+        <input type = "text" id = "attacked-coordinate" required>
+        <button class = "button" id = "confirm-coordinates">Fire!</button>
+    </form>`
+        //Some game properties were not recognised during the game reset. So, declare these properties again so they can be recognised.
+        //It seems that resetting the innerHTML in the gamescreen has caused this.
+        game.gameScreen = document.querySelector("#game-screen")
+        game.gameBoard = document.querySelector("#game-board"),
+        game.fleetElem = () => document.querySelector("#fleet")
+        game.ships = document.querySelectorAll(".ship")
+        game.textArea = document.querySelector("#text-area"),
+        game.gameSetup(e);
+        game.fleet = new Fleet();
+        game.opponent.fleet = new Fleet();
+        game.fleetAutoResize();
+        game.winOrLose.classList = ""
+        game.usersTurn = true;
+        game.gameHasReset = false;
+    },
+
     opponent: {
         opponentSetup: () => {
             game.gameNowActive = true;
@@ -644,6 +740,8 @@ let game = {
             game.userCoordinateInput().classList.remove("hide");
             game.opponent.populateFleet();
             game.opponent.populateAttackChoices();
+            game.returnMainMenu.addEventListener("click", () => window.location.reload())
+            game.playAgain.addEventListener("click", (e) => game.resetGame(e))
     },
     generateRandomCoordinate: () => {
         let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
