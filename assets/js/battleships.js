@@ -491,6 +491,16 @@ let game = {
                     }
                     game.userScore().textContent = score;
             }
+            const setShipsRemaining = () => {
+                if(game.usersTurn){
+                    const shipsRemaining = parseInt(game.opponent.opponentShipsRemaining().textContent) -1;
+                    game.opponent.opponentShipsRemaining().textContent = shipsRemaining;
+                }
+                else if(!game.usersTurn){
+                    const shipsRemaining = parseInt(game.userShipsRemaining().textContent) -1;
+                    game.userShipsRemaining().textContent = shipsRemaining;
+                }
+            }
             if(game.usersTurn){
                 if(hit && shipSank){
                     let textBoxes = makeTextBox(2);
@@ -498,6 +508,8 @@ let game = {
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
                     setScore(20, attackedFleet[ship].size);
+                    //Subtract 1 ship from ships remaining in opponent action bar
+                    setShipsRemaining()
                 }
                 else if(hit){
                     let textBoxes = makeTextBox(1);
@@ -524,6 +536,8 @@ let game = {
                     document.querySelector(`#${ship}`).remove();
                     //Set the user's score
                     setScore(25, attackedFleet[ship].size);
+                    //Subtract 1 ship from ships remaining in user action bar
+                    setShipsRemaining();
                 }
                 else if(hit){
                     let textBoxes = makeTextBox(1);
