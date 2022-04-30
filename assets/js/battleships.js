@@ -45,6 +45,7 @@ let game = {
     numRegex: /[0-9]+/g,
     letRegex: /[A-Z]/g,
     coordinateRegex:/^[A-J]([0-9]|10)$/,
+    gameNowActive: false,
     ships: document.querySelectorAll(".ship"),
     textArea: document.querySelector("#text-area"),
     coordinates: document.getElementsByClassName("coordinate"),
@@ -244,15 +245,27 @@ let game = {
         // WHEN DRAG STARTS
         game.ships.forEach(ship => {
             ship.addEventListener("dragstart", () => {
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
                 ship.classList.add("dragging");
             });
             // WHEN DRAG FINISHES
             ship.addEventListener("dragend", () => {
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
                 ship.classList.remove("dragging");
             })
             //WHEN RIGHT CLICKING ON SHIP
             ship.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
                 const ship = e.target;
                 //Change rotated value on ship to opposite of what it was (true or false)
                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
@@ -322,6 +335,10 @@ let game = {
         Array.from(game.coordinates).forEach(coordinate => {
             // WHEN SHIP IS DRAGGED INTO COORDINATE
             coordinate.addEventListener("dragenter", (e) => {
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
                 //If coordinate contains image/ship, then return
                 if(!!coordinate.querySelector("img")){
                     return
@@ -365,9 +382,17 @@ let game = {
             coordinate.addEventListener("dragover", e => {
                 //Used to allow dragDrop event to happen. 
                 e.preventDefault();
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
             })
             // WHEN SHIP IS DRAGGED OUT OF COORDINATE
             coordinate.addEventListener("dragleave", () => {
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
                 //If coordinate contains image/ship, then return
                 if(!!coordinate.querySelector("img")){
                     return
@@ -395,6 +420,10 @@ let game = {
             })
             // WHEN SHIP IS DROPPED IN TO COORDINATE
             coordinate.addEventListener("drop", () => {
+                //Check if game is active, and if so, then return
+                if(game.gameNowActive){
+                    return
+                }
                 //If coordinate contains image/ship, then return
                 if(!!coordinate.querySelector("img")){
                     return
@@ -592,6 +621,7 @@ let game = {
     },
     opponent: {
         opponentSetup: () => {
+            game.gameNowActive = true;
             game.gameStartModal.close();
             game.fleetElem().remove();
             game.userCoordinateInput().classList.remove("hide");
