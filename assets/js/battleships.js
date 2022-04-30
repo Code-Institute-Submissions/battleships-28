@@ -46,6 +46,9 @@ let game = {
     letRegex: /[A-Z]/g,
     coordinateRegex:/^[A-J]([0-9]|10)$/,
     gameNowActive: false,
+    gameVerdict: document.querySelector("#game-verdict"),
+    gameVerdictHeader: document.querySelector("#game-verdict-header"),
+    winOrLose: document.querySelector("#win-or-lose"),
     ships: document.querySelectorAll(".ship"),
     textArea: document.querySelector("#text-area"),
     coordinates: document.getElementsByClassName("coordinate"),
@@ -520,10 +523,23 @@ let game = {
                 if(game.usersTurn){
                     const shipsRemaining = parseInt(game.opponent.opponentShipsRemaining().textContent) -1;
                     game.opponent.opponentShipsRemaining().textContent = shipsRemaining;
+                    if(shipsRemaining === 0){
+                        game.winOrLose.textContent = "You've won!"
+                        game.winOrLose.classList.add("win")
+                        game.gameVerdictHeader.textContent = "Well done captain 😎"
+                        game.gameVerdict.showModal();
+                    }
+                    
                 }
                 else if(!game.usersTurn){
                     const shipsRemaining = parseInt(game.userShipsRemaining().textContent) -1;
                     game.userShipsRemaining().textContent = shipsRemaining;
+                    if(shipsRemaining === 0){
+                        game.winOrLose.textContent = "You've lost!"
+                        game.winOrLose.classList.add("loss")
+                        game.gameVerdictHeader.textContent = "Hard luck captain 😰"
+                        game.gameVerdict.showModal();
+                    }
                 }
             }
             if(game.usersTurn){
