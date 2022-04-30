@@ -47,6 +47,9 @@ let game = {
     coordinates: document.getElementsByClassName("coordinate"),
     draggedShip: document.querySelector(".dragging"),
     gameStartModal: document.querySelector("#game-start-modal"),
+    userScore: () => document.querySelector("#score"),
+    userShipsRemaining: () => document.querySelector("#user-ships-remaining"),
+    userScoreMultiplier: 1,
     usersTurn: true,
     userCoordinateInput: () => document.querySelector("#user-coordinate-input"),
     userCoordinateInputButton: () => document.querySelector("#confirm-coordinates"),
@@ -455,7 +458,7 @@ let game = {
         console.log(attackedCoordinate);
         let shipSank = false;
         let hit = false;
-        const textBoxCreator = (ship) => {
+        const turnLogic = (ship) => {
             const makeTextBox = quantity => {
                 let textBoxes = [];
                     let textBox = document.createElement("div");
@@ -466,22 +469,50 @@ let game = {
                     return textBoxes
                     // game.textArea.appendChild(textBox);
             }
+            const setScore = (points, shipSize = 1) => {
+                let score;
+                if(game.usersTurn){
+                    // +25 points X Score Multiplier for hitting opponent ship
+                    // +20 points X ship size X score multiplier for sinking opponent ship
+                    if(hit){
+                        score = parseInt(game.userScore().textContent) + ((points * shipSize) * game.userScoreMultiplier)
+                        game.userScoreMultiplier++;
+                    }
+                    // -20 points for miss
+                    else if(!hit){
+                        score = parseInt(game.userScore().textContent) - points;
+                        game.userScoreMultiplier = 1;
+                    }
+                }
+                else if(!game.usersTurn){
+                    // -30 points for opponent hit.
+                    // -40 points X shipsize for opponent sinking ship
+                    score = parseInt(game.userScore().textContent) - ((points * shipSize))
+                    }
+                    game.userScore().textContent = score;
+            }
             if(game.usersTurn){
                 if(hit && shipSank){
                     let textBoxes = makeTextBox(2);
                     textBoxes[0].firstChild.textContent = `Hit! Your have sunk your opponent's ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                    //Set the user's score
+                    setScore(20, attackedFleet[ship].size);
                 }
                 else if(hit){
                     let textBoxes = makeTextBox(1);
                     console.log(textBoxes);
                     textBoxes[0].firstChild.textContent = `Hit! You have damaged your opponent's ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                    //Set the user's score
+                    setScore(25);
                 }
                 else{
                     let textBoxes = makeTextBox(1);
                     textBoxes[0].firstChild.textContent = "You missed..."
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
+                    //Set the user's score
+                    setScore(20);
                 }
             }
             else if(!game.usersTurn){
@@ -491,12 +522,16 @@ let game = {
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
                     document.querySelector(`#${ship}`).remove();
+                    //Set the user's score
+                    setScore(25, fleet[attackedFleet[ship].size]);
                 }
                 else if(hit){
                     let textBoxes = makeTextBox(1);
                     textBoxes[0].firstChild.textContent = `Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
+                    //Set the user's score
+                    setScore(30);
                 }
                 else{
                     let textBoxes = makeTextBox(1);
@@ -504,6 +539,7 @@ let game = {
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                 }
             }
+
         }
             //Checks if any ships have been hit.
             for(ship in attackedFleet){
@@ -514,7 +550,7 @@ let game = {
                         if(attackedFleet[ship].hitBox.length <= 0){
                             shipSank = true
                         }
-                    textBoxCreator(ship);
+                    turnLogic(ship);
                     game.usersTurn = !game.usersTurn;
                     if(!game.usersTurn){
                         const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
@@ -528,7 +564,7 @@ let game = {
                 }
             }
             //This will fire on a miss. If it doesn't fire, that means it has already gone into the above if statements and hit something.
-            textBoxCreator();
+            turnLogic();
             game.usersTurn = !game.usersTurn;
             if(!game.usersTurn){
                 const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
@@ -552,6 +588,7 @@ let game = {
         return `${letter.concat(number)}`;
     },
     attackChoices: [],
+    opponentShipsRemaining: () =>  document.querySelector("#opponent-ships-remaining"),
     populateAttackChoices: () => {
         const allCoordinates = document.querySelectorAll(".coordinate")
         allCoordinates.forEach(coordinate => {
