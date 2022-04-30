@@ -523,7 +523,7 @@ let game = {
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
                     document.querySelector(`#${ship}`).remove();
                     //Set the user's score
-                    setScore(25, fleet[attackedFleet[ship].size]);
+                    setScore(25, attackedFleet[ship].size);
                 }
                 else if(hit){
                     let textBoxes = makeTextBox(1);
