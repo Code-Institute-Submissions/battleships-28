@@ -589,6 +589,7 @@ let game = {
         }
             //Checks if any ships have been hit.
             for(ship in attackedFleet){
+                attackedCoordinate = attackedCoordinate.toUpperCase();
                 if(attackedFleet[ship].hitBox.includes(attackedCoordinate)){
                         hit = true;
                         const index = attackedFleet[ship].hitBox.indexOf(attackedCoordinate);
@@ -627,7 +628,6 @@ let game = {
             game.userCoordinateInput().classList.remove("hide");
             game.opponent.populateFleet();
             game.opponent.populateAttackChoices();
-            console.log(game.opponent.attackChoices)
     },
     generateRandomCoordinate: () => {
         let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
