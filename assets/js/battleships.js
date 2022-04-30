@@ -44,6 +44,7 @@ let game = {
     gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
     numRegex: /[0-9]+/g,
     letRegex: /[A-Z]/g,
+    coordinateRegex:/^[A-J]([0-9]|10)$/,
     ships: document.querySelectorAll(".ship"),
     textArea: document.querySelector("#text-area"),
     coordinates: document.getElementsByClassName("coordinate"),
@@ -451,7 +452,6 @@ let game = {
     },
     turn: (attackedFleet, attackedCoordinate) => {
         //Turn logic for user/opponent based on game.usersTurn property
-        console.log(attackedCoordinate);
         let shipSank = false;
         let hit = false;
         const turnLogic = (ship) => {
@@ -498,6 +498,13 @@ let game = {
                 }
             }
             if(game.usersTurn){
+                //Capitalise coordinate letter in case user enters lowecase letter
+                attackedCoordinate = attackedCoordinate.toUpperCase();
+                //If coordinate entered by user doesn't test true to regex /^[A-J]([0-9]|10)$/ then alert and return
+                if(!game.coordinateRegex.test(attackedCoordinate)){
+                    alert("You must enter a valid coordinate!")
+                    return;
+                }
                 if(hit && shipSank){
                     let textBoxes = makeTextBox(2);
                     textBoxes[0].firstChild.textContent = `Hit! Your have sunk your opponent's ${attackedFleet[ship].name}`
