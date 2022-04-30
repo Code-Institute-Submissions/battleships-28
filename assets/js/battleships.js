@@ -229,6 +229,9 @@ let game = {
     },
     getRotatedArray: () => Object.keys(game.fleet).map(key => game.fleet[key].rotated),
     fleetAutoResize:() => {
+        if(!game.fleetElem()){
+            return;
+        }
         const rotatedShipExists = () => {
             //game.getRotatedArray() returns array of each ships rotated value - .some checks if there is at leaast one which is true.
             return game.getRotatedArray().some(value => {
