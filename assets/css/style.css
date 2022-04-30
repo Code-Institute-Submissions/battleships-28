@@ -40,16 +40,6 @@ html {
     box-sizing: border-box;
 }
 
-/* Utility classes */
-.hide{
-    transform: scale(0);
-}
-.rotated{
-    transform: rotate(90deg);
-}
-.disable{
-    pointer-events: none;
-}
 /* Main menu */
 body {
     display: grid;
@@ -429,4 +419,15 @@ height: 100%;
     height: 5rem;
     width: 8rem;
     padding: 0;
+}
+
+/* Utility classes */
+.hide{
+    display: none !important;
+}
+.rotated{
+    transform: rotate(90deg);
+}
+.disable{
+    pointer-events: none;
 }
