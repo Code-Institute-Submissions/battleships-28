@@ -607,7 +607,7 @@ let game = {
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                 }
             }
-
+            game.textArea.scrollTop = game.textArea.scrollHeight;
         }
             //Checks if any ships have been hit.
             for(ship in attackedFleet){
