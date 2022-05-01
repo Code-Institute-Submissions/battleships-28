@@ -50,6 +50,8 @@ let game = {
     gameVerdictHeader: document.querySelector("#game-verdict-header"),
     winOrLose: document.querySelector("#win-or-lose"),
     playAgain: document.querySelector("#play-again"),
+    inGameInstructions: document.querySelector("#in-game-instructions"),
+    inGameReturn: document.querySelector("#in-game-return"),
     returnMainMenu: document.querySelector("#return-to-start"),
     ships: document.querySelectorAll(".ship"),
     textArea: document.querySelector("#text-area"),
@@ -655,11 +657,17 @@ let game = {
         game.gameScreen.innerHTML = " ";
         // Add blank gameScreen
         game.gameScreen.innerHTML = `<div class = "header-container">
-        <i class="fa-solid fa-anchor"></i>
+        <button id="in-game-instructions" class="button">
+            Instructions
+        </button>
+        <button id="in-game-return" class="button">
+            Main menu
+        </button>
         <h2 id = "game-header">
+            <i class="fa-solid fa-anchor"></i>
             Battleships
+            <i class="fa-solid fa-anchor"></i>
         </h2>
-        <i class="fa-solid fa-anchor"></i>
     </div>
     <div id = "action-bar">
         <div id = "user-section">
@@ -672,7 +680,7 @@ let game = {
         </div>
         <div id = "text-area">
             <div class = "text-box">
-                <p>Get ready! The game has started!</p>
+                <p>Get ready! The game will start soon!</p>
             </div>
         </div>
         <div id = "opponent-section">
@@ -685,34 +693,34 @@ let game = {
     <div id = "fleet">
         <div class = "ship-container" id = "carrier-container">
             <img src = "assets/images/carrier.png" alt = "An image of your carrier ship" class = "ship" id = "carrier" draggable="true">
-            <h3>
-                Carrier
-            </h3>
         </div>
+        <h3>
+            Carrier
+        </h3>
         <div class = "ship-container" id = "battleship-container">
             <img src = "assets/images/battleship.webp" alt = "An image of your battleship ship" class = "ship" id = "battleship" draggable="true">
-            <h3>
-                Battleship
-            </h3>
         </div>
+        <h3>
+            Battleship
+        </h3>
         <div class = "ship-container" id = "cruiser-container">
             <img src = "assets/images/cruiser.png" alt = "An image of your cruiser ship" class = "ship" id = "cruiser" draggable="true">
-            <h3>
-                Cruiser
-            </h3>
         </div>
+        <h3>
+            Cruiser
+        </h3>
         <div class = "ship-container" id = "submarine-container">
             <img src = "assets/images/submarine.png" alt = "An image of your submarine ship" class = "ship" id = "submarine" draggable="true">
-            <h3>
-                Submarine
-            </h3>
         </div>
+        <h3>
+            Submarine
+        </h3>
         <div class = "ship-container" id = "destroyer-container">
             <img src = "assets/images/destroyer.png" alt = "An image of your destroyer ship" class = "ship" id = "destroyer" draggable="true">
-            <h3>
-                Destroyer
-            </h3>
         </div>
+        <h3>
+            Destroyer
+        </h3>
     </div>
     <form class = "hide" id = "user-coordinate-input">
         <label> Enter Coordinates to attack!</label>
@@ -733,6 +741,11 @@ let game = {
         game.winOrLose.classList = ""
         game.usersTurn = true;
         game.gameHasReset = false;
+        game.inGameInstructions = document.querySelector("#in-game-instructions");
+        game.inGameReturn = document.querySelector("#in-game-return");
+        //Re-activate listeners on in game instructions and return buttons
+        game.inGameInstructions.addEventListener("click", game.toggleGameInstructions)
+        game.inGameReturn.addEventListener("click", () => window.location.reload())
     },
 
     opponent: {
@@ -846,6 +859,8 @@ let game = {
         // Hide main menu and show gameScreen
         game.mainMenu.remove();
         game.gameScreen.classList.remove("hide");
+        game.inGameInstructions.addEventListener("click", game.toggleGameInstructions)
+        game.inGameReturn.addEventListener("click", () => window.location.reload())
         // For loops to create labels and coordinates
         for(let i = 0; i < game.gameBoardLets.length; i++) {
             //Create number labels
