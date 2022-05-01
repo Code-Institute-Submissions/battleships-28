@@ -335,7 +335,7 @@ font-size: 2rem;
     grid-area: fleet;
     grid-template-columns: minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem);
     grid-template-rows: auto;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     justify-self: center;
 }
 #fleet h3{
@@ -359,6 +359,7 @@ margin-top: 2rem;
     z-index: 5;
     pointer-events: auto;
     align-self: center;
+    /* border: 2px solid var(--complimentary-color-shade1); */
 }
 .ship:hover{
 cursor: grab;
