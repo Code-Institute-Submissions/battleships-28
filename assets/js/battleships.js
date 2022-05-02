@@ -457,7 +457,6 @@ let game = {
                 currentlyOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
-                    space.style.border = "2px solid red";
                 })
                 if(game.fleet[draggedShip.id].rotated === true){
                     draggedShip.style.maxWidth = "none";
