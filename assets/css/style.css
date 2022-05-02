@@ -283,6 +283,19 @@ padding: 0;
     overflow-x: hidden;
     scroll-behavior: smooth;
 }
+.text-box p{
+    margin: 0 0.75rem
+}
+.user-text-box{
+    border-top: 2px solid var(--complimentary-color-shade1);
+    border-bottom: 2px solid var(--complimentary-color-shade1);
+    background-color: black;
+    color: var(--complimentary-color-shade1);
+    margin: 0 !important;
+}
+.opponent-text-box{
+    margin: 0 !important;
+}
 #opponent-section{
     font-size: 1rem;
     grid-area: opponent-section;
