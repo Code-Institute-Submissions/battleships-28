@@ -505,6 +505,7 @@ let game = {
                     let textBoxPara = document.createElement("p");
                     textBox.appendChild(textBoxPara);
                     textBoxes.push(textBox);
+                    game.usersTurn ? textBoxes[0].classList.add("user-text-box") : textBoxes[0].classList.add("opponent-text-box")
                     return textBoxes
                     // game.textArea.appendChild(textBox);
             }
@@ -563,12 +564,11 @@ let game = {
                 if(!game.coordinateRegex.test(attackedCoordinate)){
                     alert("You must enter a valid coordinate!")
                     game.usersTurn = !game.usersTurn;
-                    console.log(game.usersTurn)
                     return;
                 }
                 if(hit && shipSank){
                     let textBoxes = makeTextBox();
-                    textBoxes[0].firstChild.textContent = `Hit! Your have sunk your opponent's ${attackedFleet[ship].name}`
+                    textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! Your have sunk your opponent's ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
                     setScore(20, attackedFleet[ship].size);
@@ -577,14 +577,14 @@ let game = {
                 }
                 else if(hit){
                     let textBoxes = makeTextBox();
-                    textBoxes[0].firstChild.textContent = `Hit! You have damaged your opponent's ${attackedFleet[ship].name}`
+                    textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! You have damaged your opponent's ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
                     setScore(25);
                 }
                 else{
                     let textBoxes = makeTextBox();
-                    textBoxes[0].firstChild.textContent = "You missed..."
+                    textBoxes[0].firstChild.textContent = `${attackedCoordinate}: You missed...`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     //Set the user's score
                     setScore(20);
@@ -593,7 +593,7 @@ let game = {
             else if(!game.usersTurn){
                 if(hit && shipSank){
                     let textBoxes = makeTextBox();
-                    textBoxes[0].firstChild.textContent = `Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
+                    textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
                     document.querySelector(`#${ship}`).remove();
@@ -604,7 +604,7 @@ let game = {
                 }
                 else if(hit){
                     let textBoxes = makeTextBox();
-                    textBoxes[0].firstChild.textContent = `Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
+                    textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
                     //Set the user's score
@@ -612,7 +612,7 @@ let game = {
                 }
                 else{
                     let textBoxes = makeTextBox();
-                    textBoxes[0].firstChild.textContent = "Your opponent has missed..."
+                    textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Your opponent has missed...`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                 }
             }
