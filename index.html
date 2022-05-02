@@ -22,7 +22,7 @@
             Battleship!
             <i class="fa-solid fa-anchor"></i>
         </h1>
-        <button class="button" id="game-setup-button">Start new game</button>
+        <button class="button" id="game-options-button">Start new game</button>
         <button class="button" id="instructions-button">Instructions</button>
         <div class = "hide" id = "game-options-screen">
             <form>
@@ -30,7 +30,7 @@
                     <label for = "name">
                         Enter your name, captain
                     </label>
-                    <input type = "text" id = "name" placeholder="jack-sparrow" required>
+                    <input type = "text" id = "name" placeholder="jack sparrow" required>
                 </div>
                 <div class = "question-container" id = "game-difficulty">
                     <p>
@@ -108,7 +108,7 @@
         </div>
         <div id = "action-bar">
             <div id = "user-section">
-                <h2>User</h2>
+                <h2 id = "user-name"></h2>
                 <h3>ships left:<span id = "user-ships-remaining">5</span></h3>
                 <h3>score: <span id = "score">1000</span></h3>
             </div>
