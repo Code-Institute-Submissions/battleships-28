@@ -562,6 +562,8 @@ let game = {
                 //If coordinate entered by user doesn't test true to regex /^[A-J]([0-9]|10)$/ then alert and return
                 if(!game.coordinateRegex.test(attackedCoordinate)){
                     alert("You must enter a valid coordinate!")
+                    game.usersTurn = !game.usersTurn;
+                    console.log(game.usersTurn)
                     return;
                 }
                 if(hit && shipSank){
