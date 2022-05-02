@@ -37,11 +37,16 @@ class Fleet{
 // Game object
 let game = {
     mainMenu: document.querySelector("#main-menu"),
+    gameOptionsButton: document.querySelector("#game-options-button"),
+    instructionsButton: document.querySelector("#instructions-button"),
+    userNameEntry: document.querySelector("#name"),
     gameBoard: document.querySelector("#game-board"),
     gameScreen: document.querySelector("#game-screen"),
+    userName: document.querySelector("#user-name"),
     fleetElem: () => document.querySelector("#fleet"),
     gameBoardNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
+    userNameRegex: /[A-Za-z]+/g,
     numRegex: /[0-9]+/g,
     letRegex: /[A-Z]/g,
     coordinateRegex:/^[A-J]([0-9]|10)$/,
@@ -859,8 +864,9 @@ let game = {
         let coordinateRowStart = 2;
         let coordinateColStart;
         // Hide main menu and show gameScreen
-        game.mainMenu.remove();
+        game.mainMenu.classList.add("hide");
         game.gameScreen.classList.remove("hide");
+        game.userName.textContent = game.userNameEntry.value;
         game.inGameInstructions.addEventListener("click", game.toggleGameInstructions)
         game.inGameReturn.addEventListener("click", () => window.location.reload())
         // For loops to create labels and coordinates
@@ -899,7 +905,8 @@ let game = {
         window.addEventListener("resize", game.fleetAutoResize);
         game.dragShips();
 },
-    toggleGameOptions: () => {
+    toggleGameOptions: (e) => {
+        e.preventDefault();
         let gameOptionsScreen = document.querySelector("#game-options-screen");
         if(gameOptionsScreen.className){
             gameOptionsScreen.classList.remove("hide");
@@ -908,7 +915,27 @@ let game = {
             gameOptionsScreen.classList.add("hide");
         }
         let beginGameButton = document.querySelector("#begin-game-button");
-        beginGameButton.addEventListener("click", e => game.gameSetup(e))
+        beginGameButton.addEventListener("click", e =>{
+            e.preventDefault();
+            //If no username is entered, return
+            if(game.userNameEntry.value === ""){
+                game.userNameEntry.style.backgroundColor = "rgba(255,0,0,0.3)";
+                setTimeout(() => game.userNameEntry.style.backgroundColor = "",2500);
+                return;
+            }
+            //If username is above 11 characters, return
+            else if(game.userNameEntry.value.length > 11){
+                alert("Your username cannot exceed 11 characters")
+                return;
+            }
+            //If username has characters other than letters, return
+            else if(!game.userNameRegex.test(game.userNameEntry.value)){
+                console.log(game.userNameRegex.test(game.userNameEntry.value))
+                alert("Your username may only contain letters")
+                return;
+            }
+            game.gameSetup(e)
+        })
     },
     toggleGameInstructions: () => {
         let gameInstructions = document.querySelector("#instructions");
@@ -920,14 +947,9 @@ let game = {
     }
 }
 
-// function to add event listeners without creating global variables
-const addListener = (id,typeOfEvent,eventLogic) => {
-    let element = document.getElementById(id)
-    element.addEventListener(typeOfEvent, eventLogic)
-}
 
 // Add functionality to game start up button in main menu.
-addListener("game-setup-button", "click", game.toggleGameOptions);
+game.gameOptionsButton.addEventListener("click", e => game.toggleGameOptions(e))
 
 // Add functionality to instructions button in main menu.
-addListener("instructions-button", "click", game.toggleGameInstructions);
+game.instructionsButton.addEventListener("click", game.toggleGameInstructions)
