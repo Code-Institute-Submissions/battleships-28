@@ -564,6 +564,7 @@ let game = {
                 if(!game.coordinateRegex.test(attackedCoordinate)){
                     alert("You must enter a valid coordinate!")
                     game.usersTurn = !game.usersTurn;
+                    game.userAttackedCoordinate().value = "";
                     return;
                 }
                 if(hit && shipSank){
@@ -643,6 +644,7 @@ let game = {
             }
             //This will fire on a miss. If it doesn't fire, that means it has already gone into the above if statements and hit something.
             turnLogic();
+            game.userAttackedCoordinate().value = "";
             game.usersTurn = !game.usersTurn;
             if(!game.usersTurn){
                 const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
