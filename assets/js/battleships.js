@@ -523,6 +523,9 @@ let game = {
                     // -40 points X shipsize for opponent sinking ship
                     score = parseInt(game.userScore().textContent) - ((points * shipSize))
                     }
+                if(score < 0){
+                    score = 0;
+                }
                     game.userScore().textContent = score;
             }
             const setShipsRemaining = () => {
