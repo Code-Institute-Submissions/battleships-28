@@ -67,6 +67,11 @@ let game = {
     userShipsRemaining: () => document.querySelector("#user-ships-remaining"),
     userScoreMultiplier: 1,
     usersTurn: true,
+    difficulty: {
+        easy: false,
+        medium: false,
+        hard: false,
+    },
     userCoordinateInput: () => document.querySelector("#user-coordinate-input"),
     userCoordinateInputButton: () => document.querySelector("#confirm-coordinates"),
     userAttackedCoordinate: () => document.querySelector("#attacked-coordinate"),
@@ -494,9 +499,12 @@ let game = {
         
     },
     turn: (attackedFleet, attackedCoordinate) => {
+        game.userAttackedCoordinate().focus();
+        console.log(attackedCoordinate, typeof attackedCoordinate)
         //Turn logic for user/opponent based on game.usersTurn property
         let shipSank = false;
         let hit = false;
+        const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
         const turnLogic = (ship) => {
             const makeTextBox = () => {
                 let textBoxes = [];
@@ -574,6 +582,7 @@ let game = {
                     //Set the user's score
                     setScore(20, attackedFleet[ship].size);
                     //Subtract 1 ship from ships remaining in opponent action bar
+                    game.userAttackedCoordinate().value = "";
                     setShipsRemaining()
                 }
                 else if(hit){
@@ -593,6 +602,7 @@ let game = {
             }
             else if(!game.usersTurn){
                 if(hit && shipSank){
+                    game.opponent.missCounter = 0;
                     let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
@@ -604,6 +614,7 @@ let game = {
                     setShipsRemaining();
                 }
                 else if(hit){
+                    game.opponent.missCounter = 0;
                     let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! Your opponent has damaged your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
@@ -612,6 +623,8 @@ let game = {
                     setScore(30);
                 }
                 else{
+                    //Here is where opponent misses, so.increment opponent missCounter here.
+                    game.opponent.missCounter++;
                     let textBoxes = makeTextBox();
                     textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Your opponent has missed...`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
@@ -632,9 +645,30 @@ let game = {
                     turnLogic(ship);
                     game.usersTurn = !game.usersTurn;
                     if(!game.usersTurn){
-                        const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
-                        game.turn(game.fleet, game.opponent.attackChoices[randomNum])
-                        game.opponent.attackChoices.splice(randomNum,1)
+                        //EASY MODE - Don't splice attack choices. Opponent can choose same coordinate twice
+                        if(game.difficulty.easy){
+                            game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                        }
+                        ////MEDIUM MODE - Splice attack choices. Opponent will not choose same coordinate twice.
+                        if(game.difficulty.medium){
+                            game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                            game.opponent.attackChoices.splice(randomNum,1)
+                        }
+                        //HARD MODE - Splice attack choices. Opponent will not choose same coordinate twice. If misses 3 times in a row, will automatically hit one of users ships on next turn.
+                        if(game.difficulty.hard){
+                            if(game.opponent.missCounter >= 3){
+                                //If opponent misses 3 times in a row
+                                const userCoordinate = game.opponent.getUserCoordinate()
+                                game.turn(game.fleet, userCoordinate)
+                                const index = game.opponent.attackChoices.indexOf(userCoordinate)
+                                game.opponent.attackChoices.splice(index,1)
+                                game.opponent.missCounter = 0;
+                            }
+                            else {
+                                game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                                game.opponent.attackChoices.splice(randomNum,1)
+                            }
+                        }
                         return
                     }
                     else if(game.usersTurn){
@@ -642,14 +676,39 @@ let game = {
                     }
                 }
             }
-            //This will fire on a miss. If it doesn't fire, that means it has already gone into the above if statements and hit something.
+            //This will fire on a user miss. If it doesn't fire, that means it has already gone into the above if statements and hit something.
             turnLogic();
             game.userAttackedCoordinate().value = "";
             game.usersTurn = !game.usersTurn;
+            //Here, if user missed on turn before, opponent will now start their turn
             if(!game.usersTurn){
-                const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
-                game.turn(game.fleet, game.opponent.attackChoices[randomNum])
-                game.opponent.attackChoices.splice(randomNum,1)
+                //EASY MODE - Don't splice attack choices. Opponent can choose same coordinate twice
+                if(game.difficulty.easy){
+                    game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                }
+                ////MEDIUM MODE - Splice attack choices. Opponent will not choose same coordinate twice.
+                if(game.difficulty.medium){
+                    game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                    game.opponent.attackChoices.splice(randomNum,1)
+                }
+                //HARD MODE - Splice attack choices. Opponent will not choose same coordinate twice. If misses 3 times in a row, will automatically hit one of users ships on next turn.
+                if(game.difficulty.hard){
+                    if(game.opponent.missCounter >= 3){
+                        console.log("attackchoices before", game.opponent.attackChoices)
+                        //If opponent misses 3 times in a row
+                        const userCoordinate = game.opponent.getUserCoordinate()
+                        console.log(userCoordinate, game.opponent.missCounter)
+                        game.turn(game.fleet, userCoordinate)
+                        const index = game.opponent.attackChoices.indexOf(userCoordinate)
+                        game.opponent.attackChoices.splice(index,1)
+                        missCounter = 0;
+                        console.log("attackchoices after", game.opponent.attackChoices)
+                    }
+                    else {
+                        game.turn(game.fleet, game.opponent.attackChoices[randomNum])
+                        game.opponent.attackChoices.splice(randomNum,1)
+                    }
+                }
             }
 
     },
@@ -770,6 +829,18 @@ let game = {
             game.returnMainMenu.addEventListener("click", () => window.location.reload())
             game.playAgain.addEventListener("click", (e) => game.resetGame(e))
     },
+    getUserCoordinate: () => {
+        if(game.difficulty.hard){
+            let userCoordinates = [];
+            for(ship in game.fleet){
+                console.log(game.fleet[ship].hitBox)
+            game.fleet[ship].hitBox.forEach(coordinate => userCoordinates.push(coordinate))
+            }
+            //If on hard mode, return random coordinate of user's fleet
+            return userCoordinates[game.generateRandomNumber(0,userCoordinates.length-1)]
+        }
+    },
+    missCounter: 0,
     generateRandomCoordinate: () => {
         let letter = game.gameBoardLets[game.generateRandomNumber(0,9)];
         let number = game.gameBoardNums[game.generateRandomNumber(0,9)];
