@@ -1,4 +1,4 @@
-/* jshint esversion: 8 */
+/* jshint esversion: 10 */
 //Fleet class
 class Fleet{
     constructor(){
@@ -83,13 +83,14 @@ let game = {
     },
     rotationOnGridHappening: false,
     rotateOnGrid: (hitBox, shipSize, rotate) => {
+        //Handles logic for ships rotating whilst already on grid
         let shipSizeRange = [];
         let  newHitBox = [];
-        //Get range of numbers of shipsize (Excluding final number). E.g, ship size is 3, populate array of numbers [0,1,2]
+        /*Get range of numbers of shipsize (Excluding final number). 
+        E.g, ship size is 3, populate array of numbers [0,1,2]*/
         for(let i = 0; i < shipSize; i++){
             shipSizeRange.push(i);
         }
-        //Increment numbers/letters based on if rotate parameter is true or false in function execution.
         for(let i = 0; i < hitBox.length; i++){
             let number = hitBox[i].match(game.numRegex);
             let letter = hitBox[i].match(game.letRegex);
@@ -110,30 +111,27 @@ let game = {
             newHitBox.push(newCoordinate)
         }
         return newHitBox;
-
-
     },
     getShipCoordinates: (fleet,coordinate,ship) => {
-        // Return all the coordinates taken up by the ship.
-        //Declare variables
+        // Return all the coordinates requested by the ship
         const shipSize = fleet[ship.id].size
         let currentCoordinates = coordinate.id;
         let shipCoordinates = [currentCoordinates];
         //Loop equalling to number of shipSize
         for(let i = 0; i < shipSize-1; i++){
-            //Get number and letter/Letter charactercode
+            //Get number and letter/Letter charactercodes
             let number = currentCoordinates.match(game.numRegex)
             let letter = currentCoordinates.match(game.letRegex)
             let letCharCode = letter[0].charCodeAt(0)
-            //Increment number
+            //Increment number if ship is horizontal
             if(fleet[ship.id].rotated === false){
                 number[0]++
             }
+            //Else increment letter
             else{
                 letCharCode++;
             }
-            // letCharCode++
-            //Create new set of coordinates and set currentCoordinates to the newly made coordinate. Next loop, currentCoordinates will be different.
+            //Create new set of coordinates and set currentCoordinates to the newly made coordinate.
             let nextNumber = number;
             let nextLetter = String.fromCharCode(letCharCode);
             currentCoordinates = nextLetter.concat(nextNumber);
@@ -143,6 +141,7 @@ let game = {
         return shipCoordinates;
     },
     getAllOccupiedCoordinates: (fleet) => {
+        //Gets occupied coordinates of all ships in a fleet
         let allOccupiedCoordinates = [];
         for(ship in fleet){
             allOccupiedCoordinates.push(...fleet[ship].hitBox);
@@ -153,13 +152,8 @@ let game = {
         //Checks if ships requested coordinates are occupied by another ship or outside grid.
         let access = true;
         let skippedCoordinate;
-        //If the ship is rotated on the grid by the user, we need to exclude the first coordinate in ship's hitbox
-        //This is because the ship will always be on this and therefore won't move, as it will interfere with itself. So we use shift()
-        //game.rotationOnGridHappening does not signify the value of ships rotate value. It signifies IF a ship is being rotated by user on the board.
-        //This was made to fix bug which occured when populating opponent's ship's hitboxes.
-        //Sometimes it will duplicate first coordinate in hitbox, because opponent is not rotating a ship while it's on the grid.
-        //This can only be done by the user.
-        //The opponent is placing a ship WHICH IS ALREADY ROTATED on the grid.
+        /*Checks if boat is being rotated, in which case it skips first coordinate
+        This is because the ship rotates from first coordinate. Ship won't rotate without this*/
         if(game.rotationOnGridHappening === true){
             skippedCoordinate = requestedCoordinates.shift();
         }
@@ -173,13 +167,14 @@ let game = {
                 access = false;
             }
         })
-        //If a ship was changed on the grid and we excluded the first coordinate in array, we add it back to its hitbox here.
+        //If a ship was rotated, we add skipped coordinate back to its hitbox here.
         if(game.rotationOnGridHappening === true){
             requestedCoordinates.unshift(skippedCoordinate)
         }
         //If everything is ok, access remains true, and dragEvent listeners fire
         return access
     },
+    //User fleet
     fleet: {
         carrier: {
             name: "Carrier",
@@ -248,7 +243,7 @@ let game = {
             return;
         }
         const rotatedShipExists = () => {
-            //game.getRotatedArray() returns array of each ships rotated value - .some checks if there is at leaast one which is true.
+            //Get array of each ship's rotated value, and check if at least one is true
             return game.getRotatedArray().some(value => {
                 return value === true
         })
@@ -265,7 +260,7 @@ let game = {
     },
     dragShips: () => {
         //Add drag event listeners to each ship
-        // WHEN DRAG STARTS
+        // When drag on ship has started
         game.ships.forEach(ship => {
             ship.addEventListener("dragstart", () => {
                 //Check if game is active, and if so, then return
@@ -274,7 +269,7 @@ let game = {
                 }
                 ship.classList.add("dragging");
             });
-            // WHEN DRAG FINISHES
+            // When drag on ship has finished
             ship.addEventListener("dragend", () => {
                 //Check if game is active, and if so, then return
                 if(game.gameNowActive){
@@ -282,7 +277,7 @@ let game = {
                 }
                 ship.classList.remove("dragging");
             })
-            //WHEN RIGHT CLICKING ON SHIP
+            //When right clicking on ship
             ship.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
                 //Check if game is active, and if so, then return
@@ -305,7 +300,8 @@ let game = {
                         if(game.fleet[ship.id].rotated){
                             //Make array of requested coordinates
                             const requestedHitbox = game.rotateOnGrid(game.fleet[ship.id].hitBox, game.fleet[ship.id].size, true);
-                            //Check if it's possible to rotate ship to requested coordinates. If not, reverse rotated value on ship and return.
+                            /*Check if it's possible to rotate ship to requested coordinates.
+                            If not, reverse rotated value on ship and return.*/
                             if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox)){
                                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
                                 game.rotationOnGridHappening = !game.rotationOnGridHappening;
@@ -329,7 +325,8 @@ let game = {
 
                             //Make array of requested coordinates
                             const requestedHitbox = game.rotateOnGrid(game.fleet[ship.id].hitBox, game.fleet[ship.id].size, false);
-                            //Check if it's possible to rotate ship to requested coordinates. If not, reverse rotated value on ship and return.
+                            /*Check if it's possible to rotate ship to requested coordinates.
+                            If not, reverse rotated value on ship and return.*/
                             if(!game.checkIfOccupied(game.getAllOccupiedCoordinates(game.fleet),requestedHitbox)){
                                 game.fleet[ship.id].rotated =  !game.fleet[ship.id].rotated;
                                 game.rotationOnGridHappening = !game.rotationOnGridHappening;
@@ -356,7 +353,7 @@ let game = {
         });
         //Add dragEnter, dragLeave, DragOver and dragDropevent listeners to coordinates to interact with ship.
         Array.from(game.coordinates).forEach(coordinate => {
-            // WHEN SHIP IS DRAGGED INTO COORDINATE
+            // When ship is dragged into coordinate
             coordinate.addEventListener("dragenter", (e) => {
                 //Check if game is active, and if so, then return
                 if(game.gameNowActive){
@@ -375,8 +372,9 @@ let game = {
                     return
                 }
                 const shipSize = game.fleet[draggedShip.id].size
-                //if Ship is NOT rotated
+                //If Ship is not rotated / Horizontal
                 if(game.fleet[draggedShip.id].rotated === false){
+                    //Set ships height and width, and coordinate's Grid column end according to ship size
                 const shipSpan = parseInt(coordinate.style.gridColumnStart) + shipSize;
                 //When entering coordinate, coordinate grows to length/height of the ships total size.
                 coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${shipSpan}`
@@ -385,23 +383,24 @@ let game = {
                 draggedShip.style.width = `${coordinate.offsetWidth * shipSize}px`
                 draggedShip.style.height = `${coordinate.offsetHeight}px`
             }   
-                // Else if ship IS rotated
+                // Else if ship is rotated / Vertical
                 else{
+                    //Set ships height and width, and coordinate's Grid row end according to ship size
                     const shipSpan = parseInt(coordinate.style.gridRowStart) + shipSize;
                     coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${shipSpan}/${coordinate.style.gridColumnEnd}`
                     draggedShip.style.width = `${coordinate.offsetHeight}px`
                     draggedShip.style.height = `${coordinate.offsetWidth}px`
                 }
-                //Hover effect upon entering coordinates
-                //First, remove other colors from coordinates (Used to prevent a bug). Later, can replace this with user color. //May be able to do this more efficiently with dragLeave/drop.
-                //Get occupied coordinates and change color of them. Later, can replace this with user color.
+                /* Hover effect upon entering coordinates
+                First, remove other colors from coordinates (Used to prevent a bug)
+                Get occupied coordinates and change color of them.*/
                 Array.from(game.coordinates).forEach(coordinate => coordinate.style.backgroundColor = "white");
                 currentlyOccupiedCoordinates.forEach(coordinate => {
                     let space = document.getElementById(coordinate)
                     space.style.backgroundColor = "blue";
                 })                  
             })
-            // WHILE SHIP IS DRAGGED OVER COORDINATE
+            // While ship is dragged over coordinate
             coordinate.addEventListener("dragover", e => {
                 //Used to allow dragDrop event to happen. 
                 e.preventDefault();
@@ -410,7 +409,7 @@ let game = {
                     return
                 }
             })
-            // WHEN SHIP IS DRAGGED OUT OF COORDINATE
+            // When ship is dragged out of coordinate
             coordinate.addEventListener("dragleave", () => {
                 //Check if game is active, and if so, then return
                 if(game.gameNowActive){
@@ -428,20 +427,16 @@ let game = {
                 if(!game.checkIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
                     return
                 }
-                // CURRENTLY CAUSING BUG
-                //Reset coordinate color to original when ship leave Coordinate. Replace with user color choice later.
-                // currentlyOccupiedCoordinates.forEach(id => {
-                //     let space = document.getElementById(id)
-                //     space.style.backgroundColor = "white";
+                //If ship is horizontal, reset Grid column end 
                 if(game.fleet[draggedShip.id].rotated === false){
                     coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${coordinate.style.gridRowEnd}/${parseInt(coordinate.style.gridColumnStart) + 1}`
                 }
+                //If ship is vertical, reset Grid row end
                 else{
                     coordinate.style.gridArea = `${coordinate.style.gridRowStart}/${coordinate.style.gridColumnStart}/${parseInt(coordinate.style.gridRowStart) + 1}/${coordinate.style.gridColumnEnd}`
                 }
-                
             })
-            // WHEN SHIP IS DROPPED IN TO COORDINATE
+            // When ship is dropped in to coordinate
             coordinate.addEventListener("drop", () => {
                 //Check if game is active, and if so, then return
                 if(game.gameNowActive){
@@ -452,9 +447,11 @@ let game = {
                     return
                 }
                 const draggedShip = document.querySelector(".dragging")
-                //reset ships coordinate hitbox(This is incase it is switched from a coordinate and already has coordinates).
+                /*Reset ships coordinate hitbox (This is incase it is switched
+                from a coordinate and already has coordinates).*/
                 game.fleet[draggedShip.id].hitBox = [];
-                //If currently occupied coordinates of the dragged ship interfere with any occupied coordinates, return.
+                /*If currently occupied coordinates of the dragged ship
+                interfere with any occupied coordinates, return.*/
                 const allOccupiedCoordinates = game.getAllOccupiedCoordinates(game.fleet);
                 const currentlyOccupiedCoordinates = game.getShipCoordinates(game.fleet,coordinate, draggedShip);
                 if(!game.checkIfOccupied(allOccupiedCoordinates,currentlyOccupiedCoordinates)){
@@ -462,29 +459,30 @@ let game = {
                 }
                 //Attach ship to coordinate
                 coordinate.appendChild(draggedShip);
-                //add coordinates that ship occupies to the ships hitbox.
+                //Add coordinates that ship occupies to the ships hitbox.
                 game.fleet[draggedShip.id].hitBox.push(...currentlyOccupiedCoordinates)
                 // Align ship with gridArea of the coordinate it is attached to.
                 draggedShip.style.gridArea = `${1}/${1}/${2}/${2}`
-                //Reset coordinate color to original when ship is dropped. Replace with user color choice later.
+                //Reset coordinate color to original when ship is dropped.
                 currentlyOccupiedCoordinates.forEach(id => {
                     let space = document.getElementById(id)
                     space.style.backgroundColor = "white";
                 })
+                //If ship is rotated set maxWidth to none. Needed to prevent bug.
                 if(game.fleet[draggedShip.id].rotated === true){
                     draggedShip.style.maxWidth = "none";
                 }
                 //Check if fleet is now empty after dropping ship
                 if(!game.fleetElem().querySelector(".ship")){
-                    //Show modal if empty
                     game.gameStartModal.showModal();
-                    //Assign logic to Yes and No buttons.
                     const gameStartYes =  document.querySelector("#game-start-yes");
                     const gameStartNo = document.querySelector("#game-start-no");
+                    //If user is ready to begin and clicks yes, call game.opponent.opponentSetup() function
                     gameStartYes.addEventListener("click", game.opponent.opponentSetup)
                     gameStartNo.addEventListener("click", () => {
                         game.gameStartModal.close();
-                        //Reset ship's hitbox and image size, then attach ship back to it's respective container
+                        /*If user not ready to begin and clicks no, reset ship's hitbox and size,
+                        then attach ship back to it's respective container*/
                         game.fleet[draggedShip.id].hitBox = [];
                         draggedShip.style.height = "auto";
                         draggedShip.style.width = "auto";
@@ -499,16 +497,16 @@ let game = {
                 }
             })
         })
-        
     },
     turn: (attackedFleet, attackedCoordinate) => {
+        //Set focus back to coordinate input after fire button is clicked
         game.userAttackedCoordinate().focus();
-        console.log(attackedCoordinate, typeof attackedCoordinate)
         //Turn logic for user/opponent based on game.usersTurn property
         let shipSank = false;
         let hit = false;
         const randomNum = game.generateRandomNumber(0,game.opponent.attackChoices.length-1)
         const turnLogic = (ship) => {
+            //returns textboxes for opponent and user
             const makeTextBox = () => {
                 let textBoxes = [];
                     let textBox = document.createElement("div");
@@ -518,37 +516,43 @@ let game = {
                     textBoxes.push(textBox);
                     game.usersTurn ? textBoxes[0].classList.add("user-text-box") : textBoxes[0].classList.add("opponent-text-box")
                     return textBoxes
-                    // game.textArea.appendChild(textBox);
             }
+            //Sets score after each turn, based off usersTurn flag and result of turn (hit/sinkShip/miss)
             const setScore = (points, shipSize = 1) => {
                 let score;
                 if(game.usersTurn){
-                    // +25 points X Score Multiplier for hitting opponent ship
-                    // +20 points X ship size X score multiplier for sinking opponent ship
+                    /* +25 points * Score Multiplier for hitting opponent ship
+                    +20 points * ship size * score multiplier for sinking opponent ship*/
                     if(hit){
                         score = parseInt(game.userScore().textContent) + ((points * shipSize) * game.userScoreMultiplier)
+                        //Increment user score multiplier
                         game.userScoreMultiplier++;
                     }
                     // -20 points for miss
                     else if(!hit){
                         score = parseInt(game.userScore().textContent) - points;
+                        //Reset user score multiplier to one
                         game.userScoreMultiplier = 1;
                     }
                 }
                 else if(!game.usersTurn){
-                    // -30 points for opponent hit.
-                    // -40 points X shipsize for opponent sinking ship
+                    /* -30 points for opponent hit.
+                    -40 points * shipsize for opponent sinking ship*/
                     score = parseInt(game.userScore().textContent) - ((points * shipSize))
                     }
+                    //If score falls below 0, reset score to 0
                 if(score < 0){
                     score = 0;
                 }
                     game.userScore().textContent = score;
             }
+            //Fires when user or opponent sinks a ship
             const setShipsRemaining = () => {
                 if(game.usersTurn){
+                    //Reduce opponent ships remaining by 1
                     const shipsRemaining = parseInt(game.opponent.opponentShipsRemaining().textContent) -1;
                     game.opponent.opponentShipsRemaining().textContent = shipsRemaining;
+                    //If shipsRemaining === 0, show game verdict modal with win class and messages 
                     if(shipsRemaining === 0){
                         game.winOrLose.textContent = "You've won!"
                         game.winOrLose.classList.add("win")
@@ -557,9 +561,11 @@ let game = {
                     }
                     
                 }
+                //Reduce user ships remaining by 1
                 else if(!game.usersTurn){
                     const shipsRemaining = parseInt(game.userShipsRemaining().textContent) -1;
                     game.userShipsRemaining().textContent = shipsRemaining;
+                    //If shipsRemaining === 0, show game verdict modal with loss class and messages 
                     if(shipsRemaining === 0){
                         game.winOrLose.textContent = "You've lost!"
                         game.winOrLose.classList.add("loss")
@@ -569,9 +575,9 @@ let game = {
                 }
             }
             if(game.usersTurn){
-                //Capitalise coordinate letter in case user enters lowecase letter
+                //Capitalise coordinate letter in the case that the user enters lowecase letter
                 attackedCoordinate = attackedCoordinate.toUpperCase();
-                //If coordinate entered by user doesn't test true to regex /^[A-J]([0-9]|10)$/ then alert and return
+                //If coordinate entered by user doesn't match a coordinate on board, then throw alert and return
                 if(!game.coordinateRegex.test(attackedCoordinate)){
                     alert("You must enter a valid coordinate!")
                     game.usersTurn = !game.usersTurn;
@@ -610,6 +616,7 @@ let game = {
                     textBoxes[0].firstChild.textContent = `${attackedCoordinate}: Hit! Your opponent has sunk your ${attackedFleet[ship].name}`
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                     document.getElementById(attackedCoordinate).style.backgroundColor = "rgba(255,0,0,0.3)"
+                    //Remove ship from Gameboard/grid if sunk
                     document.querySelector(`#${ship}`).remove();
                     //Set the user's score
                     setScore(25, attackedFleet[ship].size);
@@ -633,15 +640,18 @@ let game = {
                     textBoxes.forEach(textbox => game.textArea.appendChild(textbox));
                 }
             }
+            //Set textArea to always scroll to bottom after turn
             game.textArea.scrollTop = game.textArea.scrollHeight;
         }
             //Checks if any ships have been hit.
             for(ship in attackedFleet){
                 attackedCoordinate = attackedCoordinate.toUpperCase();
+                //If a ship is hit, set hit flag to true
                 if(attackedFleet[ship].hitBox.includes(attackedCoordinate)){
                         hit = true;
                         const index = attackedFleet[ship].hitBox.indexOf(attackedCoordinate);
                         attackedFleet[ship].hitBox.splice(index,1);
+                        //If ship is hit, and also sank, set shipSank flag to true
                         if(attackedFleet[ship].hitBox.length <= 0){
                             shipSank = true
                         }
@@ -652,19 +662,22 @@ let game = {
                         if(game.difficulty.easy){
                             game.turn(game.fleet, game.opponent.attackChoices[randomNum])
                         }
-                        ////MEDIUM MODE - Splice attack choices. Opponent will not choose same coordinate twice.
+                        //MEDIUM MODE - Splice attack choices. Opponent will not choose same coordinate twice.
                         if(game.difficulty.medium){
                             game.turn(game.fleet, game.opponent.attackChoices[randomNum])
                             game.opponent.attackChoices.splice(randomNum,1)
                         }
-                        //HARD MODE - Splice attack choices. Opponent will not choose same coordinate twice. If misses 3 times in a row, will automatically hit one of users ships on next turn.
+                        /*HARD MODE - Splice attack choices. Opponent will not choose same coordinate twice.
+                        If misses 3 times in a row, will automatically hit one of users coordinates on next turn.*/
                         if(game.difficulty.hard){
                             if(game.opponent.missCounter >= 3){
                                 //If opponent misses 3 times in a row
                                 const userCoordinate = game.opponent.getUserCoordinate()
                                 game.turn(game.fleet, userCoordinate)
                                 const index = game.opponent.attackChoices.indexOf(userCoordinate)
+                                //Remove the userCoordinate from attack choices so opponent won't attack the coordinate again
                                 game.opponent.attackChoices.splice(index,1)
+                                //Reset missCounter
                                 game.opponent.missCounter = 0;
                             }
                             else {
@@ -679,7 +692,7 @@ let game = {
                     }
                 }
             }
-            //This will fire on a user miss. If it doesn't fire, that means it has already gone into the above if statements and hit something.
+            //This will fire on a user miss. If it doesn't fire, that means user has hit something.
             turnLogic();
             game.userAttackedCoordinate().value = "";
             game.usersTurn = !game.usersTurn;
@@ -689,23 +702,23 @@ let game = {
                 if(game.difficulty.easy){
                     game.turn(game.fleet, game.opponent.attackChoices[randomNum])
                 }
-                ////MEDIUM MODE - Splice attack choices. Opponent will not choose same coordinate twice.
+                //MEDIUM MODE - Splice attack choices. Opponent will not choose same coordinate twice.
                 if(game.difficulty.medium){
                     game.turn(game.fleet, game.opponent.attackChoices[randomNum])
                     game.opponent.attackChoices.splice(randomNum,1)
                 }
-                //HARD MODE - Splice attack choices. Opponent will not choose same coordinate twice. If misses 3 times in a row, will automatically hit one of users ships on next turn.
+                /*HARD MODE - Splice attack choices. Opponent will not choose same coordinate twice.
+                If misses 3 times in a row, will automatically hit one of users coordinates on next turn.*/
                 if(game.difficulty.hard){
                     if(game.opponent.missCounter >= 3){
-                        console.log("attackchoices before", game.opponent.attackChoices)
                         //If opponent misses 3 times in a row
                         const userCoordinate = game.opponent.getUserCoordinate()
-                        console.log(userCoordinate, game.opponent.missCounter)
                         game.turn(game.fleet, userCoordinate)
                         const index = game.opponent.attackChoices.indexOf(userCoordinate)
+                        //Remove the userCoordinate from attack choices so opponent won't attack the coordinate again
                         game.opponent.attackChoices.splice(index,1)
+                        //Reset missCounter
                         missCounter = 0;
-                        console.log("attackchoices after", game.opponent.attackChoices)
                     }
                     else {
                         game.turn(game.fleet, game.opponent.attackChoices[randomNum])
@@ -713,7 +726,6 @@ let game = {
                     }
                 }
             }
-
     },
     gameHasReset: false,
     resetGame: (e) => {
@@ -728,7 +740,7 @@ let game = {
         window.removeEventListener("resize", game.fleetAutoResize);
         // Remove gameScreen
         game.gameScreen.innerHTML = " ";
-        // Add blank gameScreen
+        // Add blank gameScreen clone
         game.gameScreen.innerHTML = `<div class = "header-container">
         <button id="in-game-instructions" class="button">
             Instructions
@@ -821,25 +833,32 @@ let game = {
         game.inGameReturn.addEventListener("click", () => window.location.reload())
     },
 
+    //Opponent object
     opponent: {
         opponentSetup: () => {
+            //Set flag to represent a game is in session
             game.gameNowActive = true;
             game.gameStartModal.close();
+            //Remove fleet element
             game.fleetElem().remove();
+            //Show input where user can enter coordinates
             game.userCoordinateInput().classList.remove("hide");
+            //Populate opponent's fleet's ships with random hitboxes
             game.opponent.populateFleet();
+            //Populate attack choices for opponent
             game.opponent.populateAttackChoices();
+            //Add event listeners for return button and play again button. These are shown when game is over
             game.returnMainMenu.addEventListener("click", () => window.location.reload())
             game.playAgain.addEventListener("click", (e) => game.resetGame(e))
     },
     getUserCoordinate: () => {
+        /*If on hard mode, return random coordinate of user's fleet.
+        Will happen on 4th turn, after 3 consecutive misses from opponent*/
         if(game.difficulty.hard){
             let userCoordinates = [];
             for(ship in game.fleet){
-                console.log(game.fleet[ship].hitBox)
             game.fleet[ship].hitBox.forEach(coordinate => userCoordinates.push(coordinate))
             }
-            //If on hard mode, return random coordinate of user's fleet
             return userCoordinates[game.generateRandomNumber(0,userCoordinates.length-1)]
         }
     },
@@ -860,27 +879,26 @@ let game = {
     populateFleet: () => {
         //Create opponent's fleet
         game.opponent.fleet = new Fleet()
-        // function to reset opponent's ship's hitbox
+        // Function to reset opponent's ship's hitbox
         const resetHitboxes = ship => {
             game.opponent.fleet[ship].hitBox = [];
         }
-        // function to randomly generate a opponent's ship's rotated property
+        // Function to randomly generate an opponent's ship's rotated property
     const setRotatedValue = ship => {
         let rotatedValue;
         game.generateRandomNumber(0,1) < 0.5 ? rotatedValue = false : rotatedValue = true;
         game.opponent.fleet[ship].rotated = rotatedValue
     }
-        // function to generate random first coordinate of opponent's ship
+        // Function to generate random first coordinate of opponent's ship
         const getCoordinates = ship => {
             const coordinate = document.querySelector(`#${game.opponent.generateRandomCoordinate()}`)
-
-            //get Opponent's requested coordinates based off first coordinate
+            //Get Opponent's requested coordinates based off first coordinate selected
             const requestedCoordinates = game.getShipCoordinates(game.opponent.fleet, coordinate, ship)
             //Get currently occupied coordinates of the opponent's ships on grid
             const opponentOccupiedCoordinates = game.getAllOccupiedCoordinates(game.opponent.fleet)
-            //check if these requested coordinates are available on opponent's grid
+            //check if these requested coordinates are available on opponent's grid or occupied already.
             const checkIfOccupied = game.checkIfOccupied(opponentOccupiedCoordinates,requestedCoordinates, game.opponent.fleet[ship.id].rotated)
-            //If they are occupied, call getCoordinates again and generate different coordinate - attempt to place boat somewhere else on grid.
+            //If they are occupied, call getCoordinates again and generate different coordinate. Attempt to place ship somewhere else on grid.
             if(!checkIfOccupied){
                 getCoordinates(ship)
             }
@@ -888,19 +906,18 @@ let game = {
             else{
                 game.opponent.fleet[ship.id].hitBox.push(...requestedCoordinates);
             }
-
         }
         //Iterate through each ship on opponent's fleet
         for(shipObject in game.opponent.fleet){
-            //ship is equal to the id of each ship, needed for getCoordinates function.
+            //Ship is equal to the id of each ship, needed for getCoordinates function.
             const ship = document.querySelector(`#${game.opponent.fleet[shipObject].name.toLowerCase()}`)
-            //Reset each hitbox and randomly generate rotated value for each ship on opponent's fleet. (As opponent ship is a clone of user ship, these need to be reset/randomly generated and overwritten)
+            //Reset each hitbox and randomly generate rotated value for each ship on opponent's fleet.
             resetHitboxes(shipObject)
             setRotatedValue(shipObject)
-
-            //Set Timeout really important here. Prevents bug of copying user total coordinates as opponents total coordinates. Asynchronous issue.
-            //Get coordinates for each ship and do all necessary checks to see if already occupied.
+            /*Set Timeout important here. Prevents bug of copying user total coordinates as opponents total coordinates
+            Intermittent, asynchronous issue*/
             setTimeout(() => {
+            //Get coordinates for each ship and do all necessary checks to see if already occupied.
                 getCoordinates(ship);
             },500)
         }
@@ -912,14 +929,14 @@ let game = {
     },
         },
     gameboardAutoResize: () => {
-        //FIRES WHEN WINDOW IS RESIZED AND WHEN GAMEBOARD FIRST APPEARS.
-        //Target first empty coordinate on board
+        //Fires when window is resized and when gameboard first appears.
+        //Target first empty coordinate on board and base length from this coordinate.
         let firstEmptyCooordinate = Array.from(document.querySelectorAll(".coordinate")).find(coordinate => !coordinate.querySelector("img"));
         let colLength = firstEmptyCooordinate.offsetWidth
-        //Automatically convert all grid spaces to squares rather than rectangles by default
+        //Automatically convert all grid spaces to squares rather than rectangles by default.
         game.gameBoard.style.gridAutoRows = `${colLength}px`
-        // Change sizes of ships/rows which ships are placed on the grid.
-        //ships holds an array of all ships which are placed on the gameboard.
+        //Change sizes of ships/rows which ships are placed on the grid.
+        //ships variable holds an array of all ships which are placed on the gameboard.
         const ships = Array.from(game.gameBoard.querySelectorAll(".ship"));
         ships.forEach(ship => {
             if(game.fleet[ship.id].rotated){
@@ -944,7 +961,9 @@ let game = {
         // Hide main menu and show gameScreen
         game.mainMenu.classList.add("hide");
         game.gameScreen.classList.remove("hide");
+        // Set username
         game.userName.textContent = game.userNameEntry.value;
+        // Attach event listeners to instruction and return buttons
         game.inGameInstructions.addEventListener("click", game.toggleGameInstructions)
         game.inGameReturn.addEventListener("click", () => window.location.reload())
         // For loops to create labels and coordinates
@@ -979,10 +998,12 @@ let game = {
             coordinateRowStart++
         };
         game.gameboardAutoResize();
+        //Resize gameboard and fleet if user resizes window
         window.addEventListener("resize", game.gameboardAutoResize);
         window.addEventListener("resize", game.fleetAutoResize);
         game.dragShips();
 },
+    //Functions used to set difficulty mode for game.
     setEasyMode: (e) => {
     e.preventDefault()
     game.difficulty.easy = true;
@@ -1029,26 +1050,25 @@ let game = {
         let beginGameButton = document.querySelector("#begin-game-button");
         beginGameButton.addEventListener("click", e =>{
             e.preventDefault();
-            //If no username is entered, return
+            //If no username is entered, retreturn and throw alerturn
             if(game.userNameEntry.value === ""){
                 alert("please enter your username")
                 game.userNameEntry.style.backgroundColor = "rgba(255,0,0,0.3)";
                 setTimeout(() => game.userNameEntry.style.backgroundColor = "",1500);
                 return;
             }
-            //If username is above 11 characters, return
+            //If username is above 11 characters, return and throw alert
             else if(game.userNameEntry.value.length > 11){
                 alert("Your username cannot exceed 11 characters")
                 return;
             }
-            //If username has characters other than letters, return
+            //If username has characters other than letters, return and throw alert
             else if(game.userNameRegex.test(game.userNameEntry.value) === false){
-                console.log(game.userNameRegex.test(game.userNameEntry.value))
-                console.log(game.userNameEntry.value);
                 alert("Your username may only contain letters")
                 game.userNameEntry.value = "";
                 return;
             }
+            //If there is no difficulty selected, return and throw alert
             if(!game.difficulty.easy && !game.difficulty.medium && !game.difficulty.hard){
                 alert("Please choose a difficulty setting.")
                 return;
@@ -1065,7 +1085,6 @@ let game = {
         })
     }
 }
-
 
 // Add functionality to game start up button in main menu.
 game.gameOptionsButton.addEventListener("click", e => game.toggleGameOptions(e))
