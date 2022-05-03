@@ -370,6 +370,7 @@ p {
     grid-template-columns: minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem);
     grid-template-rows: auto;
     justify-self: center;
+    margin-top: 1.25rem;
 }
 
 #fleet h3 {
@@ -609,7 +610,7 @@ p {
         font-size: 1.75rem;
         margin: 3rem 2rem;
     }
-    
+
     /* User coordinate entry */
     #user-coordinate-input label {
         font-size: 3rem;
