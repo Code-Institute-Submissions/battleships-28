@@ -43,7 +43,12 @@ The Game options menu of the game is the screen which triggers once the user cli
      - Score - The score on the action bar represents how well the player is doing. Points are score when the user hits or sinks a ship, and a score multiplier is included to increase the score even further when consecutive hits have been made. However, points can be lost for missed, and also if the opponent hits or sinks the user's ships 
      - Ships remaining - The ships remaining part of the action bar displays how many ships/lives the user or opponent has left. Once this reaches 0, the game will be finished, and the user will be declared to have won or lost.
      - Text area - The text area is where the user can find out and retrace their previous coordinate attacks. The text-area will display a different style for the user's attacks, and will declare the coordinate attacked, if the attack made by the user or opponent was a hit or miss, and whether they have sunk a ship.
-   - Game board - The Game board is the actual grid where the user will place their ships. Each coordinate responds in various ways when a ship enters, leaves, or is dropped on to it. This includes highlighting various coordinates or scaling a ship to fit itself according to the number of spaces it has.
+   - Game board - The Game board is the actual grid where the user will place their ships. Each coordinate responds in various ways when a ship enters, leaves, or is dropped on to it.
+     - Once the ship is dropped into a coordinate, the ship will grow to it's corresponding size. For example, if a ship has a size of 5, like the carrier, it will cover 5 coordinates in it's length.
+     - Once  dropped on to a coordinate, the ship will automatically be assigned a hitbox in accordance to the coordinate it was placed on and the coordinates which it occupies.
+     - Rotation - Ships can be rotated in the game whilst on the grid. This will also change the ship's hitbox accordingly, so that it's coordinates will be correct when the game begins.
+     - Once a ship is dragged into a coordinate, the group of coordinates will be highlighted, to let the user know where the ship will be. (It is important to place the ship in it's first coordinate. The gameboard will not automatically do this. This may be something to add to the project in the future).
+     - Ships can be redragged on to different coordinates.
    - Fleet - The fleet includes each ship which the user has access to. Each ship can be placed on the grid by simply dragging the ship on to the grid and dropping the start of the ship into a coordinate.
     #### **Images**  
     <!-- Insert image here -->
