@@ -180,6 +180,7 @@ font-family: var(--accent-font);
 #name-container {
     grid-area: name;
     padding: 1rem;
+    justify-self: center;
 }
 #game-difficulty{
     grid-area: game-difficulty;
