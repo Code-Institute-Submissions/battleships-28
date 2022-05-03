@@ -52,6 +52,8 @@ The Game options menu of the game is the screen which triggers once the user cli
       - Rotation - Ships can be rotated in the game whilst on the grid. This will also change the ship's hitbox accordingly, so that it's coordinates will be correct when the game begins.
       - Once a ship is dragged into a coordinate, the group of coordinates will be highlighted, to let the user know where the ship will be. (It is important to place the ship in it's first coordinate. The gameboard will not automatically do this. This may be something to add to the project in the future).
       - Ships can be redragged on to different coordinates.
+      - Auto Resize - The grid will be auto resized when a window is made smaller, and grid coordinates will remain square rather than rectangular.
+      - The grid will automatically check if a coordinate is occupied. A coordinate is considered occupied if a ship tries to take coordinates which another ship is currently taking up, or if the requested coordinates are off the grid (E.g. a ship going from A9 - A12. A12 doesn't exist).
     - Fleet - The fleet includes each ship which the user has access to and each ship's name. Each ship can be placed on the grid by simply dragging the ship on to the grid and dropping the start of the ship into a coordinate. Ships can also be rotated.
       - Each ship can be rotated by right clicking on the ship. This will set a property called "rotation" on the ship from false to true, and the ship will rotate and be vertical
       - Each ship can be dragged on to the grid from the fleet by simply holding down the left mouse button, dragging the ship on to the grid, and then releasing the mouse button on the first coordinate which you want the ship to be on.
