@@ -30,9 +30,11 @@ The Main menu of the game is the first screen that the user should see when the 
     <!-- Insert image here -->
 ### Game options menu
 The Game options menu of the game is the screen which triggers once the user clicks "Begin new game" on the main menu. This screen allows the user to customise the game to their liking, and includes features such as:
- - Entering their name - This value will be used as the game goes on to refer to the player, and will be used in features such as the hitbox, the user's action bar, and in the announcement of whether the user wins or loses
- - A difficulty setting - This setting will allow the user to determine at which difficulty they would like to play at. Naturally, a player who is unsure of the game and who is just beginning to learn can set the game to be "easy", if they please. However, those looking for more of a challenge can set the difficulty to be "hard".
- - Color control - The user will also be able to choose the color of their hitboards and ships. This allows the user to create their own color theme when playing the game. 
+  - Entering their name - This value will be used as the game goes on to refer to the player, and will be used in features such as the user's action bar.
+  - A difficulty setting - This setting will allow the user to determine at which difficulty they would like to play at. Naturally, a player who is unsure of the game and who is just beginning to learn can set the game to be "easy", if they please. However, medium and hard mode (Especially hard mode) should provide more of a challenge for those who are looking for it
+    - Easy - The logic of the Easy mode is as follows: On the opponent's turn, the opponent will randomly pick one coordinate out of a possible 100, and attack the coordinate
+    - Medium - The logic of the Medium mode is as follows: On the opponent's turn, the opponent will randomly pick one coordinate out of a possible 100, and attack the coordinate. The opponent will then remove that coordinate from their attackChoices property, and on the next turn, will pick one possible coordinate out of 99. This ensures the opponent never hits the same coordinate twice, as opposed to easy mode.
+    - Hard - The logic of the Hard mode is as follows: On the opponent's turn, the opponent will act the same as if the setting was set to Medium difficulty. However, a missCounter variable is used to count the number of times the opponent consecutively misses. Should the opponent miss 3 times in a row, the opponent will guarentee a hit against the user on the 4th turn. If the opponent hit's a ship, the missCounter is reset to 0.
   #### **Images**  
     <!-- Insert image here -->
   ### Game Screen
