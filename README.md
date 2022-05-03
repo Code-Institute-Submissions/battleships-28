@@ -63,4 +63,6 @@ The Game options menu of the game is the screen which triggers once the user cli
     <!-- Insert image here -->
   ### Game begin screen
   The Game begin screen is actually a modal which will pop up when the user has placed their last ship. It will ask the user to confirm if they would like to begin the game. The user can click yes, which will officially start the game, or no, which will move the last placed ship back to the fleet and allow the user to reposition their ships if wanted.
+  - If the user clicks yes, then the gameSetUp function will be called, which will officially start the game and populate the opponent's fleet
+  - If the user clicks no, then the last ship that the user placed will be returned to the fleet. The user will then have the choice of rearranging any of their ships. Once the user has dragged their last ship from the fleet which was previously returned, the modal will pop up again, asking the user if they are ready to continue and start the game.
    <!-- Insert image here -->
