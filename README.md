@@ -12,13 +12,12 @@ The full **[Battleship](https://conorg180.github.io/rushdown-mma-gym/index.html)
 
 ## Wireframes
 Before starting development on the project, Balsamiq was used to form wireframes for each separate page within the game. Basamiq was chosen due to it's efficiency and it's ability to reproduce relatively simplistic, yet easy to understand wireframes. This helped me to visualise ideas for each of the game's pages and features, and organise how certain features would be laid out and implemented within the game.  
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/index.html.png">
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/game-options.png">
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/game-screen-setup.png">
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/game-screen.png">
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/instructions-modal.png">
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/hit-board.png">
-<img width ="800" height = "700" alt ="index.html wireframe" src ="assets/wireframes/game-finished.png">
+![index.html wireframe](assets/wireframes/index.html.png "index.html (Main menu)")
+![Game options wireframe](assets/wireframes/game-options.png "game options menu" )
+![Game Screen set-up wireframe](assets/wireframes/game-screen-setup.png "Game Screen Set up")
+![ Game screen wireframe](assets/wireframes/game-screen.png "Game Screen")
+![instructions modal wireframe](assets/wireframes/instructions-modal.png "Instructions modal")
+![Game-finished modal wireframe](assets/wireframes/game-finished.png "Game-finished modal")
 
 # Features
 ## Existing features
