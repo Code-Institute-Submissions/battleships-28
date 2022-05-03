@@ -38,6 +38,9 @@ class Fleet{
 let game = {
     mainMenu: document.querySelector("#main-menu"),
     gameOptionsButton: document.querySelector("#game-options-button"),
+    easyModeButton: document.querySelector("#easy"),
+    mediumModeButton: document.querySelector("#medium"),
+    hardModeButton: document.querySelector("#hard"),
     instructionsButton: document.querySelector("#instructions-button"),
     userNameEntry: document.querySelector("#name"),
     gameBoard: document.querySelector("#game-board"),
@@ -46,7 +49,7 @@ let game = {
     fleetElem: () => document.querySelector("#fleet"),
     gameBoardNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     gameBoardLets: ["A","B","C","D","E","F","G","H","I","J"],
-    userNameRegex: /[A-Za-z]+/g,
+    userNameRegex: /[^\W]| /g,
     numRegex: /[0-9]+/g,
     letRegex: /[A-Z]/g,
     coordinateRegex:/^[A-J]([0-9]|10)$/,
@@ -980,22 +983,57 @@ let game = {
         window.addEventListener("resize", game.fleetAutoResize);
         game.dragShips();
 },
+    setEasyMode: (e) => {
+    e.preventDefault()
+    game.difficulty.easy = true;
+    game.difficulty.medium = false;
+    game.difficulty.hard = false;
+    game.easyModeButton.classList.add("chosen-difficulty")
+    game.mediumModeButton.classList.remove("chosen-difficulty")
+    game.hardModeButton.classList.remove("chosen-difficulty")
+    },
+    setMediumMode: (e) => {
+    e.preventDefault()
+    game.difficulty.easy = false;
+    game.difficulty.medium = true;
+    game.difficulty.hard = false;
+    game.easyModeButton.classList.remove("chosen-difficulty")
+    game.mediumModeButton.classList.add("chosen-difficulty")
+    game.hardModeButton.classList.remove("chosen-difficulty")
+    },
+    setHardMode: (e) => {
+    e.preventDefault()
+    game.difficulty.easy = false;
+    game.difficulty.medium = false;
+    game.difficulty.hard = true;
+    game.easyModeButton.classList.remove("chosen-difficulty")
+    game.mediumModeButton.classList.remove("chosen-difficulty")
+    game.hardModeButton.classList.add("chosen-difficulty")
+    },
+
     toggleGameOptions: (e) => {
         e.preventDefault();
         let gameOptionsScreen = document.querySelector("#game-options-screen");
         if(gameOptionsScreen.className){
             gameOptionsScreen.classList.remove("hide");
+            game.easyModeButton.addEventListener("click", (e) => game.setEasyMode(e))
+            game.mediumModeButton.addEventListener("click", (e) => game.setMediumMode(e))
+            game.hardModeButton.addEventListener("click", (e) => game.setHardMode(e))
         }
         else{
             gameOptionsScreen.classList.add("hide");
+            game.easyModeButton.removeEventListener("click",game.setEasyMode)
+            game.mediumModeButton.removeEventListener("click", game.setMediumMode)
+            game.hardModeButton.removeEventListener("click", game.setHardMode)
         }
         let beginGameButton = document.querySelector("#begin-game-button");
         beginGameButton.addEventListener("click", e =>{
             e.preventDefault();
             //If no username is entered, return
             if(game.userNameEntry.value === ""){
+                alert("please enter your username")
                 game.userNameEntry.style.backgroundColor = "rgba(255,0,0,0.3)";
-                setTimeout(() => game.userNameEntry.style.backgroundColor = "",2500);
+                setTimeout(() => game.userNameEntry.style.backgroundColor = "",1500);
                 return;
             }
             //If username is above 11 characters, return
@@ -1004,9 +1042,15 @@ let game = {
                 return;
             }
             //If username has characters other than letters, return
-            else if(!game.userNameRegex.test(game.userNameEntry.value)){
+            else if(game.userNameRegex.test(game.userNameEntry.value) === false){
                 console.log(game.userNameRegex.test(game.userNameEntry.value))
+                console.log(game.userNameEntry.value);
                 alert("Your username may only contain letters")
+                game.userNameEntry.value = "";
+                return;
+            }
+            if(!game.difficulty.easy && !game.difficulty.medium && !game.difficulty.hard){
+                alert("Please choose a difficulty setting.")
                 return;
             }
             game.gameSetup(e)
