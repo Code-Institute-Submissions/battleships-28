@@ -14,14 +14,12 @@
 /* Root variables */
 :root {
     /* Color scheme */
-    --user-color: #6E726C;
-    --user-color-boards: #3014D9;
+    --select-color: #bbbbbb;
     --primary-color: #20201C;
     --complimentary-color-shade1: #edb834;
     --complimentary-color-shade2: #d8a521;
     --complimentary-color-shade3: #bb8500;
-    --complimentary-color-shade4: #c49111;
-    --text-color: #e6f0f5;
+    --background: seashell ;
     /* Fonts */
     --accent-font: "blackrose", ariel, "sans-serif";
     --secondary-accent-font: treasurehunt, ariel, "sans-serif";
@@ -45,7 +43,7 @@ body {
     grid-template-columns: 1fr;
     font-family: var(--primary-font);
     color: var(--primary-color);
-    background-color: seashell;
+    background-color: var(--background);
     font-size: 2.5rem;
 }
 
@@ -99,7 +97,7 @@ p {
 
 /* Game options menu */
 .chosen-difficulty {
-    border: 4px solid silver;
+    border: 4px solid var(--select-color);
     font-size: 2.5rem;
     font-family: var(--accent-font);
 }
@@ -475,7 +473,7 @@ p {
 #user-coordinate-input input {
     height: 5rem;
     width: 5rem;
-    border: 2px solid black;
+    border: 2px solid var(--primary-color);
     grid-area: input;
     justify-self: end;
     align-self: center;
