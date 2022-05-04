@@ -16,7 +16,19 @@ The W3C CSS validator was used to test the project's style.css document.
 Fortunately, no bugs were found throughout the CSS document, and no changes were made. It should be noted that warnings were discovered through the testing, however the vast majority of these warning were due to the W3C CSS validator lacking the ability to check root variables, due to their dynamic nature. Another warning showed which mentioned that "```auto``` is not defined by any specification as an allowed value for ```pointer-events``` but is supported in multiple browsers".
 #### **Images**
   ![Image of W3C test on style.css](assets/code-screenshots/w3c-css-validation-testing.png "W3C test on style.css")
-
+### **Jshint Javascript validator**
+The Jshint Javascript validator was used to test the project's battleships.js document. The Jshint validator originally flagged zero errors and fifty warnings, however, the vast majority of these were forgotten semi colons. Once the semi colons were put into place, there was a total of nine warnings remaining.  
+Out of these nine warnings, a total of six could be prevented by simply:
+  - When looping through an object's properties, use an ```if``` statement to check to see if the object has the property. This can be done with the ```.hasOwnProperty()``` method.
+  - Creating local variables by using either ```const``` or ```let```.  
+After fixing these six warnings, three warnings still remained but ultimately caused no problems within the programme. These three warnings were caused by:
+  - Using an expression to test if a statement is ```true```, and then using that ```true```/```false``` stateement to control another variable/property rather than the expression itself.
+  - Targeting a variable outside the scope of a ```for``` loop with a function.
+It is important to note that these are warnings rather than errors, and do not seem to cause any issues whilst the programme is active.
+#### **Images**
+![Image of Jshint test on battleships.js before semicolons added](assets/code-screenshots/jshint-javascript-testing-before-semicolons.png "jshint test on battleships.js")
+![Image of Jshint test on battleships.js after semicolons added](assets/code-screenshots/jshint-javascript-testing-before.png "jshint test on battleships.js")
+![Image of Jshint test on battleships.js after remaining bugs fixed](assets/code-screenshots/jshint-javascript-testing-after.png "jshint test on battleships.js")
 ## Unfixed Bugs
 There is unfortunately one unfixed bug in the project which can sometimes happen when a ship has been dragged on to a coordinate, then moved, then replaced by another ship (Or the same ship) in a different rotation. This will not cause the game to break, but will cause the ship image to stretch out
-To fix this, simply rotate the ship twice. Once to move it to it's opposite rotation position, and again to move it back to the preferred position.
+**To fix this, simply rotate the ship twice.** Once to move it to it's opposite rotation position, and again to move it back to the preferred position.
