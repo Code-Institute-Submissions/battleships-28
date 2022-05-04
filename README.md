@@ -1,4 +1,5 @@
-# Rushdown
+![Battleships banner](assets/battleships-screenshots/battleships-banner.png "Battleships banner")
+# Battleships
 Battleships is a strategic, turn-based guessing game in which each user attempts to damage and eventually sink their opponents ships. Battleship actually dates back prior to World War I and was later published by various companies as a pad-and-pencil game in the 1930s. It was then officially released as a plastic board game by Milton Bradley in 1967. 
  - At the start of the game, each user will place their ships on coordinates of their own choosing. There are a total of 100 coordinates/spaces on each user's game board, and each ship can take up anywhere from 2-5 coordinates/spaces on the board.
  - During each turn, the user will decide on coordinates to attack.
