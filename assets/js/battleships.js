@@ -718,9 +718,6 @@ let game = {
             <h2>User</h2>
             <h3>ships left:<span id = "user-ships-remaining">5</span></h3>
             <h3>score: <span id = "score">1000</span></h3>
-            <label>
-                <input type = "checkbox">
-            </label>
         </div>
         <div id = "text-area">
             <div class = "text-box">
