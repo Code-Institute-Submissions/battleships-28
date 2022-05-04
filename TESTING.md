@@ -29,6 +29,12 @@ It is important to note that these are warnings rather than errors, and do not s
 ![Image of Jshint test on battleships.js before semicolons added](assets/code-screenshots/jshint-javascript-testing-before-semicolons.png "jshint test on battleships.js")
 ![Image of Jshint test on battleships.js after semicolons added](assets/code-screenshots/jshint-javascript-testing-before.png "jshint test on battleships.js")
 ![Image of Jshint test on battleships.js after remaining bugs fixed](assets/code-screenshots/jshint-javascript-testing-after.png "jshint test on battleships.js")
+## Responsiveness
+### **Amiresponsive**
+Amiresponsive is a website which was used to test how the website will appear across different devices.
+- Whilst testing with Amiresponsive, the game seemed to show up fine and was not causing any overlap on any of the devices. There was however a small issue of a horizontal scrollbar when the game was displayed on the Amiresponsive phone. This is strange, as the game is responsive down to 350 pixels. Despite this, no major issues were found in terms of responsiveness, such as overlapping elements, elements bleeding off screen etc.
+  #### Amiresponsive screenshots:
+<img width ="1000" alt ="image showing responsiveness of site across multiple devices" src ="assets/images/rushdown-amiresponsive-image.png">
 ## Unfixed Bugs
 There is unfortunately one unfixed bug in the project which can sometimes happen when a ship has been dragged on to a coordinate, then moved, then replaced by another ship (Or the same ship) in a different rotation. This will not cause the game to break, but will cause the ship image to stretch out
 **To fix this, simply rotate the ship twice.** Once to move it to it's opposite rotation position, and again to move it back to the preferred position.
