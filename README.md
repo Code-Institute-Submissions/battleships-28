@@ -1,4 +1,34 @@
 ![Battleships banner](assets/battleships-screenshots/battleships-banner.png "Battleships banner")
+- [Battleships](#battleships)
+- [UX design](#ux-design)
+  - [Color scheme](#color-scheme)
+    - [**Images**](#images)
+  - [Typography](#typography)
+    - [**Images**](#images-1)
+  - [Layout](#layout)
+- [Wireframes](#wireframes)
+- [Features](#features)
+  - [Existing features](#existing-features)
+    - [Main menu](#main-menu)
+      - [**Images**](#images-2)
+    - [Game options menu](#game-options-menu)
+      - [**Images**](#images-3)
+    - [Game Screen](#game-screen)
+      - [**Images**](#images-4)
+    - [Game begin screen](#game-begin-screen)
+      - [**Images**](#images-5)
+    - [User coordinate input](#user-coordinate-input)
+    - [Game verdict modal](#game-verdict-modal)
+      - [**Images**](#images-6)
+  - [Future features](#future-features)
+- [Testing and bugs](#testing-and-bugs)
+- [Technologies used](#technologies-used)
+- [Deployment](#deployment)
+  - [Local Deployment](#local-deployment)
+- [Credits](#credits)
+  - [Content](#content)
+  - [Media](#media)
+  - [Acknowledgements](#acknowledgements)
 # Battleships
 Battleships is a strategic, turn-based guessing game in which each user attempts to damage and eventually sink their opponents ships. Battleship actually dates back prior to World War I and was later published by various companies as a pad-and-pencil game in the 1930s. It was then officially released as a plastic board game by Milton Bradley in 1967. 
  - At the start of the game, each user will place their ships on coordinates of their own choosing. There are a total of 100 coordinates/spaces on each user's game board, and each ship can take up anywhere from 2-5 coordinates/spaces on the board.
@@ -9,28 +39,27 @@ Battleships is a strategic, turn-based guessing game in which each user attempts
  - This helps each user to track their shots and make strategic guesses as to where their opponent may be hiding their ships.
  - The first person to successfully sink all their opponents ships is the winner!  
 The full **[Battleship](https://conorg180.github.io/battleships/)** game can be played here.  
-<!-- Insert image here later -->
-## UX design
-### Color scheme
+# UX design
+## Color scheme
 The color scheme chosen for this game is based on a simple monochromatic color scheme of black, white and various shades of gold. In the main menu and various game screens, such as instructions and in the game set-up, the game's primary colors remain black white and gold.
 - The colors black, white and gold were chosen so as to provide a strong yet majestic feel to the game and convey a pirate-like theme. As the game involved battling ships on the seas, it was thought that this color scheme would achieve the goal of capturing the theme of the game whilst also improving it aesthetically.
 - There are multiple shades of Gold which are used throughout the game. This allows for shading and styling throughout each page. An example of this can be seen in the borders of certain elements on each page, such as buttons, and can also be seen in the text area in the action bar when the user attacks a coordinate.
 - Furthermore, the game can be easily changed in the future if needed due to the use of CSS root variables in the project. The colors can be seen in the below
-#### **Images**
+### **Images**
 ![Screenshot of code showing color root variables](assets/code-screenshots/color-root-variables.png "Color root variables")
 ## Typography
 As with colors, root variables were used to store various fonts and back-up fonts. These can be seen below. 
   - Black Rose was chosen as the main accent font for the project due to it's Stylistic and pirate-like theme. It provided an amazing aesthetical look to the game's logo and also aided in some other parts of the game too. All letters in the Bebas Neue font are capitalised, so whilst great for main headers and logos, a different font was needed for smaller fonts.
   - Treasure Hunt was chosen as the game's secondary accent font and can be seen in smaller headers and on buttons. Treasure hunt was chosen as a secondary acent font as it is slightly easier to read than black rose, albeit swapping some style and "flare" for clarity. Similar to Black Rose, it only allows for capital letters, so another font was still required for text and paragraphs.
-#### **Images**
+### **Images**
 
 ![Screenshot of code showing font root variables](assets/code-screenshots/font-root-variables.png "Font root variables")
-### Layout
+## Layout
 Grid is the primary CSS function used in building the layout to this game, and it was chosen for multiple reasons:
  - With Grid, elements within the game can very easily be manipulated, hidden, unhidden, swapped, replaced or repositioned in the future if needed.
  - Grid allows a developer to create highly responsive designs with great flexibility. Responsiveness is one of this game's top priorities, and it is designed to be played on various screen sizes from a minimum of 350px. Elements can be programmed to scale down to a minimum and maximum size, and can then easily be changed as needed when using media queries.
  - One of the easiest and most elegant methods to recreate the typical grid used for battleships was to replicate it with CSS grid, as it's functionality is perfect for creating such grids.
-## Wireframes
+# Wireframes
 Before starting development on the project, Balsamiq was used to form wireframes for each separate page within the game. Basamiq was chosen due to it's efficiency and it's ability to reproduce relatively simplistic, yet easy to understand wireframes. This helped me to visualise ideas for each of the game's pages and features, and organise how certain features would be laid out and implemented within the game.  
 ![index.html wireframe](assets/wireframes/index.html.png "index.html (Main menu)")
 ![Game options wireframe](assets/wireframes/game-options.png "game options menu" )
@@ -89,7 +118,7 @@ The Game begin screen is actually a modal which will pop up when the user has pl
 #### **Images** 
   ![Game begin modal screenshot](assets/battleships-screenshots/battleships-game-begin-modal.png "Game Begin modal")
 ### User coordinate input
-The user coordinate input is where the user will type in coordinates to attack the opponent's ships, and it can be seen in the above photos in the game screen images section here <!--Add link here --> The input takes the coordinates and checks them against the opponent's ships.
+The user coordinate input is where the user will type in coordinates to attack the opponent's ships, and it can be seen in the above photos in the game screen images section [here](#images-4) The input takes the coordinates and checks them against the opponent's ships.
   - Depending on whether the user has hit, sunk or missed a ship, it will affect the score of the user along with the text area and the ships remaining number in the action bar. This in turn will affect if the game should be terminated (If the number of ships reaches 0).
   - The input is set to automatically clear once the "fire" button has been pressed. This allows the user to enter the next coordinate straight away, without first deleting the previous coordinate.
   - The input entered by the user will be in the Black Rose font, which is the primary accent font used for the game. This is meant to add another, albeit small, element of immersion to the game.
@@ -108,9 +137,9 @@ The following features are ideas which may be later added into the programme.
   - Click to enter coordinates - Event listeners may be added to the coordinates in the future to respond to click events by the user once the game is active. These listeners would allow the user to enter the coordinate they want to attack by clicking the coordinate, as opposed to entering it manually.
   - Color customisation - This feature would allow users to customise the game's game board to their own color, along with the fleet and the action bar
   - Sound effects and animations - In the future, I believe a great addition to this programme would be to animate the ships once a ship has been sunk or hit, along with relevant sounds to accompany the animation effects.
-## Testing and bugs
+# Testing and bugs
 For all testing, please refer to the [TESTING.md](TESTING.md) file.
-## Technologies used
+# Technologies used
 The following technologies were used in the development of this project
   - [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) - HTML5 was used to apply the structure and to create the elements within the battleships game.
   - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - CSS was used to style each element in the game and controls the layout, color scheme, and some aspects of image and element resizing to improve the programmes responsiveness on smaller devices.
@@ -119,19 +148,19 @@ The following technologies were used in the development of this project
   - [Git](https://git-scm.com/) - Git was used for version control throughout this project.
   - [Gitpod](https://www.gitpod.io/) - Gitpod was used as the integrated developement environment for the game and to deploy the game.
   - [Github](https://github.com/) - Github was used to host the project through Github pages.
-## Deployment
+# Deployment
 The game was deployed to GitHub pages. The steps to deploy are as follows: 
   - In the [GitHub repository](https://github.com/ConorG180/battleships), navigate to the Settings tab 
   - From the source section drop-down menu, select the **Main** Branch, then click "Save".
   - The page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.  
   The live link can be found [here](https://conorg180.github.io/battleships/)
-### Local Deployment
+## Local Deployment
 In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
   - `git clone https://github.com/ConorG180/battleships.git`
 Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.  
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ConorG180/battleships)  
-## Credits
-### Content
+# Credits
+## Content
 The sources below were used when trying to solve intricate problems within the programme and played a solid role in helping me to build this project.
   - [W3schools](https://www.w3schools.com/) was used as a learning resource and helped me with HTML, CSS and Javascript.
   - Kevin Powell's [Youtube channel](https://www.youtube.com/kepowob) was used as a learning resource and helped me greatly with HTML and CSS.
@@ -141,7 +170,7 @@ The sources below were used when trying to solve intricate problems within the p
   - [Balsamiq](https://balsamiq.com/) helped me to design the wireframes for the project.
   - [Fontspace](https://www.fontspace.com/) supplied the Black Rose and Treasuremap fonts found in the game.
   - [Font Awesome](https://fontawesome.com/) supplied the icons used throughout the game.
-### Media
+## Media
 All images for the ships in this project came from the following sources:
   - The Carrier ship came from [Cobishop](https://www.cobishop.cz/product-en/cobi-building-blocks/world-war-ii/german-aircraft-carrier-graf-zeppelin-co/746).
   - The Battleship ship came from [World of Warships:](https://world-of-warships.fandom.com/wiki/Battleship).
@@ -149,7 +178,7 @@ All images for the ships in this project came from the following sources:
   - The Submarine ship came from [Megapolis](https://sqmegapolis.fandom.com/wiki/Submarine_Factory).
   - The Destroyer ship came from [World of Warships:](https://www.wowsbuilds.com/ships/siroco).
 
-### Acknowledgements
+## Acknowledgements
 I want to thank the following people and companies for their help in providing solid technical support whilst developing this project.
   - Tim Nelson (Code Institute mentor).
   - [Code Institute](https://codeinstitute.net/ie/).
