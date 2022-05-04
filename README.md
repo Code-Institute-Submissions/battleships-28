@@ -108,6 +108,8 @@ The following features are ideas which may be later added into the programme.
   - Click to enter coordinates - Event listeners may be added to the coordinates in the future to respond to click events by the user once the game is active. These listeners would allow the user to enter the coordinate they want to attack by clicking the coordinate, as opposed to entering it manually.
   - Color customisation - This feature would allow users to customise the game's game board to their own color, along with the fleet and the action bar
   - Sound effects and animations - In the future, I believe a great addition to this programme would be to animate the ships once a ship has been sunk or hit, along with relevant sounds to accompany the animation effects.
+## Testing and bugs
+For all testing, please refer to the [TESTING.md](TESTING.md) file.
 ## Technologies used
 The following technologies were used in the development of this project
   - [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) - HTML5 was used to apply the structure and to create the elements within the battleships game.
