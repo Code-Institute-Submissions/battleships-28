@@ -16,3 +16,7 @@ The W3C CSS validator was used to test the project's style.css document.
 Fortunately, no bugs were found throughout the CSS document, and no changes were made. It should be noted that warnings were discovered through the testing, however the vast majority of these warning were due to the W3C CSS validator lacking the ability to check root variables, due to their dynamic nature. Another warning showed which mentioned that "```auto``` is not defined by any specification as an allowed value for ```pointer-events``` but is supported in multiple browsers".
 #### **Images**
   ![Image of W3C test on style.css](assets/code-screenshots/w3c-css-validation-testing.png "W3C test on style.css")
+
+## Unfixed Bugs
+There is unfortunately one unfixed bug in the project which can sometimes happen when a ship has been dragged on to a coordinate, then moved, then replaced by another ship (Or the same ship) in a different rotation. This will not cause the game to break, but will cause the ship image to stretch out
+To fix this, simply rotate the ship twice. Once to move it to it's opposite rotation position, and again to move it back to the preferred position.
