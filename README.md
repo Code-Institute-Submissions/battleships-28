@@ -21,7 +21,6 @@ Before starting development on the project, Balsamiq was used to form wireframes
 
 # Features
 ## Existing features
-
 ### Main menu
 The Main menu of the game is the first screen that the user should see when the game is loaded. It is designed to be eyecatching and aesthetic, yet not over the top. It should also provide the user an easy route to the game with little difficulty and distractions. Within the main menu, there are 2 buttons
  - Start game button, which triggers the game start-up/options menu to appear.
@@ -81,3 +80,9 @@ The Game options menu of the game is the screen which triggers once the user cli
    - Both messages will offer the player to either play the game (This is done using the game.resetGame function) or to return to the main menu.
     ![Winning game verdict modal screenshot](assets/battleships-screenshots/battleships-game-verdict-win.png "Winning game verdict modal")
     ![Losing game verdict modal screenshot](assets/battleships-screenshots/battleships-game-verdict-lose.png "Losing game verdict modal")
+    ## Future features
+    The following features are ideas which may be later added into the programme.
+    - A hitboard - A hitboard which the user could look at to gain a visual representation of which coordinates they have entered, and which ones were a miss or hit.
+    - Click to enter coordinates - Event listeners may be added to the coordinates in the future to respond to click events by the user once the game is active. These listeners would allow the user to enter the coordinate they want to attack by clicking the coordinate, as opposed to entering it manually.
+    - Color customisation - This feature would allow users to customise the game's game board to their own color, along with the fleet and the action bar
+    - Sound effects and animations - In the future, I believe a great addition to this programme would be to animate the ships once a ship has been sunk or hit, along with relevant sounds to accompany the animation effects.
