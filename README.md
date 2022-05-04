@@ -101,3 +101,8 @@ The Game options menu of the game is the screen which triggers once the user cli
     - From the source section drop-down menu, select the **Main** Branch, then click "Save".
     - The page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.  
     The live link can be found [here](https://conorg180.github.io/battleships/)
+    ### Local Deployment
+    In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
+    - `git clone https://github.com/ConorG180/battleships.git`
+    Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.  
+    [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ConorG180/battleships)
