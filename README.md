@@ -14,14 +14,20 @@ The full **[Battleship](https://conorg180.github.io/battleships/)** game can be 
 The color scheme chosen for this game is based on a simple monochromatic color scheme of black, white and various shades of gold. In the main menu and various game screens, such as instructions and in the game set-up, the game's primary colors remain black white and gold.
 - The colors black, white and gold were chosen so as to provide a strong yet majestic feel to the game and convey a pirate-like theme. As the game involved battling ships on the seas, it was thought that this color scheme would achieve the goal of capturing the theme of the game whilst also improving it aesthetically.
 - There are multiple shades of Gold which are used throughout the game. This allows for shading and styling throughout each page. An example of this can be seen in the borders of certain elements on each page, such as buttons, and can also be seen in the text area in the action bar when the user attacks a coordinate.
-- Furthermore, the game can be easily changed in the future if needed due to the use of CSS root variables in the project. The colors can be seen in the below image:  
+- Furthermore, the game can be easily changed in the future if needed due to the use of CSS root variables in the project. The colors can be seen in the below
+#### **Images**
 <!-- insert image here -->
+## Typography
+As with colors, root variables were used to store various fonts and back-up fonts. These can be seen below. 
+  - Black Rose was chosen as the main accent font for the project due to it's Stylistic and pirate-like theme. It provided an amazing aesthetical look to the game's logo and also aided in some other parts of the game too. All letters in the Bebas Neue font are capitalised, so whilst great for main headers and logos, a different font was needed for smaller fonts.
+  - Treasure Hunt was chosen as the game's secondary accent font and can be seen in smaller headers and on buttons. Treasure hunt was chosen as a secondary acent font as it is slightly easier to read than black rose, albeit swapping some style and "flare" for clarity. Similar to Black Rose, it only allows for capital letters, so another font was still required for text and paragraphs.
+#### **Images**
+<!-- Insert image here --> 
 ### Layout
 Grid is the primary CSS function used in building the layout to this game, and it was chosen for multiple reasons:
  - With Grid, elements within the game can very easily be manipulated, hidden, unhidden, swapped, replaced or repositioned in the future if needed.
  - Grid allows a developer to create highly responsive designs with great flexibility. Responsiveness is one of this game's top priorities, and it is designed to be played on various screen sizes from a minimum of 350px. Elements can be programmed to scale down to a minimum and maximum size, and can then easily be changed as needed when using media queries.
  - One of the easiest and most elegant methods to recreate the typical grid used for battleships was to replicate it with CSS grid, as it's functionality is perfect for creating such grids.
-
 ## Wireframes
 Before starting development on the project, Balsamiq was used to form wireframes for each separate page within the game. Basamiq was chosen due to it's efficiency and it's ability to reproduce relatively simplistic, yet easy to understand wireframes. This helped me to visualise ideas for each of the game's pages and features, and organise how certain features would be laid out and implemented within the game.  
 ![index.html wireframe](assets/wireframes/index.html.png "index.html (Main menu)")
