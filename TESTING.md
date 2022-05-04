@@ -1,0 +1,4 @@
+## Browser Compatability
+Testing of the website was carried out in Firefox, Microsoft Edge, Opera and Google Chrome. When testing on Firefox, a bug was discovered which would activate a ship's image link when dropping the ship into a coordinate. Because of this, ```e.preventDefault()``` was used in the drop event handlet to fix the issue.
+Apart from this,The game seemed to work without any specific issues on a browser. The identified bugs within the project are still found in all browsers though, as they are not browser specific.
+It should be noted that CSS grid and some other functions/properties may not be supported on older versions of the above browsers. For an optimum experience with the game, users are reccommended to update to the latest version of their preferred browser.
