@@ -266,7 +266,7 @@ p {
     max-width: 95rem;
     grid-area: action-bar;
     display: grid;
-    grid-template-columns: minmax(7.37rem, 26.5rem) minmax(20rem, 40rem) minmax(7.37rem, 26.5rem);
+    grid-template-columns: minmax(7.37rem, 22.5rem) minmax(20rem, 30rem) minmax(7.37rem, 22.5rem);
     grid-template-areas: "user-section text-area opponent-section";
     grid-template-rows: 10rem;
     border: 2px solid var(--complimentary-color-shade3);
@@ -276,7 +276,7 @@ p {
 }
 
 #user-section {
-    font-size: 1rem;
+    font-size: 0.9rem;
     grid-area: user-section;
     margin-left: 0.5rem;
 }
@@ -310,7 +310,7 @@ p {
 }
 
 #opponent-section {
-    font-size: 1rem;
+    font-size: 0.9rem;
     grid-area: opponent-section;
     margin-left: 1rem;
 }
@@ -322,7 +322,7 @@ p {
 /* Game board / Grid */
 #game-board {
     display: grid;
-    grid-template-columns: auto repeat(10, minmax(3rem, 8.25rem));
+    grid-template-columns: auto repeat(10, minmax(3rem, 6.75rem));
     grid-template-rows: auto;
     justify-self: center;
     border-right: 1px solid red;
@@ -365,7 +365,7 @@ p {
 #fleet {
     display: grid;
     grid-area: fleet;
-    grid-template-columns: minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem) minmax(6.6rem, 20rem);
+    grid-template-columns: minmax(6.6rem, 15rem) minmax(6.6rem, 15rem) minmax(6.6rem, 15rem) minmax(6.6rem, 15rem) minmax(6.6rem, 15rem);
     grid-template-rows: auto;
     justify-self: center;
     margin-top: 1.25rem;
