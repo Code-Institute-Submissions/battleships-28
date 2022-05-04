@@ -1,4 +1,4 @@
-/* jshint esversion: 10 */
+/* jshint esversion: 11 */
 //Fleet class
 class Fleet {
     constructor() {
@@ -404,7 +404,9 @@ let game = {
                 }
             })
             // When ship is dropped in to coordinate
-            coordinate.addEventListener("drop", () => {
+            coordinate.addEventListener("drop", (e) => {
+                //Prevent bug in firefox of image of ship opening in new tab when dropped.
+                e.preventDefault();
                 //Check if game is active, and if so, then return
                 if (game.gameNowActive) {
                     return;
