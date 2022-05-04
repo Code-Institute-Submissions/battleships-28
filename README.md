@@ -65,9 +65,16 @@ The Game options menu of the game is the screen which triggers once the user cli
   The Game begin screen is actually a modal which will pop up when the user has placed their last ship. It will ask the user to confirm if they would like to begin the game. The user can click yes, which will officially start the game, or no, which will move the last placed ship back to the fleet and allow the user to reposition their ships if wanted.
   - If the user clicks yes, then the gameSetUp function will be called, which will officially start the game and populate the opponent's fleet
   - If the user clicks no, then the last ship that the user placed will be returned to the fleet. The user will then have the choice of rearranging any of their ships. Once the user has dragged their last ship from the fleet which was previously returned, the modal will pop up again, asking the user if they are ready to continue and start the game.
+   <!-- Insert image here -->
   ### User coordinate input
   The user coordinate input is where the user will type in coordinates to attack the opponent's ships. The input takes the coordinates and checks them against the opponent's ships.
   - Depending on whether the user has hit, sunk or missed a ship, it will affect the score of the user along with the text area and the ships remaining number in the action bar. This in turn will affect if the game should be terminated (If the number of ships reaches 0).
   - The input is set to automatically clear once the "fire" button has been pressed. This allows the user to enter the next coordinate straight away, without first deleting the previous coordinate.
   - The input entered by the user will be in the Black Rose font, which is the primary accent font used for the game. This is meant to add another, albeit small, element of immersion to the game.
   - Once the "fire" button has been pressed, the input of the coordinate will automatically be checked by a game property called coordinateRegex in the game object to see if it was wrongly entered. If so, the user will be given an alert asking them to "Please enter a valid coordinate".
+   <!-- Insert image here -->
+   ### Game verdict modal
+   The game verdict modal will fire once either the opponent's or user's ships remaining element hits zero. Depending on if it was the user or the opponent's ships which reached zero first, a different message will be produced with different colors.
+   - The winning message will congratulate the user on winning and display a "You've won!" message in a green color.
+   - The losing message will inform the user They have lost and display a "You've lost!" message in a red color.
+   - Both messages will offer the player to either play the game (This is done using the game.resetGame function) or to return to the main menu.
