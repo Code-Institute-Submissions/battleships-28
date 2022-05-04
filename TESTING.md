@@ -6,8 +6,13 @@ It should be noted that CSS grid and some other functions/properties may not be 
 ## Testing and identified bugs
 The following tools and technologies were used to test this project:
 ### **W3C html validator**
- W3C html validator was used on the sole HTML document, index.html, within the project to confirm that there were no errors made in the code. Whilst testing, there was a minor bug found on the page. This bug was caused by a stray h3 tag. However, the bug was easily fixed, and after retesting, no errors were found.  
- There were some warnings found in the index.html document, however these are only warnings rather than errors, and do not pose a risk. All warnings came in the form of an empty h2 or h3 tag. These tags are later filled with text content via Javascript code as the user progresses through the game.
+W3C html validator was used on the sole HTML document, index.html, within the project to confirm that there were no errors made in the code. Whilst testing, there was a minor bug found on the page. This bug was caused by a stray h3 tag. However, the bug was easily fixed, and after retesting, no errors were found.  
+There were some warnings found in the index.html document, however these are only warnings rather than errors, and do not pose a risk. All warnings came in the form of an empty h2 or h3 tag. These tags are later filled with text content via Javascript code as the user progresses through the game.
 #### **Images**  
   ![W3C test image before testing bugs on index.html](assets/code-screenshots/w3c-html-validation-testing-before.png "W3C test before testing bugs on index.html")
   ![W3C test image after testing bugs on index.html](assets/code-screenshots/w3c-html-validation-testing-after.png "W3C test after testing bugs on index.html")
+### **W3C CSS validator**
+The W3C CSS validator was used to test the project's style.css document. 
+Fortunately, no bugs were found throughout the CSS document, and no changes were made. It should be noted that warnings were discovered through the testing, however the vast majority of these warning were due to the W3C CSS validator lacking the ability to check root variables, due to their dynamic nature. Another warning showed which mentioned that "```auto``` is not defined by any specification as an allowed value for ```pointer-events``` but is supported in multiple browsers".
+#### **Images**
+  ![Image of W3C test on style.css](assets/code-screenshots/w3c-css-validation-testing.png "W3C test on style.css")
