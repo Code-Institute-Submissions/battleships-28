@@ -9,6 +9,13 @@ Battleships is a strategic, turn-based guessing game in which each user attempts
  - The first person to successfully sink all their opponents ships is the winner!  
 The full **[Battleship](https://conorg180.github.io/battleships/)** game can be played here.  
 <!-- Insert image here later -->
+## UX design
+### Color scheme
+The color scheme chosen for this game is based on a simple monochromatic color scheme of black, white and various shades of gold. In the main menu and various game screens, such as instructions and in the game set-up, the game's primary colors remain black white and gold.
+- The colors black, white and gold were chosen so as to provide a strong yet majestic feel to the game and convey a pirate-like theme. As the game involved battling ships on the seas, it was thought that this color scheme would achieve the goal of capturing the theme of the game whilst also improving it aesthetically.
+- There are multiple shades of Gold which are used throughout the game. This allows for shading and styling throughout each page. An example of this can be seen in the borders of certain elements on each page, such as buttons, and can also be seen in the text area in the action bar when the user attacks a coordinate.
+- Furthermore, the game can be easily changed in the future if needed due to the use of CSS root variables in the project. The colors can be seen in the below image:  
+<!-- insert image here -->
 
 ## Wireframes
 Before starting development on the project, Balsamiq was used to form wireframes for each separate page within the game. Basamiq was chosen due to it's efficiency and it's ability to reproduce relatively simplistic, yet easy to understand wireframes. This helped me to visualise ideas for each of the game's pages and features, and organise how certain features would be laid out and implemented within the game.  
@@ -26,7 +33,7 @@ The Main menu of the game is the first screen that the user should see when the 
  - Start game button, which triggers the game start-up/options menu to appear.
  - An instructions button, which activates a pop up screen/modal of the game's instructions and how to play the game. 
   #### **Images**  
-    ![Main menu screenshot](assets/battleships-screenshots/battleships-main-menu.png "Main menu")
+  ![Main menu screenshot](assets/battleships-screenshots/battleships-main-menu.png "Main menu")
 ### Game options menu
 The Game options menu of the game is the screen which triggers once the user clicks "Begin new game" on the main menu. This screen allows the user to customise the game to their liking, and includes features such as:
   - Entering their name - This value will be used as the game goes on to refer to the player, and will be used in features such as the user's action bar.
@@ -35,7 +42,7 @@ The Game options menu of the game is the screen which triggers once the user cli
     - Medium - The logic of the Medium mode is as follows: On the opponent's turn, the opponent will randomly pick one coordinate out of a possible 100, and attack the coordinate. The opponent will then remove that coordinate from their attackChoices property, and on the next turn, will pick one possible coordinate out of 99. This ensures the opponent never hits the same coordinate twice, as opposed to easy mode.
     - Hard - The logic of the Hard mode is as follows: On the opponent's turn, the opponent will act the same as if the setting was set to Medium difficulty. However, a missCounter variable is used to count the number of times the opponent consecutively misses. Should the opponent miss 3 times in a row, the opponent will guarentee a hit against the user on the 4th turn. If the opponent hit's a ship, the missCounter is reset to 0.
   #### **Images**  
-    ![Game options menu screenshot](assets/battleships-screenshots/battleships-game-options-menu.png "Game options menu")
+  ![Game options menu screenshot](assets/battleships-screenshots/battleships-game-options-menu.png "Game options menu")
   ### Game Screen
   The Game screen is the main screen which the user plays the battleships game, and naturally has the most features. The gameScreen itself is built using grid and has been designed to be fully responsive down to a 350px screen. Subfeatures included on the Game screen include:
     - Header - The header includes the battleships title, and also includes an instructions button and main menu button
@@ -45,7 +52,7 @@ The Game options menu of the game is the screen which triggers once the user cli
       - Score - The score on the action bar represents how well the player is doing. Points are score when the user hits or sinks a ship, and a score multiplier is included to increase the score even further when consecutive hits have been made. However, points can be lost for missed, and also if the opponent hits or sinks the user's ships 
       - Ships remaining - The ships remaining part of the action bar displays how many ships/lives the user or opponent has left. Once this reaches 0, the game will be finished, and the user will be declared to have won or lost.
       - Text area - The text area is where the user can find out and retrace their previous coordinate attacks. The text-area will display a different style for the user's attacks, and will declare the coordinate attacked, if the attack made by the user or opponent was a hit or miss, and whether they have sunk a ship.
-   - Game board - The Game board is the actual grid where the user will place their ships. Each coordinate responds in various ways when a ship enters, leaves, or is dropped on to it.
+    - Game board - The Game board is the actual grid where the user will place their ships. Each coordinate responds in various ways when a ship enters, leaves, or is dropped on to it.
      - Once the ship is dropped into a coordinate, the ship will grow to it's corresponding size. For example, if a ship has a size of 5, like the carrier, it will cover 5 coordinates in it's length.
       - Once  dropped on to a coordinate, the ship will automatically be assigned a hitbox in accordance to the coordinate it was placed on and the coordinates which it occupies.
       - Rotation - Ships can be rotated in the game whilst on the grid. This will also change the ship's hitbox accordingly, so that it's coordinates will be correct when the game begins.
@@ -58,43 +65,45 @@ The Game options menu of the game is the screen which triggers once the user cli
       - Each ship can be dragged on to the grid from the fleet by simply holding down the left mouse button, dragging the ship on to the grid, and then releasing the mouse button on the first coordinate which you want the ship to be on.
       - Auto resize - The fleet has an autoResize feature which will trigger once a window is resized. This ensures ships are kept to the appropriate height/width and aids in making the application responsive. 
       - Once the last ship has been placed from the fleet, A modal will be triggered which asks the user if they wish to start the game.
-    #### **Images**  
-    ![Game screen](assets/battleships-screenshots/battleships-game-setup-screen.png "Game screen")
-    ![Game screen before firing](assets/battleships-screenshots/battleships-game-begin-screen-before-firing.png "Game screen before firing")
-    ![Game screen after firing](assets/battleships-screenshots/battleships-game-begin-screen-after-firing.png "Game screen after firing")
+  #### **Images**  
+  ![Game screen](assets/battleships-screenshots/battleships-game-setup-screen.png "Game screen")
+  ![Game screen before firing](assets/battleships-screenshots/battleships-game-begin-screen-before-firing.png "Game screen before firing")
+  ![Game screen after firing](assets/battleships-screenshots/battleships-game-begin-screen-after-firing.png "Game screen after firing")
   ### Game begin screen
   The Game begin screen is actually a modal which will pop up when the user has placed their last ship. It will ask the user to confirm if they would like to begin the game. The user can click yes, which will officially start the game, or no, which will move the last placed ship back to the fleet and allow the user to reposition their ships if wanted.
-  - If the user clicks yes, then the gameSetUp function will be called, which will officially start the game and populate the opponent's fleet
-  - If the user clicks no, then the last ship that the user placed will be returned to the fleet. The user will then have the choice of rearranging any of their ships. Once the user has dragged their last ship from the fleet which was previously returned, the modal will pop up again, asking the user if they are ready to continue and start the game.
-   ![Game begin modal screenshot](assets/battleships-screenshots/battleships-game-begin-modal.png "Game Begin modal")
+    - If the user clicks yes, then the gameSetUp function will be called, which will officially start the game and populate the opponent's fleet
+    - If the user clicks no, then the last ship that the user placed will be returned to the fleet. The user will then have the choice of rearranging any of their ships. Once the user has dragged their last ship from the fleet which was previously returned, the modal will pop up again, asking the user if they are ready to continue and start the game.
+  #### **Images** 
+  ![Game begin modal screenshot](assets/battleships-screenshots/battleships-game-begin-modal.png "Game Begin modal")
   ### User coordinate input
   The user coordinate input is where the user will type in coordinates to attack the opponent's ships, and it can be seen in the above photos in the game screen images section here <!--Add link here --> The input takes the coordinates and checks them against the opponent's ships.
-  - Depending on whether the user has hit, sunk or missed a ship, it will affect the score of the user along with the text area and the ships remaining number in the action bar. This in turn will affect if the game should be terminated (If the number of ships reaches 0).
-  - The input is set to automatically clear once the "fire" button has been pressed. This allows the user to enter the next coordinate straight away, without first deleting the previous coordinate.
-  - The input entered by the user will be in the Black Rose font, which is the primary accent font used for the game. This is meant to add another, albeit small, element of immersion to the game.
-  - Once the "fire" button has been pressed, the input of the coordinate will automatically be checked by a game property called coordinateRegex in the game object to see if it was wrongly entered. If so, the user will be given an alert asking them to "Please enter a valid coordinate".
-   ### Game verdict modal
-   The game verdict modal will fire once either the opponent's or user's ships remaining element hits zero. Depending on if it was the user or the opponent's ships which reached zero first, a different message will be produced with different colors.
-   - The winning message will congratulate the user on winning and display a "You've won!" message in a green color.
-   - The losing message will inform the user They have lost and display a "You've lost!" message in a red color.
-   - Both messages will offer the player to either play the game (This is done using the game.resetGame function) or to return to the main menu.
-    ![Winning game verdict modal screenshot](assets/battleships-screenshots/battleships-game-verdict-win.png "Winning game verdict modal")
-    ![Losing game verdict modal screenshot](assets/battleships-screenshots/battleships-game-verdict-lose.png "Losing game verdict modal")
-    ## Future features
-    The following features are ideas which may be later added into the programme.
+    - Depending on whether the user has hit, sunk or missed a ship, it will affect the score of the user along with the text area and the ships remaining number in the action bar. This in turn will affect if the game should be terminated (If the number of ships reaches 0).
+    - The input is set to automatically clear once the "fire" button has been pressed. This allows the user to enter the next coordinate straight away, without first deleting the previous coordinate.
+    - The input entered by the user will be in the Black Rose font, which is the primary accent font used for the game. This is meant to add another, albeit small, element of immersion to the game.
+    - Once the "fire" button has been pressed, the input of the coordinate will automatically be checked by a game property called coordinateRegex in the game object to see if it was wrongly entered. If so, the user will be given an alert asking them to "Please enter a valid coordinate".
+  ### Game verdict modal
+  The game verdict modal will fire once either the opponent's or user's ships remaining element hits zero. Depending on if it was the user or the opponent's ships which reached zero first, a different message will be produced with different colors.
+    - The winning message will congratulate the user on winning and display a "You've won!" message in a green color.
+    - The losing message will inform the user They have lost and display a "You've lost!" message in a red color.
+    - Both messages will offer the player to either play the game (This is done using the game.resetGame function) or to return to the main menu.
+  #### **Images** 
+  ![Winning game verdict modal screenshot](assets/battleships-screenshots/battleships-game-verdict-win.png "Winning game verdict modal")
+  ![Losing game verdict modal screenshot](assets/battleships-screenshots/battleships-game-verdict-lose.png "Losing game verdict modal")
+  ## Future features
+  The following features are ideas which may be later added into the programme.
     - A hitboard - A hitboard which the user could look at to gain a visual representation of which coordinates they have entered, and which ones were a miss or hit.
     - Click to enter coordinates - Event listeners may be added to the coordinates in the future to respond to click events by the user once the game is active. These listeners would allow the user to enter the coordinate they want to attack by clicking the coordinate, as opposed to entering it manually.
     - Color customisation - This feature would allow users to customise the game's game board to their own color, along with the fleet and the action bar
     - Sound effects and animations - In the future, I believe a great addition to this programme would be to animate the ships once a ship has been sunk or hit, along with relevant sounds to accompany the animation effects.
     ## Technologies used
     The following technologies were used in the development of this project
-    - [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) - HTML5 was used to apply the structure and to create the elements within the battleships game.
-    - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - CSS was used to style each element in the game and controls the layout, color scheme, and some aspects of image and element resizing to improve the programmes responsiveness on smaller devices.
-    - [Javascript](https://www.javascript.com/) - Javascript was used to add interactivity throughout the game and is responsible for handling the logic of the game's mechanics, including elements such as modals, score counting, dragging and dropping ships, and also aids in resizing some elements along with css to aid in the responsiveness of the game. No libraries or frameworks were used within Javascript.
-    - [Balsamiq](https://balsamiq.com/) - Balsamiq was used to create wireframes at the beginning of the project and aided in visualising ideas and features of the battleships programme.
-    - [Git](https://git-scm.com/) - Git was used for version control throughout this project.
-    - [Gitpod](https://www.gitpod.io/) - Gitpod was used as the integrated developement environment for the game and to deploy the game.
-    - [Github](https://github.com/) - Github was used to host the project through Github pages.
+      - [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) - HTML5 was used to apply the structure and to create the elements within the battleships game.
+      - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - CSS was used to style each element in the game and controls the layout, color scheme, and some aspects of image and element resizing to improve the programmes responsiveness on smaller devices.
+      - [Javascript](https://www.javascript.com/) - Javascript was used to add interactivity throughout the game and is responsible for handling the logic of the game's mechanics, including elements such as modals, score counting, dragging and dropping ships, and also aids in resizing some elements along with css to aid in the responsiveness of the game. No libraries or frameworks were used within Javascript.
+      - [Balsamiq](https://balsamiq.com/) - Balsamiq was used to create wireframes at the beginning of the project and aided in visualising ideas and features of the battleships programme.
+      - [Git](https://git-scm.com/) - Git was used for version control throughout this project.
+      - [Gitpod](https://www.gitpod.io/) - Gitpod was used as the integrated developement environment for the game and to deploy the game.
+      - [Github](https://github.com/) - Github was used to host the project through Github pages.
     ## Deployment
   The game was deployed to GitHub pages. The steps to deploy are as follows: 
     - In the [GitHub repository](https://github.com/ConorG180/battleships), navigate to the Settings tab 
@@ -105,27 +114,27 @@ The Game options menu of the game is the screen which triggers once the user cli
     In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
     - `git clone https://github.com/ConorG180/battleships.git`
     Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.  
-    [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ConorG180/battleships)
-    ## Credits
-    ### Content
-    The sources below were used when trying to solve intricate problems within the programme and played a solid role in helping me to build this project.
-    - [W3schools](https://www.w3schools.com/) was used as a learning resource and helped me with HTML, CSS and Javascript.
-    - Kevin Powell's [Youtube channel](https://www.youtube.com/kepowob) was used as a learning resource and helped me greatly with HTML and CSS.
-    - Web Dev Simplified's [Youtube channel](https://www.youtube.com/c/WebDevSimplified) helped me immensely with Javascript.
-    - Dcode's [Youtube Channel](https://www.youtube.com/c/dcode-software) was also a great resource to use when learning about intricate Javascript methods.
-    - [Stack Overflow](https://stackoverflow.com/) was used as a learning resource and helped me with any questions I had whilst building the project.
-    - [Balsamiq](https://balsamiq.com/) helped me to design the wireframes for the project.
-    - [Fontspace](https://www.fontspace.com/) supplied the Black Rose and Treasuremap fonts found in the game.
-    - [Font Awesome](https://fontawesome.com/) supplied the icons used throughout the game.
-    ### Media
-    All images for the ships in this project came from the following sources:
-    - The Carrier ship came from [Cobishop](https://www.cobishop.cz/product-en/cobi-building-blocks/world-war-ii/german-aircraft-carrier-graf-zeppelin-co/746).
-    - The Battleship ship came from [World of Warships:](https://world-of-warships.fandom.com/wiki/Battleship).
-    - The Cruiser ship came from [World of Warships:](https://worldofwarships.eu/en/news/history/a-look-through-time-pan-asian-cruisers/).
-    - The Submarine ship came from [Megapolis](https://sqmegapolis.fandom.com/wiki/Submarine_Factory).
-    - The Destroyer ship came from [World of Warships:](https://www.wowsbuilds.com/ships/siroco).
+    [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ConorG180/battleships)  
+  ## Credits
+  ### Content
+  The sources below were used when trying to solve intricate problems within the programme and played a solid role in helping me to build this project.
+  - [W3schools](https://www.w3schools.com/) was used as a learning resource and helped me with HTML, CSS and Javascript.
+  - Kevin Powell's [Youtube channel](https://www.youtube.com/kepowob) was used as a learning resource and helped me greatly with HTML and CSS.
+  - Web Dev Simplified's [Youtube channel](https://www.youtube.com/c/WebDevSimplified) helped me immensely with Javascript.
+  - Dcode's [Youtube Channel](https://www.youtube.com/c/dcode-software) was also a great resource to use when learning about intricate Javascript methods.
+  - [Stack Overflow](https://stackoverflow.com/) was used as a learning resource and helped me with any questions I had whilst building the project.
+  - [Balsamiq](https://balsamiq.com/) helped me to design the wireframes for the project.
+  - [Fontspace](https://www.fontspace.com/) supplied the Black Rose and Treasuremap fonts found in the game.
+  - [Font Awesome](https://fontawesome.com/) supplied the icons used throughout the game.
+  ### Media
+  All images for the ships in this project came from the following sources:
+  - The Carrier ship came from [Cobishop](https://www.cobishop.cz/product-en/cobi-building-blocks/world-war-ii/german-aircraft-carrier-graf-zeppelin-co/746).
+  - The Battleship ship came from [World of Warships:](https://world-of-warships.fandom.com/wiki/Battleship).
+  - The Cruiser ship came from [World of Warships:](https://worldofwarships.eu/en/news/history/a-look-through-time-pan-asian-cruisers/).
+  - The Submarine ship came from [Megapolis](https://sqmegapolis.fandom.com/wiki/Submarine_Factory).
+  - The Destroyer ship came from [World of Warships:](https://www.wowsbuilds.com/ships/siroco).
 
-    ### Acknowledgements
-    I want to thank the following people and companies for their help in providing solid technical support whilst developing this project.
-    - Tim Nelson (Code Institute mentor).
-    - [Code Institute](https://codeinstitute.net/ie/).
+  ### Acknowledgements
+  I want to thank the following people and companies for their help in providing solid technical support whilst developing this project.
+  - Tim Nelson (Code Institute mentor).
+  - [Code Institute](https://codeinstitute.net/ie/).
