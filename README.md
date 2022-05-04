@@ -106,3 +106,26 @@ The Game options menu of the game is the screen which triggers once the user cli
     - `git clone https://github.com/ConorG180/battleships.git`
     Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.  
     [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ConorG180/battleships)
+    ## Credits
+    ### Content
+    The sources below were used when trying to solve intricate problems within the programme and played a solid role in helping me to build this project.
+    - [W3schools](https://www.w3schools.com/) was used as a learning resource and helped me with HTML, CSS and Javascript.
+    - Kevin Powell's [Youtube channel](https://www.youtube.com/kepowob) was used as a learning resource and helped me greatly with HTML and CSS.
+    - Web Dev Simplified's [Youtube channel](https://www.youtube.com/c/WebDevSimplified) helped me immensely with Javascript.
+    - Dcode's [Youtube Channel](https://www.youtube.com/c/dcode-software) was also a great resource to use when learning about intricate Javascript methods.
+    - [Stack Overflow](https://stackoverflow.com/) was used as a learning resource and helped me with any questions I had whilst building the project.
+    - [Balsamiq](https://balsamiq.com/) helped me to design the wireframes for the project.
+    - [Fontspace](https://www.fontspace.com/) supplied the Black Rose and Treasuremap fonts found in the game.
+    - [Font Awesome](https://fontawesome.com/) supplied the icons used throughout the game.
+    ### Media
+    All images for the ships in this project came from the following sources:
+    - The Carrier ship came from [Cobishop](https://www.cobishop.cz/product-en/cobi-building-blocks/world-war-ii/german-aircraft-carrier-graf-zeppelin-co/746).
+    - The Battleship ship came from [World of Warships:](https://world-of-warships.fandom.com/wiki/Battleship).
+    - The Cruiser ship came from [World of Warships:](https://worldofwarships.eu/en/news/history/a-look-through-time-pan-asian-cruisers/).
+    - The Submarine ship came from [Megapolis](https://sqmegapolis.fandom.com/wiki/Submarine_Factory).
+    - The Destroyer ship came from [World of Warships:](https://www.wowsbuilds.com/ships/siroco).
+
+    ### Acknowledgements
+    I want to thank the following people and companies for their help in providing solid technical support whilst developing this project.
+    - Tim Nelson (Code Institute mentor).
+    - [Code Institute](https://codeinstitute.net/ie/).
