@@ -7,7 +7,7 @@ Battleships is a strategic, turn-based guessing game in which each user attempts
  - The user also has access to a "hit board" which labels all coordinates which they have attacked and whether they were a "hit" or a "miss".
  - This helps each user to track their shots and make strategic guesses as to where their opponent may be hiding their ships.
  - The first person to successfully sink all their opponents ships is the winner!  
-The full **[Battleship](https://conorg180.github.io/rushdown-mma-gym/index.html)** game can be played here.  
+The full **[Battleship](https://conorg180.github.io/battleships/)** game can be played here.  
 <!-- Insert image here later -->
 
 ## Wireframes
@@ -95,3 +95,9 @@ The Game options menu of the game is the screen which triggers once the user cli
     - [Git](https://git-scm.com/) - Git was used for version control throughout this project.
     - [Gitpod](https://www.gitpod.io/) - Gitpod was used as the integrated developement environment for the game and to deploy the game.
     - [Github](https://github.com/) - Github was used to host the project through Github pages.
+    ## Deployment
+  The game was deployed to GitHub pages. The steps to deploy are as follows: 
+    - In the [GitHub repository](https://github.com/ConorG180/battleships), navigate to the Settings tab 
+    - From the source section drop-down menu, select the **Main** Branch, then click "Save".
+    - The page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.  
+    The live link can be found [here](https://conorg180.github.io/battleships/)
