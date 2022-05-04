@@ -16,13 +16,14 @@ The color scheme chosen for this game is based on a simple monochromatic color s
 - There are multiple shades of Gold which are used throughout the game. This allows for shading and styling throughout each page. An example of this can be seen in the borders of certain elements on each page, such as buttons, and can also be seen in the text area in the action bar when the user attacks a coordinate.
 - Furthermore, the game can be easily changed in the future if needed due to the use of CSS root variables in the project. The colors can be seen in the below
 #### **Images**
-<!-- insert image here -->
+![Screenshot of code showing color root variables](assets/code-screenshots/color-root-variables.png "Color root variables")
 ## Typography
 As with colors, root variables were used to store various fonts and back-up fonts. These can be seen below. 
   - Black Rose was chosen as the main accent font for the project due to it's Stylistic and pirate-like theme. It provided an amazing aesthetical look to the game's logo and also aided in some other parts of the game too. All letters in the Bebas Neue font are capitalised, so whilst great for main headers and logos, a different font was needed for smaller fonts.
   - Treasure Hunt was chosen as the game's secondary accent font and can be seen in smaller headers and on buttons. Treasure hunt was chosen as a secondary acent font as it is slightly easier to read than black rose, albeit swapping some style and "flare" for clarity. Similar to Black Rose, it only allows for capital letters, so another font was still required for text and paragraphs.
 #### **Images**
-<!-- Insert image here --> 
+
+![Screenshot of code showing font root variables](assets/code-screenshots/font-root-variables.png "Font root variables")
 ### Layout
 Grid is the primary CSS function used in building the layout to this game, and it was chosen for multiple reasons:
  - With Grid, elements within the game can very easily be manipulated, hidden, unhidden, swapped, replaced or repositioned in the future if needed.
