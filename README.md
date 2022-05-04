@@ -86,3 +86,12 @@ The Game options menu of the game is the screen which triggers once the user cli
     - Click to enter coordinates - Event listeners may be added to the coordinates in the future to respond to click events by the user once the game is active. These listeners would allow the user to enter the coordinate they want to attack by clicking the coordinate, as opposed to entering it manually.
     - Color customisation - This feature would allow users to customise the game's game board to their own color, along with the fleet and the action bar
     - Sound effects and animations - In the future, I believe a great addition to this programme would be to animate the ships once a ship has been sunk or hit, along with relevant sounds to accompany the animation effects.
+    ## Technologies used
+    The following technologies were used in the development of this project
+    - [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) - HTML5 was used to apply the structure and to create the elements within the battleships game.
+    - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - CSS was used to style each element in the game and controls the layout, color scheme, and some aspects of image and element resizing to improve the programmes responsiveness on smaller devices.
+    - [Javascript](https://www.javascript.com/) - Javascript was used to add interactivity throughout the game and is responsible for handling the logic of the game's mechanics, including elements such as modals, score counting, dragging and dropping ships, and also aids in resizing some elements along with css to aid in the responsiveness of the game. No libraries or frameworks were used within Javascript.
+    - [Balsamiq](https://balsamiq.com/) - Balsamiq was used to create wireframes at the beginning of the project and aided in visualising ideas and features of the battleships programme.
+    - [Git](https://git-scm.com/) - Git was used for version control throughout this project.
+    - [Gitpod](https://www.gitpod.io/) - Gitpod was used as the integrated developement environment for the game and to deploy the game.
+    - [Github](https://github.com/) - Github was used to host the project through Github pages.
